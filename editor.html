@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>情报库数据编辑器（私密）</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { darkMode: 'class', theme: { extend: {} } };
+</script>
+<style>
+  :root { color-scheme: dark; }
+  body { background: #05060d; }
+  textarea { font-family: 'SF Mono', 'Consolas', 'Menlo', monospace; font-size: 12.5px; line-height: 1.6; }
+  .mono { font-family: 'SF Mono', 'Consolas', 'Menlo', monospace; }
+</style>
+</head>
+<body class="text-zinc-200">
+
+<!-- ===== 密码锁 ===== -->
+<div id="lock" class="min-h-screen flex items-center justify-center p-6">
+  <div class="w-full max-w-sm">
+    <div class="rounded-2xl bg-white/5 border border-white/15 p-8 shadow-2xl">
+      <div class="text-center mb-6">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-sky-500/15 border border-sky-400/30 flex items-center justify-center text-sky-300 mb-4">🔒</div>
+        <h1 class="text-xl font-bold text-white">数据编辑器</h1>
+        <p class="text-[13px] text-zinc-500 mt-1">此页面为私密工具，仅限管理员访问</p>
+      </div>
+      <input id="pwd" type="password" placeholder="请输入访问密码" autocomplete="off"
+        class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/15 text-white placeholder-zinc-600 text-[14px] focus:outline-none focus:border-sky-400/60 mb-3">
+      <button id="unlock" class="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-sky-500 to-violet-500 text-white font-semibold text-[14px] hover:from-sky-400 hover:to-violet-400 transition-all">解锁</button>
+      <p id="lock-err" class="text-[12px] text-rose-400 mt-3 hidden">密码错误，请重试</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 编辑器主体 ===== -->
+<div id="app" class="hidden">
+  <header class="sticky top-0 z-10 border-b border-white/10 bg-[#05060d]/80 backdrop-blur">
+    <div class="max-w-[1200px] mx-auto px-5 py-4 flex items-center justify-between gap-3 flex-wrap">
+      <div class="flex items-center gap-3">
+        <span class="w-9 h-9 rounded-lg bg-sky-500/15 border border-sky-400/30 flex items-center justify-center text-sky-300">✎</span>
+        <div>
+          <div class="text-[15px] font-bold text-white">情报库数据编辑器</div>
+          <div class="text-[11px] text-zinc-500">编辑 data.js · 导出后提交到 GitHub</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="btn-export" class="px-4 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-violet-500 text-white text-[13px] font-semibold hover:from-sky-400 hover:to-violet-400 transition-all">⬇ 导出 data.js</button>
+        <button id="btn-lock" class="px-4 py-2 rounded-xl bg-white/5 border border-white/15 text-zinc-300 text-[13px] hover:bg-white/10 transition-colors">锁定</button>
+      </div>
+    </div>
+    <!-- Tabs -->
+    <div class="max-w-[1200px] mx-auto px-5 flex items-center gap-1 overflow-x-auto">
+      <button data-tab="watch" class="tab-btn px-4 py-2.5 text-[13px] font-medium text-sky-300 border-b-2 border-sky-400">检索词库</button>
+      <button data-tab="glossary" class="tab-btn px-4 py-2.5 text-[13px] font-medium text-zinc-500 border-b-2 border-transparent">术语表</button>
+      <button data-tab="daily" class="tab-btn px-4 py-2.5 text-[13px] font-medium text-zinc-500 border-b-2 border-transparent">每日情报</button>
+      <button data-tab="help" class="tab-btn px-4 py-2.5 text-[13px] font-medium text-zinc-500 border-b-2 border-transparent">使用说明</button>
+    </div>
+  </header>
+
+  <main class="max-w-[1200px] mx-auto px-5 py-8">
+
+    <!-- 检索词库 -->
+    <section data-panel="watch">
+      <h2 class="text-lg font-bold text-white mb-1">检索词库 <span class="text-zinc-500 text-[13px] font-normal">window.WATCHLIST_DEFAULTS</span></h2>
+      <p class="text-[13px] text-zinc-500 mb-4">技术/公司/方向三类监控项。公司类可带 founded / scale / website / ai_summary / categories 字段。</p>
+      <textarea id="json-watch" rows="24" class="w-full rounded-xl bg-white/5 border border-white/15 p-4 text-zinc-200 focus:outline-none focus:border-sky-400/60"></textarea>
+    </section>
+
+    <!-- 术语表 -->
+    <section data-panel="glossary" class="hidden">
+      <h2 class="text-lg font-bold text-white mb-1">术语表 <span class="text-zinc-500 text-[13px] font-normal">window.GLOSSARY_DEFAULTS</span></h2>
+      <p class="text-[13px] text-zinc-500 mb-4">专业术语的机制解释与对比解释。</p>
+      <textarea id="json-glossary" rows="24" class="w-full rounded-xl bg-white/5 border border-white/15 p-4 text-zinc-200 focus:outline-none focus:border-sky-400/60"></textarea>
+    </section>
+
+    <!-- 每日情报 -->
+    <section data-panel="daily" class="hidden">
+      <h2 class="text-lg font-bold text-white mb-1">每日情报 <span class="text-zinc-500 text-[13px] font-normal">window.allDailyData</span></h2>
+      <p class="text-[13px] text-zinc-500 mb-4">数组，每个元素是一天的报告对象（summary + items）。</p>
+      <textarea id="json-daily" rows="28" class="w-full rounded-xl bg-white/5 border border-white/15 p-4 text-zinc-200 focus:outline-none focus:border-sky-400/60"></textarea>
+    </section>
+
+    <!-- 使用说明 -->
+    <section data-panel="help" class="hidden">
+      <div class="rounded-2xl bg-white/5 border border-white/15 p-8 max-w-3xl">
+        <h2 class="text-lg font-bold text-white mb-4">使用说明</h2>
+        <div class="space-y-4 text-[14px] leading-relaxed text-zinc-300">
+          <div>
+            <div class="font-semibold text-sky-300 mb-1">这个编辑器是干什么的？</div>
+            <p>它是你本地的「私密数据编辑工具」。你在这里修改三类数据（检索词库 / 术语表 / 每日情报），然后导出完整的 data.js，替换掉项目里的 data.js 后提交到 GitHub，网站即可更新。</p>
+          </div>
+          <div>
+            <div class="font-semibold text-sky-300 mb-1">工作流程</div>
+            <ol class="list-decimal list-inside space-y-1 text-zinc-400">
+              <li>解锁进入</li>
+              <li>切换到对应 Tab，修改 JSON 内容</li>
+              <li>点「格式化校验」确认 JSON 合法</li>
+              <li>点「导出 data.js」下载完整文件</li>
+              <li>用下载的 data.js 替换项目里的同名文件，提交到 GitHub</li>
+            </ol>
+          </div>
+          <div>
+            <div class="font-semibold text-amber-300 mb-1">⚠️ 重要安全提示</div>
+            <p>本 editor.html <strong class="text-white">不要上传到公开的 GitHub 仓库</strong>。因为它是纯前端页面，密码写在代码里，懂技术的人查看源码即可绕过。正确做法是：editor.html 只保留在你本地电脑，仓库里只放 index.html / app.html / data.js / models.js 这四个公开文件。这样访客只能看到静态页面，无法修改任何数据。</p>
+          </div>
+          <div>
+            <div class="font-semibold text-sky-300 mb-1">修改默认密码</div>
+            <p>打开 editor.html，找到脚本开头的 <code class="mono text-amber-300">const PASSWORD = 'love.atsp2';</code>，改成你自己的密码即可。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 校验结果 -->
+    <div id="validate-msg" class="mt-4 text-[13px]"></div>
+  </main>
+</div>
+
+<script>
+// ===== 配置：默认密码（改成你自己的） =====
+const PASSWORD = 'love.atsp2';
+const DATA_JS_PATH = 'data.js';
+
+// 三大数据块的键名（对应 data.js 里的 window.xxx）
+const BLOCKS = {
+  watch:    { key: 'WATCHLIST_DEFAULTS',  textarea: 'json-watch' },
+  glossary: { key: 'GLOSSARY_DEFAULTS',    textarea: 'json-glossary' },
+  daily:    { key: 'allDailyData',         textarea: 'json-daily' }
+};
+
+// 当前内存中的数据（从 data.js 解析得到）
+let data = {
+  WATCHLIST_DEFAULTS: [],
+  GLOSSARY_DEFAULTS: [],
+  allDailyData: []
+};
+let rawDailyTail = '';  // 用于存放 allDailyData 之后可能存在的其它代码（本文件没有，但保留保险）
+
+// ===== 解锁 =====
+document.getElementById('unlock').addEventListener('click', unlock);
+document.getElementById('pwd').addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
+function unlock() {
+  const v = document.getElementById('pwd').value;
+  if (v === PASSWORD) {
+    document.getElementById('lock').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    loadData();
+  } else {
+    document.getElementById('lock-err').classList.remove('hidden');
+    document.getElementById('pwd').select();
+  }
+}
+document.getElementById('btn-lock').addEventListener('click', () => {
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('lock').classList.remove('hidden');
+  document.getElementById('pwd').value = '';
+});
+
+// ===== 从 data.js 加载 =====
+// 去掉 JS 注释（// 与 /* */），使数组片段可被 JSON.parse 解析
+function stripJsComments(s) {
+  return s
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|[^:])\/\/.*$/gm, '$1');
+}
+async function loadData() {
+  try {
+    const res = await fetch(DATA_JS_PATH);
+    const code = await res.text();
+    // 用正则分别抽取三个 window.xxx = [...] 的数组 JSON
+    const extracted = {};
+    for (const b of Object.values(BLOCKS)) {
+      const re = new RegExp('window\\.' + b.key + '\\s*=\\s*(\\[[\\s\\S]*?\\n\\]);');
+      const m = code.match(re);
+      if (m) {
+        extracted[b.key] = JSON.parse(stripJsComments(m[1]));
+      } else {
+        throw new Error('未找到 window.' + b.key + ' 的定义');
+      }
+    }
+    data = extracted;
+    // 渲染到 textarea
+    for (const [name, b] of Object.entries(BLOCKS)) {
+      document.getElementById(b.textarea).value = JSON.stringify(data[b.key], null, 2);
+    }
+    showValidate('✅ 已从 data.js 加载成功', true);
+  } catch (e) {
+    showValidate('❌ 加载 data.js 失败：' + e.message, false);
+  }
+}
+
+// ===== Tab 切换 =====
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.className = 'tab-btn px-4 py-2.5 text-[13px] font-medium text-zinc-500 border-b-2 border-transparent';
+    });
+    btn.className = 'tab-btn px-4 py-2.5 text-[13px] font-medium text-sky-300 border-b-2 border-sky-400';
+    document.querySelectorAll('[data-panel]').forEach(p => p.classList.add('hidden'));
+    document.querySelector('[data-panel="' + btn.dataset.tab + '"]').classList.remove('hidden');
+  });
+});
+
+// ===== 校验 =====
+function validateAll() {
+  let ok = true;
+  for (const [name, b] of Object.entries(BLOCKS)) {
+    const raw = document.getElementById(b.textarea).value.trim();
+    try {
+      const obj = JSON.parse(raw);
+      if (!Array.isArray(obj)) throw new Error('应为数组');
+      data[b.key] = obj;
+    } catch (e) {
+      showValidate('❌ 「' + labelOf(name) + '」JSON 解析失败：' + e.message, false);
+      return false;
+    }
+  }
+  return true;
+}
+function labelOf(name) {
+  return { watch: '检索词库', glossary: '术语表', daily: '每日情报' }[name] || name;
+}
+function showValidate(msg, ok) {
+  const el = document.getElementById('validate-msg');
+  el.textContent = msg;
+  el.className = 'mt-4 text-[13px] ' + (ok ? 'text-emerald-400' : 'text-rose-400');
+}
+
+// ===== 导出 data.js =====
+document.getElementById('btn-export').addEventListener('click', () => {
+  if (!validateAll()) return;
+  const dailyJson = JSON.stringify(data.allDailyData, null, 2);
+  const glossaryJson = JSON.stringify(data.GLOSSARY_DEFAULTS, null, 2);
+  const watchJson = JSON.stringify(data.WATCHLIST_DEFAULTS, null, 2);
+
+  // 按 data.js 原有结构拼接（保留注释头部）
+  const head = `// ============================================================
+// 三维重建 · 情报库 —— 共享数据文件
+// index.html 与 app.html 共同引用本文件。
+// 【AI 每日更新指南】只需向 window.allDailyData 数组末尾追加
+// 一天的报告对象（结构与现有元素一致），首页统计、今日情报、
+// 历史归档、关键词筛选、术语表会自动联动更新。
+// 【条目字段规范】每条 item 建议包含：title / one_line_judgment（核心摘要）/
+// image（可选，没有就不要给）/ key_facts（关键事实）/ ai_summary（AI通俗总结）/
+// detailed_info（详细信息，\\n\\n 分段）/ ai_comment（AI点评）/ terms（术语注释，
+// 正文与总结中出现的术语会**自动高亮**，读者点击即可弹出注释卡）/ sources。
+// ============================================================
+window.allDailyData = ${dailyJson};
+
+window.GLOSSARY_DEFAULTS = ${glossaryJson};
+
+// ============================================================
+// 【AI 每日检索词库】AI 执行每日情报更新时，以本数组为检索配置：
+// - type: tech（技术）/ company（公司）/ topic（方向）
+// - keywords: 实际用于检索的关键词（中英文都建议写上）
+// - enabled=false 的条目不参与检索
+// - region: 国内 / 海外（仅公司类）；products: 主要产品或产业
+// 【注意】用户在网页上的增删改保存在浏览器本机；自动化任务读取的是
+// 本文件中的默认词库。若希望 AI 用上网页里的自定义项，请把它们回填到这里。
+// ============================================================
+window.WATCHLIST_DEFAULTS = ${watchJson};
+`;
+
+  // 触发下载
+  const blob = new Blob([head], { type: 'text/javascript;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'data.js';
+  a.click();
+  URL.revokeObjectURL(url);
+  showValidate('✅ 已导出 data.js，请用它替换项目文件后提交 GitHub', true);
+});
+
+// 失焦时自动提示校验状态
+document.querySelectorAll('textarea').forEach(t => {
+  t.addEventListener('blur', () => { validateAll() && showValidate('✅ JSON 格式正确', true); });
+});
+</script>
+</body>
+</html>
