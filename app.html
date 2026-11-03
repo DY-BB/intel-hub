@@ -194,6 +194,119 @@
     font-size: 13px; font-weight: 600; color: #d4d4d8;
   }
 
+  /* ===== 本月日历 ===== */
+  .cal-nav {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 10px;
+    color: #a1a1aa; background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    transition: all .2s;
+  }
+  .cal-nav:hover { color: #fff; background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.18); }
+  .cal-nav:active { transform: scale(.94); }
+  .cal-day {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    height: 44px; border-radius: 12px;
+    color: #52525b; font-size: 13px;
+    border: 1px solid transparent;
+    transition: all .2s;
+    user-select: none;
+  }
+  /* 今日情报页的小日历：格子高度减半（20px） */
+  .cal-day-sm {
+    height: 20px; border-radius: 6px; font-size: 10.5px;
+  }
+  .cal-nav-sm { width: 24px; height: 24px; border-radius: 8px; }
+  .cal-day-has {
+    color: #e4e4e7; background: rgba(56,189,248,.10);
+    border: 1px solid rgba(56,189,248,.20);
+    cursor: pointer;
+  }
+  .cal-day-has:hover {
+    background: rgba(56,189,248,.22); border-color: rgba(56,189,248,.45);
+    transform: translateY(-1px);
+  }
+  .cal-day-has:focus-visible { outline: 2px solid rgba(56,189,248,.7); outline-offset: 2px; }
+  .cal-day-latest {
+    border-color: rgba(167,139,250,.7) !important;
+    box-shadow: 0 0 0 1px rgba(167,139,250,.35), 0 4px 14px -6px rgba(167,139,250,.35);
+  }
+  .cal-day-count {
+    position: absolute; top: 3px; right: 5px;
+    font-size: 9px; font-weight: 700; color: #7dd3fc;
+    line-height: 1;
+  }
+  html:not(.dark) .cal-nav { color: #71717a; background: rgba(0,0,0,.04); border-color: rgba(0,0,0,.08); }
+  html:not(.dark) .cal-nav:hover { color: #18181b; background: rgba(0,0,0,.08); }
+  html:not(.dark) .cal-day { color: #a1a1aa; }
+  html:not(.dark) .cal-day-has { color: #18181b; background: rgba(14,165,233,.10); border-color: rgba(14,165,233,.22); }
+  html:not(.dark) .cal-day-has:hover { background: rgba(14,165,233,.20); border-color: rgba(14,165,233,.45); }
+  html:not(.dark) .cal-day-count { color: #0284c7; }
+
+  /* ===== 历史归档 · 大日历 ===== */
+  .bigcal-day {
+    position: relative; min-height: 72px; border-radius: 12px; padding: 6px 7px 7px;
+    border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02);
+    display: flex; flex-direction: column; gap: 4px;
+    transition: all .2s; user-select: none;
+  }
+  .bigcal-day-empty { opacity: .40; min-height: 72px; }
+  .bigcal-day.has {
+    cursor: pointer; border-color: rgba(255,255,255,.12);
+  }
+  .bigcal-day.has:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.22); transform: translateY(-2px); }
+  .bigcal-day.has:focus-visible { outline: 2px solid rgba(56,189,248,.7); outline-offset: 2px; }
+  .bigcal-num { font-size: 11.5px; font-weight: 700; color: #e4e4e7; line-height: 1; }
+  .bigcal-total { font-size: 9.5px; color: #a1a1aa; margin-left: auto; }
+  /* 信号强度：黑 / 灰 / 白 色阶 */
+  .bigcal-bar { display: flex; height: 5px; border-radius: 3px; overflow: hidden; background: rgba(255,255,255,.06); margin-top: auto; }
+  .bigcal-bar i { display: block; height: 100%; }
+  .sig-strong { background: #09090b; }
+  .sig-mid { background: #71717a; }
+  .sig-weak { background: #e4e4e7; }
+  .lg-sig-strong { background: #09090b; }
+  .lg-sig-mid { background: #71717a; }
+  .lg-sig-weak { background: #e4e4e7; }
+  /* 分类数量：色点 + 数字 */
+  .bigcal-cats { display: flex; flex-wrap: wrap; gap: 2px 6px; }
+  .bigcal-cats span { display: inline-flex; align-items: center; gap: 3px; }
+  .bigcal-cats i { width: 6px; height: 6px; border-radius: 2px; display: inline-block; }
+  .bigcal-cats b { font-size: 9.5px; font-weight: 700; color: #d4d4d8; }
+  .bigcal-legend { display: flex; flex-wrap: wrap; gap: 3px 10px; }
+  .bigcal-legend span { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #a1a1aa; }
+  .bigcal-legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; border: 1px solid rgba(255,255,255,.15); }
+  html:not(.dark) .bigcal-day { border-color: rgba(0,0,0,.09); background: rgba(0,0,0,.015); }
+  html:not(.dark) .bigcal-day.has:hover { background: rgba(0,0,0,.045); border-color: rgba(0,0,0,.18); }
+  html:not(.dark) .bigcal-num { color: #27272a; }
+  html:not(.dark) .bigcal-total { color: #71717a; }
+  html:not(.dark) .bigcal-bar { background: rgba(0,0,0,.07); }
+  html:not(.dark) .sig-strong { background: #18181b; }
+  html:not(.dark) .sig-mid { background: #8b8b93; }
+  html:not(.dark) .sig-weak { background: #dcdce0; }
+  html:not(.dark) .lg-sig-strong { background: #18181b; }
+  html:not(.dark) .lg-sig-mid { background: #8b8b93; }
+  html:not(.dark) .lg-sig-weak { background: #dcdce0; }
+  html:not(.dark) .bigcal-cats b { color: #3f3f46; }
+  html:not(.dark) .bigcal-legend span { color: #52525b; }
+  html:not(.dark) .bigcal-legend i { border-color: rgba(0,0,0,.12); }
+  .today-cat-chip { white-space: nowrap; }
+  /* 本日速览行 */
+  .brief-row {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 5px 7px; border-radius: 8px; cursor: pointer;
+    transition: background .18s;
+  }
+  .brief-row:hover { background: rgba(255,255,255,.06); }
+  html:not(.dark) .brief-row:hover { background: rgba(0,0,0,.045); }
+  /* 紧凑卡片（条目少时使用，避免界面松散） */
+  .grid-card-compact {
+    padding: 14px 16px !important; aspect-ratio: auto !important;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .grid-card-compact .gc-title { font-size: 14px; line-height: 1.45; }
+  .gc-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .gc-judge { font-size: 13px; color: #71717a; line-height: 1.5; }
+
   @media (prefers-reduced-motion: reduce) {
     .nebula { animation: none !important; }
     html { scroll-behavior: auto; }
@@ -886,9 +999,303 @@ function renderDashboard() {
   if (!el) return;
   const total = ALL_ITEMS.length;
   const r = latestReport();
-  const todayNew = r ? (r.items || []).length : 0;
-  const strong = ALL_ITEMS.filter(i => i.signal_strength === '强').length;
-  const dayCount = Object.keys(itemsByDate).length;
+  const items = r ? (r.items || []) : [];
+  const todayNew = items.length;
+  const updated = r ? fmtDate(r.generated_at) : '';
+
+  // 本日新增按分类的极简构成
+  const todayCats = CATEGORY_ORDER.map(c => ({
+    meta: CATEGORY_META[c],
+    n: items.filter(i => i.category === c).length
+  })).filter(c => c.n > 0);
+
+  let html = '<div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 sm:gap-5 mb-6">';
+
+  // 左：本日概览（只讲今天）+ 本日速览列表
+  html += '<div class="stat-card flex flex-col p-5 sm:p-6">' +
+    '<div class="flex items-baseline gap-3 flex-wrap">' +
+      '<span class="text-[13px] font-medium text-zinc-400">本日新增</span>' +
+      '<span class="text-[38px] sm:text-[44px] font-bold text-white tracking-tight leading-none tnum dash-count" data-val="' + todayNew + '">0</span>' +
+      '<span class="text-[14px] text-zinc-400">条</span>' +
+    '</div>' +
+    '<div class="text-[12px] text-zinc-500 mt-2.5 flex items-center gap-1.5">' +
+      '<i data-lucide="clock" class="w-3.5 h-3.5"></i>更新于 ' + esc(updated) +
+    '</div>' +
+    (todayCats.length
+      ? '<div class="flex flex-wrap gap-1.5 mt-3.5">' +
+        todayCats.map(c =>
+          '<span class="today-cat-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium" ' +
+          'style="background:' + c.meta.color + '1f;color:' + c.meta.color + ';border:1px solid ' + c.meta.color + '33">' +
+          '<i data-lucide="' + c.meta.icon + '" class="w-3 h-3"></i>' + c.meta.label +
+          '<span class="tnum opacity-70">' + c.n + '</span></span>').join('') +
+        '</div>'
+      : '') +
+    // 本日速览：紧凑列表，点击直达详情
+    (items.length
+      ? '<div class="mt-4 pt-4 border-t border-white/5">' +
+        '<div class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider mb-2.5">本日速览</div>' +
+        '<div id="today-brief" class="space-y-1.5">' + items.slice(0, 5).map(it =>
+          '<div class="brief-row" data-id="' + esc(it.item_id) + '" role="button" tabindex="0">' +
+            '<span class="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style="background:' + (CATEGORY_META[it.category] || {}).color + '"></span>' +
+            '<span class="text-[12.5px] text-zinc-300 leading-snug line-clamp-1">' + esc(it.title) + '</span>' +
+            signalDot(it.signal_strength) +
+          '</div>').join('') +
+        '</div>' +
+        (items.length > 5 ? '<div class="text-[11px] text-zinc-600 mt-2">还有 ' + (items.length - 5) + ' 条，见下方详情 ↓</div>' : '') +
+        '</div>'
+      : '<div class="text-[12px] text-zinc-500 mt-4 pt-4 border-t border-white/5">本日暂无收录条目。</div>') +
+    '</div>';
+
+  // 右：本月日历（紧凑版）
+  html += renderCalendarHtml();
+
+  html += '</div>';
+  el.innerHTML = html;
+  window.__renderIcons();
+
+  // 数字滚动动画
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  el.querySelectorAll('.dash-count').forEach(n => {
+    const target = parseInt(n.dataset.val, 10) || 0;
+    if (reduced) { n.textContent = target; return; }
+    let start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      const p = Math.min(1, (ts - start) / 900);
+      n.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+
+  bindCalendar();
+
+  // 导航徽章计数
+  document.querySelectorAll('.nav-count-today').forEach(n => { n.textContent = todayNew; });
+  document.querySelectorAll('.nav-count-glossary').forEach(n => { n.textContent = glossaryTerms.length; });
+  const navTotal = document.getElementById('nav-total');
+  if (navTotal) navTotal.textContent = total;
+}
+
+// ===================== 本月日历 =====================
+// 默认展示数据覆盖到的最新月份；左右箭头可切换年、月。
+let calYear = null, calMonth = null; // 由 initCalendar 初始化
+
+function initCalendar() {
+  const maxD = ALL_ITEMS.reduce((mx, it) => (it.date > mx ? it.date : mx), '1970-01-01');
+  calYear = parseInt(maxD.slice(0, 4), 10);
+  calMonth = parseInt(maxD.slice(5, 7), 10);
+}
+
+function renderCalendarHtml() {
+  if (calYear === null) initCalendar();
+  const mm = String(calMonth).padStart(2, '0');
+  const label = calYear + ' 年 ' + calMonth + ' 月';
+  const first = new Date(calYear, calMonth - 1, 1);
+  const startOffset = (first.getDay() + 6) % 7; // 周一开头
+  const daysInMonth = new Date(calYear, calMonth, 0).getDate();
+  const monthKey = calYear + '-' + mm;
+  const latest = latestReport();
+  const latestDate = ALL_ITEMS.reduce((mx, it) => (it.date > mx ? it.date : mx), '1970-01-01');
+
+  let html = '<div class="stat-card cal-sm p-4" id="cal-card">' +
+    '<div class="flex items-center justify-between mb-3 gap-2">' +
+      '<div class="dash-label !text-[12px]"><i data-lucide="calendar-days" class="w-3.5 h-3.5 text-emerald-400"></i>' + calMonth + ' 月</div>' +
+      '<div class="flex items-center gap-1">' +
+        '<button class="cal-nav cal-nav-sm" data-cal="prev-year" title="上一年" aria-label="上一年"><i data-lucide="chevrons-left" class="w-3.5 h-3.5"></i></button>' +
+        '<button class="cal-nav cal-nav-sm" data-cal="prev-month" title="上一月" aria-label="上一月"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>' +
+        '<span class="text-[12px] font-semibold text-white tnum px-1.5 min-w-[52px] text-center">' + calYear + '</span>' +
+        '<button class="cal-nav cal-nav-sm" data-cal="next-month" title="下一月" aria-label="下一月"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>' +
+        '<button class="cal-nav cal-nav-sm" data-cal="next-year" title="下一年" aria-label="下一年"><i data-lucide="chevrons-right" class="w-3.5 h-3.5"></i></button>' +
+      '</div></div>' +
+    '<div class="grid grid-cols-7 gap-1 mb-1.5">' +
+      ['一','二','三','四','五','六','日'].map(w => '<div class="text-center text-[9px] text-zinc-600 font-medium">' + w + '</div>').join('') +
+    '</div><div class="grid grid-cols-7 gap-1">';
+
+  for (let i = 0; i < startOffset; i++) html += '<div></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = monthKey + '-' + String(d).padStart(2, '0');
+    const n = (itemsByDate[dateStr] || []).length;
+    const isLatest = dateStr === latestDate;
+    const cls = 'cal-day cal-day-sm ' + (n ? 'cal-day-has ' : '') + (isLatest ? 'cal-day-latest' : '');
+    html += '<div class="' + cls + '" ' + (n ? 'data-cal-day="' + dateStr + '" role="button" tabindex="0" title="' + dateStr + ' · ' + n + ' 条"' : 'title="' + dateStr + '"') + '>' +
+      '<span class="cal-day-num tnum">' + d + '</span>' +
+      '</div>';
+  }
+  html += '</div>' +
+    '<div class="text-[10px] text-zinc-600 mt-2.5">浅蓝 = 当日有情报，点击可跳转</div>' +
+    '</div>';
+  return html;
+}
+
+function signalDot(s) {
+  const c = s === '强' ? '#fb7185' : s === '中' ? '#fbbf24' : '#71717a';
+  return '<span class="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5 ml-auto" style="background:' + c + '" title="信号强度：' + (s || '—') + '"></span>';
+}
+
+function bindCalendar() {
+  const el = document.getElementById('today-dashboard');
+  if (!el) return;
+  // 本日速览：点击打开详情
+  el.querySelectorAll('#today-brief .brief-row').forEach(row => {
+    const open = function() {
+      const item = findItemById(this.dataset.id);
+      if (item) openModal(item);
+    };
+    row.addEventListener('click', open);
+    row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open.call(this); } });
+  });
+  el.querySelectorAll('[data-cal]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const act = btn.dataset.cal;
+      if (act === 'prev-year') calYear--;
+      else if (act === 'next-year') calYear++;
+      else if (act === 'prev-month') { calMonth--; if (calMonth < 1) { calMonth = 12; calYear--; } }
+      else { calMonth++; if (calMonth > 12) { calMonth = 1; calYear++; } }
+      renderDashboard(); // 重绘整个面板
+    });
+  });
+  el.querySelectorAll('[data-cal-day]').forEach(cell => {
+    const jump = () => {
+      const ds = cell.dataset.calDay;
+      activeYear = ds.slice(0, 4);
+      activeMonth = parseInt(ds.slice(5, 7), 10);
+      activeDay = parseInt(ds.slice(8, 10), 10);
+      archiveView = 'day';
+      switchView('archive');
+      fadeTransition(renderDayView);
+    };
+    cell.addEventListener('click', jump);
+    cell.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jump(); } });
+  });
+}
+
+// ===================== 历史归档 · 大日历（信号强度 + 分类构成，颜色区分） =====================
+let bigCalYear = null, bigCalMonth = null;
+
+function initBigCalendar() {
+  const maxD = ALL_ITEMS.reduce((mx, it) => (it.date > mx ? it.date : mx), '1970-01-01');
+  bigCalYear = parseInt(maxD.slice(0, 4), 10);
+  bigCalMonth = parseInt(maxD.slice(5, 7), 10);
+}
+
+const SIG_COLOR = { '强': '#fb7185', '中': '#fbbf24', '弱': '#71717a' };
+
+function dayStats(dateStr) {
+  const arr = itemsByDate[dateStr] || [];
+  const sig = { '强': 0, '中': 0, '弱': 0 };
+  const cats = {};
+  arr.forEach(i => {
+    sig[i.signal_strength] = (sig[i.signal_strength] || 0) + 1;
+    cats[i.category] = (cats[i.category] || 0) + 1;
+  });
+  return { n: arr.length, sig: sig, cats: cats, items: arr };
+}
+
+function renderBigCalendarHtml() {
+  if (bigCalYear === null) initBigCalendar();
+  const mm = String(bigCalMonth).padStart(2, '0');
+  const label = bigCalYear + ' 年 ' + bigCalMonth + ' 月';
+  const first = new Date(bigCalYear, bigCalMonth - 1, 1);
+  const startOffset = (first.getDay() + 6) % 7;
+  const daysInMonth = new Date(bigCalYear, bigCalMonth, 0).getDate();
+  const monthKey = bigCalYear + '-' + mm;
+  const latestDate = ALL_ITEMS.reduce((mx, it) => (it.date > mx ? it.date : mx), '1970-01-01');
+
+  let html = '<div class="glass-panel p-5 sm:p-7 mb-10" id="bigcal-card">' +
+    '<div class="flex items-center justify-between mb-6 flex-wrap gap-3">' +
+      '<div class="flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-gray-400 dark:text-zinc-500"></i>' +
+      '<span class="text-[13px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">情报日历</span></div>' +
+      '<div class="flex items-center gap-1.5">' +
+        '<button class="cal-nav" data-bigcal="prev-year" title="上一年" aria-label="上一年"><i data-lucide="chevrons-left" class="w-4 h-4"></i></button>' +
+        '<button class="cal-nav" data-bigcal="prev-month" title="上一月" aria-label="上一月"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>' +
+        '<span class="text-[15px] font-bold text-gray-900 dark:text-white tnum px-3 min-w-[124px] text-center">' + label + '</span>' +
+        '<button class="cal-nav" data-bigcal="next-month" title="下一月" aria-label="下一月"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>' +
+        '<button class="cal-nav" data-bigcal="next-year" title="下一年" aria-label="下一年"><i data-lucide="chevrons-right" class="w-4 h-4"></i></button>' +
+      '</div></div>';
+
+  html += '<div class="grid grid-cols-7 gap-1.5 mb-2">' +
+    ['一','二','三','四','五','六','日'].map(w => '<div class="text-center text-[11px] font-semibold text-gray-400 dark:text-zinc-500">' + w + '</div>').join('') +
+    '</div><div class="grid grid-cols-7 gap-1.5">';
+
+  for (let i = 0; i < startOffset; i++) html += '<div></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = monthKey + '-' + String(d).padStart(2, '0');
+    const st = dayStats(dateStr);
+    if (!st.n) {
+      html += '<div class="bigcal-day bigcal-day-empty">' +
+        '<div class="flex items-center"><span class="bigcal-num">' + d + '</span></div></div>';
+      continue;
+    }
+    // 信号强度：黑 / 灰 / 白 三段色阶（宽度按占比），带数字
+    const sigHtml = ['强', '中', '弱'].filter(k => st.sig[k] > 0).map(k =>
+      '<i class="sig-' + (k === '强' ? 'strong' : k === '中' ? 'mid' : 'weak') + '" ' +
+      'style="width:' + (st.sig[k] / st.n * 100).toFixed(2) + '%" title="' + k + '信号 ' + st.sig[k] + ' 条"></i>'
+    ).join('');
+    const sigNums = ['强', '中', '弱'].map(k =>
+      '<span class="sig-num sig-num-' + (k === '强' ? 'strong' : k === '中' ? 'mid' : 'weak') + '" title="' + k + '信号">' + (st.sig[k] || 0) + '</span>'
+    ).join('');
+    // 分类：直接显示数量（色点 + 数字）
+    const catHtml = CATEGORY_ORDER.filter(c => st.cats[c] > 0).map(c =>
+      '<span title="' + CATEGORY_META[c].label + ' ' + st.cats[c] + ' 条">' +
+        '<i style="background:' + CATEGORY_META[c].color + '"></i><b class="tnum">' + st.cats[c] + '</b></span>'
+    ).join('');
+    const isLatest = dateStr === latestDate;
+    html += '<div class="bigcal-day has' + (isLatest ? ' ring-2 ring-violet-400/60' : '') + '" data-bigcal-day="' + dateStr + '" role="button" tabindex="0">' +
+      '<div class="flex items-center gap-1"><span class="bigcal-num tnum">' + d + '</span>' +
+      '<span class="bigcal-total tnum">' + st.n + ' 条</span></div>' +
+      '<div class="bigcal-bar" title="信号强度（黑=强 / 灰=中 / 白=弱）">' + sigHtml + '</div>' +
+      '<div class="bigcal-cats">' + catHtml + '</div>' +
+      '</div>';
+  }
+  html += '</div>';
+
+  // 图例
+  html += '<div class="mt-5 pt-4 border-t border-slate-200/60 dark:border-zinc-700/60 flex flex-col lg:flex-row gap-4 lg:gap-10">' +
+    '<div><div class="text-[10px] font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-2">信号强度（自左向右：强 / 中 / 弱）</div>' +
+      '<div class="bigcal-legend">' +
+        '<span><i class="lg-sig-strong"></i>强</span>' +
+        '<span><i class="lg-sig-mid"></i>中</span>' +
+        '<span><i class="lg-sig-weak"></i>弱</span>' +
+      '</div></div>' +
+    '<div class="flex-1"><div class="text-[10px] font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-2">分类（格内数字 = 当日该分类条数）</div>' +
+      '<div class="bigcal-legend">' + CATEGORY_ORDER.map(c =>
+        '<span><i style="background:' + CATEGORY_META[c].color + '"></i>' + CATEGORY_META[c].label + '</span>').join('') + '</div></div>' +
+    '<div class="self-end text-[11px] text-gray-400 dark:text-zinc-500">点击任一日期查看当日详情</div>' +
+    '</div></div>';
+  return html;
+}
+
+function bindBigCalendar() {
+  const root = document.getElementById('archive-root');
+  if (!root) return;
+  root.querySelectorAll('[data-bigcal]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const act = btn.dataset.bigcal;
+      if (act === 'prev-year') bigCalYear--;
+      else if (act === 'next-year') bigCalYear++;
+      else if (act === 'prev-month') { bigCalMonth--; if (bigCalMonth < 1) { bigCalMonth = 12; bigCalYear--; } }
+      else { bigCalMonth++; if (bigCalMonth > 12) { bigCalMonth = 1; bigCalYear++; } }
+      renderYearsView();
+    });
+  });
+  root.querySelectorAll('[data-bigcal-day]').forEach(cell => {
+    const jump = () => {
+      const ds = cell.dataset.bigcalDay;
+      activeYear = ds.slice(0, 4);
+      activeMonth = parseInt(ds.slice(5, 7), 10);
+      activeDay = parseInt(ds.slice(8, 10), 10);
+      archiveView = 'day';
+      fadeTransition(renderDayView);
+    };
+    cell.addEventListener('click', jump);
+    cell.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jump(); } });
+  });
+}
+
+// ===================== 历史归档 · 全局统计面板（自「今日情报」迁入） =====================
+function renderArchiveStatsHtml() {
+  const total = ALL_ITEMS.length;
 
   // 分类分布
   const cats = CATEGORY_ORDER.map(c => ({
@@ -928,24 +1335,8 @@ function renderDashboard() {
   }
   const wMax = Math.max.apply(null, week.map(w => w.n).concat([1]));
 
-  const statCards = [
-    { icon: 'layers', color: 'text-sky-400', label: '总情报', val: total, sub: '条 · 持续累积' },
-    { icon: 'sparkles', color: 'text-violet-400', label: '本窗口新增', val: todayNew, sub: '条 · 最新窗口' },
-    { icon: 'zap', color: 'text-rose-400', label: '强信号', val: strong, sub: '条 · 官方/多源确认' },
-    { icon: 'calendar-days', color: 'text-emerald-400', label: '覆盖天数', val: dayCount, sub: '天 · 有收录记录' }
-  ];
-
-  let html = '<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-5">';
-  statCards.forEach(s => {
-    html += '<div class="stat-card">' +
-      '<div class="flex items-center justify-between mb-3"><span class="text-[12px] font-medium text-zinc-500">' + s.label + '</span>' +
-      '<i data-lucide="' + s.icon + '" class="w-4 h-4 ' + s.color + '"></i></div>' +
-      '<div class="text-[30px] sm:text-[34px] font-bold text-white tracking-tight leading-none tnum dash-count" data-val="' + s.val + '">0</div>' +
-      '<div class="text-[11px] text-zinc-500 mt-2">' + s.sub + '</div></div>';
-  });
-  html += '</div>';
-
-  html += '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">';
+  let html = '<div class="flex items-center gap-2.5 mb-5 mt-2"><span class="text-[13px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">全局统计</span><div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60"></div></div>';
+  html += '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-10">';
 
   // 近 7 日趋势
   html += '<div class="stat-card">' +
@@ -989,57 +1380,69 @@ function renderDashboard() {
       '</div></div></div>';
 
   html += '</div>';
-  el.innerHTML = html;
-  window.__renderIcons();
+  return html;
+}
 
-  // 数字滚动动画
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  el.querySelectorAll('.dash-count').forEach(n => {
-    const target = parseInt(n.dataset.val, 10) || 0;
-    if (reduced) { n.textContent = target; return; }
-    let start = null;
-    function step(ts) {
-      if (!start) start = ts;
-      const p = Math.min(1, (ts - start) / 900);
-      n.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  });
-
-  // 导航徽章计数
-  document.querySelectorAll('.nav-count-today').forEach(n => { n.textContent = todayNew; });
-  document.querySelectorAll('.nav-count-glossary').forEach(n => { n.textContent = glossaryTerms.length; });
-  const navTotal = document.getElementById('nav-total');
-  if (navTotal) navTotal.textContent = total;
+// 条目较少时（每类 1-2 条）分组会显得松散：自动切换为紧凑模式
+function shouldCompact(items) {
+  if (items.length <= 6) return true;
+  const groups = CATEGORY_ORDER.map(c => items.filter(i => i.category === c).length).filter(n => n > 0);
+  // 分类数 >=3 且平均每组 <=2 条 → 也判定为松散
+  return groups.length >= 3 && (items.length / groups.length) <= 2.2;
 }
 
 function renderGrid(items) {
+  if (!items.length) {
+    return '<div class="rounded-3xl bg-white dark:bg-zinc-800/60 border border-slate-200/60 dark:border-zinc-700 p-8 text-[14px] text-gray-400 dark:text-zinc-500">本窗口无新增。</div>';
+  }
+
+  // ========== 紧凑模式：不按分类分组，统一网格 + 分类色标，避免零散 ==========
+  if (shouldCompact(items)) {
+    const title = '<div class="flex items-center gap-2.5 mb-4">' +
+      '<span class="text-[15px] font-bold text-gray-800 dark:text-white">全部情报</span>' +
+      '<span class="text-[12px] text-gray-400 dark:text-zinc-500">' + items.length + ' 条</span>' +
+      '<div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60"></div></div>';
+    return '<div>' + title +
+      '<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">' +
+      items.map(i => gridCardHtml(i, false, 'compact')).join('') +
+      '</div></div>';
+  }
+
+  // ========== 分组模式：跳过 0 条分类，小组用紧凑卡片 ==========
   let html = '';
   CATEGORY_ORDER.forEach(cat => {
     const group = items.filter(i => i.category === cat);
+    if (group.length === 0) return; // 不再渲染空占位块
     const meta = CATEGORY_META[cat];
-    html += '<div>';
-    html += '<div class="flex items-center gap-2.5 mb-5">' +
+    const compact = group.length <= 3;
+    html += '<div class="mb-8 last:mb-0">';
+    html += '<div class="flex items-center gap-2.5 mb-4">' +
       '<span class="w-2 h-2 rounded-full ' + meta.dot + '"></span>' +
       '<span class="text-[15px] font-bold text-gray-800 dark:text-white inline-flex items-center gap-1.5"><i data-lucide="' + meta.icon + '" class="w-4 h-4"></i>' + meta.label + '</span>' +
       '<span class="text-[12px] text-gray-400 dark:text-zinc-500">' + group.length + ' 条</span>' +
       '<div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60"></div></div>';
-    html += group.length === 0
-      ? '<div class="rounded-3xl bg-white dark:bg-zinc-800/60 border border-slate-200/60 dark:border-zinc-700 p-8 text-[14px] text-gray-400 dark:text-zinc-500">本窗口无新增。</div>'
-      : '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">' + group.map(gridCardHtml).join('') + '</div>';
+    html += '<div class="grid ' + (compact ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4') + ' gap-3 sm:gap-4">' +
+      group.map(i => gridCardHtml(i, false, compact ? 'compact' : 'full')).join('') + '</div>';
     html += '</div>';
   });
   return html;
 }
 
-function gridCardHtml(item, showDate) {
-  const tags = (item.tags || []).slice(0, 2).map(t =>
+function gridCardHtml(item, showDate, mode) {
+  const tags = (item.tags || []).slice(0, mode === 'compact' ? 2 : 2).map(t =>
     '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-700/60 border border-slate-200/50 dark:border-zinc-700">#' + esc(t) + '</span>'
   ).join('');
   const dateHtml = showDate
     ? '<span class="ml-auto inline-flex items-center gap-1 text-[11px] font-medium text-gray-400 dark:text-zinc-500"><i data-lucide="calendar" class="w-3 h-3"></i>' + esc(item.date) + '</span>'
     : '';
+  const meta = '<div class="gc-meta">' + catBadge(item.category) + signalBadge(item.signal_strength) + dateHtml + '</div>';
+  if (mode === 'compact') {
+    return '<div class="grid-card grid-card-compact" role="button" tabindex="0" aria-label="' + esc(item.title) + '" data-id="' + esc(item.item_id) + '">' +
+      meta +
+      '<h3 class="gc-title font-bold text-gray-900 dark:text-white leading-snug tracking-tight line-clamp-2">' + esc(item.title) + '</h3>' +
+      '<p class="gc-judge line-clamp-1">' + esc(item.one_line_judgment) + '</p>' +
+      '<div class="pt-1 flex items-center gap-1.5 flex-wrap">' + tags + '</div></div>';
+  }
   return '<div class="grid-card sm:aspect-square p-5 sm:p-6 flex flex-col" role="button" tabindex="0" aria-label="' + esc(item.title) + '" data-id="' + esc(item.item_id) + '">' +
     '<div class="flex items-center gap-2">' + catBadge(item.category) + signalBadge(item.signal_strength) + dateHtml + '</div>' +
     '<h3 class="text-[16px] font-bold text-gray-900 dark:text-white mt-4 leading-snug tracking-tight line-clamp-2">' + esc(item.title) + '</h3>' +
@@ -1375,6 +1778,12 @@ function renderYearsView() {
   let html = '<div class="flex items-end justify-between mb-7"><div><h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">历史归档</h1>' +
     '<p class="text-[14px] text-gray-400 dark:text-zinc-500 mt-2">快捷查看本周/本月，或按 年份 › 月份 › 日期 级联下钻</p></div></div>';
 
+  // 大日历（信号强度 + 分类构成，颜色区分）
+  html += renderBigCalendarHtml();
+
+  // 全局统计面板（近 7 日趋势 / 分类分布 / 信号强度，自今日情报迁入）
+  html += renderArchiveStatsHtml();
+
   // 快捷视图按钮
   html += '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-10">' +
     '<div class="grid-card p-7 flex items-center gap-5" data-quick="week">' +
@@ -1414,6 +1823,7 @@ function renderYearsView() {
     c.addEventListener('click', function() { activeYear = this.dataset.year; fadeTransition(renderYearView); });
   });
   window.__renderIcons();
+  bindBigCalendar();
 }
 
 function renderYearView() {
@@ -2318,7 +2728,7 @@ function switchView(name) {
     if (active) btn.setAttribute('aria-current', 'page'); else btn.removeAttribute('aria-current');
   });
   window.scrollTo(0, 0);
-  if (name === 'archive' && archiveView === 'years') renderYearsView();
+  if (name === 'archive') renderYearsView();
   if (name === 'guide') renderGuidePage();
   if (name === 'today') renderDashboard();
 }
