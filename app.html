@@ -1980,7 +1980,7 @@ let watchCatFilter = null;   // 当前选中的公司分类标签（null = 全�
 
 function renderWatchlist() {
   document.getElementById('watch-count').textContent = watchlist.length;
-  document.getElementById('watch-enabled-count').textContent = watchlist.filter(w => w.enabled !== false).length + ' 个启用中';
+  document.getElementById('watch-enabled-count').textContent = watchlist.filter(w => w.enabled !== false).length;
   document.querySelectorAll('.nav-count-watch').forEach(n => { n.textContent = watchlist.length; });
 
   // ---- 收集所有公司分类标签（去重、保持出现顺序） ----
