@@ -11,41 +11,3388 @@
 // ============================================================
 window.allDailyData = [
   {
-  "report_id": "daily-2026-10-28",
-  "window_start": "2026-10-27T08:00:00+08:00",
-  "window_end": "2026-10-28T08:00:00+08:00",
-  "generated_at": "2026-10-28T21:52:43+08:00",
-  "summary": {
-    "window_takeaway": "前馈式重建与一体化采集硬件密集涌现，学术与产业同向推进真实世界度量级三维采集的下沉。",
-    "direction": "学术侧 GeoGSplat、DomeGS 推进前馈非像素对齐 3DGS 的几何先验与无界背景补全；产业侧多款采集/重建产品同日发布或获背书，共同指向物理 AI 与具身智能的数据入口。",
-    "academic_vs_industry": "同向：学术补齐 3DGS 的图元冗余与无界背景短板，产业把同一技术打包成手机/机器人可用的采集终端，两者互相印证。",
-    "remember_one_thing": "禾赛 Kosmo 获皮克斯官方渲染教程点名，中国激光雷达厂商的 3DGS 采集终端首次进入好莱坞视效流程。"
-  },
-  "items": [
-    {"item_id":"2026-10-28-A-001","category":"Research","title":"GeoGSplat：几何约束下的非像素对齐前馈高斯溅射","one_line_judgment":"通过注入几何先验抑制非像素对齐前馈 3DGS 在大视角变化下的渲染伪影，使图元数量不随分辨率和视角数增长的同时保住质量。","image":"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80","ai_summary":"简单说，这是一套「看一眼就能把照片变成三维场景」的算法，而且不靠传统的逐场景反复优化。它聪明的地方在于：不是每个像素都堆一个点，而是用几何约束把点「安排」得更合理，所以视角转得再大也不会糊成一团。","detailed_info":"传统 3DGS 的前馈重建分两条路线：像素对齐路线会把图元数量随着分辨率和视角数线性堆上去，成本失控；非像素对齐路线虽然省点，但视角一大就容易出现中心错位、渲染伪影。\n\nGeoGSplat 的思路是给这条前馈管线注入一个显式几何先验——用双分支编码器同时输出 Anchor 和 Triplane，再由分层解码器解码出稠密 3D 点和高斯图元。这样一来，图元不再盲目铺满空间，而是贴合真实几何表面。\n\n代价是它多了一个几何先验分支，泛化边界受先验质量约束；但在输入视角覆盖不足、目标视角偏离大的场景下，稳定性明显优于纯前馈方法。","ai_comment":"方向是对的：前馈重建想真正落地，迟早要解决「图元冗余」和「大视角伪影」这两块硬骨头。但论文目前只给了 DTU、NRGBD 这类室内基准，距离真实世界无界场景还有距离；而且代码和权重还没放出来，复现成本高。结论：值得关注，但先别急着当生产工具。","key_facts":[{"metric":"方法类型","value":"前馈式非像素对齐 3DGS，双分支编码器输出 Anchor+Triplane","baseline":"像素对齐前馈 3DGS","condition":"DTU 与 NRGBD 基准"},{"metric":"泛化优势","value":"目标视角偏离输入相机越远优势越大","baseline":"SOTA 像素对齐与非像素对齐 3DGS","condition":"大视角变化"},{"metric":"复现资产","value":"项目页与 arXiv:2610.36760","baseline":null,"condition":"暂无代码/权重说明"}],"position_relation":"补充像素对齐前馈 3DGS 的图元冗余与非像素对齐方法的中心错位问题。","signal_strength":"中","tags":["3DGS","Gaussian Splatting","前馈式重建","3D reconstruction"],"terms":[{"term":"前馈式重建","definition_mechanism":"一次前向推理直接输出场景表示或几何结果，无需逐场景迭代优化","definition_contrast":"与 NeRF 类逐场景训练路线不同，优势在速度，代价是细节与泛化边界"}],"sources":[{"url":"https://arxiv.org/abs/2610.36760","type":"paper"}],"date":"2026-10-27","notes":"arXiv v1 提交时间 2026-10-27 07:15 UTC。"},
-    {"item_id":"2026-10-28-A-002","category":"Research","title":"DomeGS：无界 3DGS 的感知一致背景补全（VR 场景）","one_line_judgment":"把传统 VR 的 skydome 从扁平背景壳改造为融入 3DGS 场景的一部分，缓解无界户外场景重建的地平线残缺。","image":"https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1000&q=80","ai_summary":"简单说，VR 里的三维场景到了边缘常常「露馅」——地平线残缺、天空像一张贴在远处的画。这篇工作把天空穹顶改造成真正属于三维场景的一部分，你转头、走近，远景依然连贯。","detailed_info":"无界户外场景的 3DGS 重建有个老大难：相机没拍到的远处背景和地平线，重建出来要么缺失、要么扭曲。在屏幕上看看也许能忍，但在 VR 里用户会自由移动头部，这种残缺会立刻破坏沉浸感，甚至引发不适。\n\nDomeGS 的做法是改造 VR 沿用多年的 skydome（天空穹顶）：不再把它当作一张贴在无穷远处的扁平背景图，而是让天空与地平线成为 3DGS 场景表示的一部分，前景与背景用同一套图元统一表达。\n\n验证上用了 36 人的用户实验（N=36），空间临场感与真实感两项主观指标均显著优于传统 skybox 基线（p=0.042）。属表示层面的修补，而非新范式。","ai_comment":"这是典型的「体验型修补」创新：不改变 3DGS 的技术范式，但修掉的恰好是 VR 沉浸感最敏感的那块短板。主观指标达到统计显著是加分项，但提升幅度有限；真正的考验在于能否被主流 VR 重建管线低成本集成，以及在大范围移动（而非原地转头）时是否依然稳定。","key_facts":[{"metric":"主观指标","value":"空间临场感 p=0.042、真实感 p=0.042 显著优于基线","baseline":"skybox 基线","condition":"N=36 用户实验"},{"metric":"方法类型","value":"将天空/地平线整合进 3DGS 表示，统一前景与背景","baseline":"传统背景壳","condition":"无界户外场景重建"}],"position_relation":"补充 3DGS 在无界户外场景的地平线不完整短板，属表示层面的修补而非新范式。","signal_strength":"中","tags":["3DGS","Gaussian Splatting","三维重建","AR/VR"],"terms":[{"term":"skydome","definition_mechanism":"VR/游戏里的「天空穹顶」：把远景天空贴在一个包围用户的球壳上，制造无限远的假象","definition_contrast":"传统 skydome 是扁平贴图，不随视角产生视差；DomeGS 让它成为可感知深度的场景一部分"}],"sources":[{"url":"https://arxiv.org/abs/2610.37172v1","type":"paper"}],"date":"2026-10-27","notes":""},
-    {"item_id":"2026-10-28-B-001","category":"Application","title":"SpAItial Echo-3：iPhone 视频到度量级 3D 世界","one_line_judgment":"把短 iPhone 视频到度量级 3D 高斯/点云/网格从云端研究带进消费级 iOS App，用生成式填充未覆盖区域。","image":"https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1000&q=80","ai_summary":"一句话：用 iPhone 拍一段短视频，就能拿到可以量尺寸的三维模型。以前这是专业激光扫描仪才能干的活，现在被装进了一个订阅制 App。","detailed_info":"工作流非常轻：iPhone 拍一段短视频（iOS 18+），上传到云端处理，拿回度量级的 3D 高斯溅射、点云和网格——所谓度量级，就是模型里可以直接量距离、量尺寸。没拍到的区域由生成式模型补齐。\n\n商业化走订阅制：Standard $49.99/7500 credits，Pro $99.99/15000 credits。公司 SpAItial 2025 年 5 月刚拿到 1300 万美元种子轮，CEO Matthias Niessner 是慕尼黑工业大学的视觉计算教授，学术背景很硬。\n\n值得注意的定位：它不挑战专业扫描的精度上限，而是把「快速数字化真实空间」这件事的门槛降到消费级——房产展示、小型电商建模、社交分享是典型场景。","ai_comment":"真正值得关注的是分发形态：重建能力以消费 App 而非开发者 API 出现，说明团队赌的是大众市场。风险有二——云端处理的隐私顾虑，以及订阅价格能否被普通用户接受。如果体验站稳，这类「扫描即服务」会反过来挤压低端手持扫描硬件的市场。","key_facts":[{"metric":"输入/输出","value":"短 iPhone 视频到度量级 3D splats、点云、网格，可测距","baseline":"需专业激光扫描硬件","condition":"iOS 18+，云处理"},{"metric":"定价","value":"Standard $49.99/7500 credits，Pro $99.99/15000 credits","baseline":null,"condition":"订阅制"},{"metric":"公司背景","value":"2025 年 5 月获 $13M 种子轮，CEO Matthias Niessner","baseline":null,"condition":null}],"position_relation":"替代专业激光扫描工作流在普通用户快速数字化真实空间这一场景。","signal_strength":"强","tags":["三维重建","3DGS","点云","网格","数字孪生","手持扫描仪"],"terms":[{"term":"度量尺度重建","definition_mechanism":"输出的三维场景保持真实世界物理尺寸，可直接测量距离与尺寸","definition_contrast":"与仅视觉上逼真但尺度任意或未知的神经渲染结果不同"}],"sources":[{"url":"https://spatialinsiders.com/stories/spaitial-echo-3-iphone-3d-scanning","type":"media"}],"date":"2026-10-27","notes":"发布日 2026-10-27。"},
-    {"item_id":"2026-10-28-B-002","category":"Hardware","title":"禾赛 Kosmo 获皮克斯官方渲染教程点名","one_line_judgment":"禾赛 Kosmo 手持 3D 采集终端进入皮克斯 RenderMan 官方教程，把车载激光雷达厂商推入好莱坞视效流程。","image":"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1000&q=80","ai_summary":"简单说：激光雷达大厂禾赛做的手持三维扫描设备，被皮克斯官方渲染教程当作「真实世界三维采集」的示范工具——中国硬件第一次以这种方式进入好莱坞的视效工作流。","detailed_info":"事件本身不大，但分量不轻：皮克斯的 RenderMan 官方教程引用禾赛 Kosmo，演示如何用专业渲染器处理真实世界采集的 3DGS 数据。这意味着影视视效行业开始把这类手持终端当作正经的生产工具。\n\n设备侧，Kosmo One 集成了定制激光雷达、最高 8K 成像、一英寸 CMOS 与高精度 IMU，官方口径约 100㎡ 的手持扫描只需 15-20 分钟——此前同精度级别往往需要多传感器拼装的台架方案。\n\n更深层的变化是叙事转向：禾赛的主业是车载激光雷达，Kosmo 系列把它带入「物理世界数字化入口」这条新故事线——机器人、影视、空间计算都需要高质量的真实世界三维数据。","ai_comment":"背书的含金量高，但要冷静：这是「教程点名」而非采购公告，商业转化仍待观察。对禾赛而言真正的价值在于第二增长曲线的叙事成立——激光雷达从车载走向万物数字化。这条故事线能否兑现，取决于采集终端的出货量，而非教程里的露脸次数。","key_facts":[{"metric":"第三方背书","value":"皮克斯官方教程引用 Kosmo，用 RenderMan 处理真实世界 3DGS 数据","baseline":null,"condition":"QbitAI 报道"},{"metric":"采集效率","value":"约 100㎡ 手持扫描 15-20 分钟","baseline":"传统多传感器拼装台架","condition":null},{"metric":"硬件规格","value":"Kosmo One 集成定制激光雷达、最高 8K 成像、一英寸 CMOS、高精度 IMU","baseline":null,"condition":null}],"position_relation":"与 SpAItial 同属真实世界数据终端，但走专业硬件路线、以精度与尺度见长。","signal_strength":"强","tags":["3DGS","Gaussian Splatting","点云","mesh","手持扫描仪","深度估计","数字孪生"],"terms":[{"term":"激光雷达","definition_mechanism":"通过发射激光并测量回波时间/相位来精确测距，直接获取场景的三维几何","definition_contrast":"与纯相机的被动视觉方案相比，激光雷达主动发光、测距准且不受光照影响，代价是成本与体积"}],"sources":[{"url":"https://ainewsfeed.tech/articles/pixar-highlights-hesai-s-kosmo-3d-scanner-for-real-world-gaussian-splatting-37312-en-us-v1","type":"media"}],"date":"2026-10-27","notes":""},
-    {"item_id":"2026-10-28-B-003","category":"Hardware","title":"Stereolabs ZED Box 2 系列：边缘多相机视觉计算","one_line_judgment":"把最高 2070 FP4 TFLOPS 的 Jetson Thor 算力与最多 8 路 GMSL2 同步相机、硬件级帧同步整合进工业边缘 AI 机。","image":"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80","ai_summary":"简单说：Stereolabs 把英伟达最新的 Jetson Thor 算力和最多 8 路相机同步接口塞进一个工业盒子里——相当于给机器人、机械臂装了一个「多眼睛视觉大脑」，就在巴黎发布。","detailed_info":"配置层面，ZED Box 2 最高可选 Jetson Thor 平台：2,070 FP4 TFLOPS 算力、128 GB 内存，已经能在本地跑相当规模的视觉模型，不必回传云端。\n\n更关键的是连接层：原生支持最多 8 路 GMSL2 相机接入，并提供硬件级帧同步——所有相机在同一瞬间曝光。对三维感知来说这一点是刚需：运动场景下哪怕差几毫秒，多视角融合的深度就会错位。\n\n目标场景写得很明白：AMR（自主移动机器人）、机械臂、人形机器人的多视角、多传感器融合。它不生产算法，卖的是「机器人感知的基础设施」。","ai_comment":"参数漂亮，但这类边缘盒子的竞争壁垒从来不在算力数字，而在相机生态、标定工具链与长期供货能力。Stereolabs 深耕立体视觉多年，8 路硬件级同步是实打实的工程壁垒；短板是与 Jetson 平台深度绑定带来的成本、功耗与供应链波动风险。","key_facts":[{"metric":"算力/内存","value":"最高 2,070 FP4 TFLOPS、128 GB 内存（Jetson Thor）","baseline":"上代 ZED Box","condition":null},{"metric":"相机接入","value":"原生支持最多 8 路 GMSL2 相机，硬件级帧同步","baseline":"单/双立体相机","condition":null},{"metric":"定位","value":"面向 AMR、机械臂/humanoid 多视角、多传感器融合","baseline":null,"condition":"Paris 发布"}],"position_relation":"补齐多相机同步采集这一机器人三维感知基础设施。","signal_strength":"中","tags":["SLAM","端侧部署","数字孪生"],"terms":[{"term":"硬件级帧同步","definition_mechanism":"用硬件信号让多路相机在同一瞬间曝光，保证各视角画面时间严格对齐","definition_contrast":"软件同步存在毫秒级抖动，运动场景下会导致多视角融合的深度错位"}],"sources":[{"url":"https://finance.yahoo.com/technology/ai/articles/stereolabs-launches-zed-box-2-110000974.html","type":"official"}],"date":"2026-10-27","notes":""},
-    {"item_id":"2026-10-28-B-004","category":"Application","title":"Octave Alto 2026.1：地理空间可视化加入高斯溅射","one_line_judgment":"国防/航空/交通/基建类地理空间平台首次将高斯溅射作为正式资产类型，用于任务规划与基础设施监测。","image":"https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80","ai_summary":"一句话：高斯溅射第一次作为「正式资产类型」进入国防级地理空间平台——照片和扫描件可以直接变成可指挥、可监测的三维地图，用在任务规划和基础设施巡检上。","detailed_info":"Octave Alto 2026.1 的新能力：支持把 Gaussian splats 作为正式资产导入，把照片/扫描转换成可自由浏览的真实地点三维模型，服务于任务规划与基础设施监测。此前这类需求要靠人工在多个系统间拼合数据。\n\nAlto 的客户画像是国防、航空、交通、基建——对可视化可靠性要求最高、也最保守的一群用户。同版本还支持北约最新的军用地图符号与作战计划标准，说明产品节奏是跟着军工合规走的。\n\n这一步的意义不在技术新，而在于「被最保守的行业验收」：3DGS 从内容创作和研究 demo，进入了关键基础设施的日常运营工具链。","ai_comment":"信号意义大于产品意义：国防与基建是最保守的可视化市场，它们的接纳说明 3DGS 已经度过「玩具阶段」。接下来值得关注的是数据主权——国防场景进不了公有云，本地化处理与私有化部署能力会成为下一阶段的竞争点。","key_facts":[{"metric":"新增能力","value":"支持 Gaussian splats 将照片/扫描转为可浏览真实地点 3D 模型","baseline":"此前需人工跨系统拼合","condition":"Alto 2026.1"},{"metric":"标准","value":"支持北约最新军用地图符号与作战计划标准","baseline":null,"condition":null}],"position_relation":"把 3DGS 从内容创作/研究推向国防与关键基础设施的运营可视化。","signal_strength":"中","tags":["3DGS","Gaussian Splatting","数字孪生","实时重建"],"terms":[],"sources":[{"url":"https://investors.octave.com/news-releases/news-release-details/octave-alto-expands-visualization-capabilities","type":"official"}],"date":"2026-10-27","notes":""},
-    {"item_id":"2026-10-28-B-005","category":"Hardware","title":"思岚 Aurora S Lite：轻量 AI 空间感知系统","one_line_judgment":"把 AI-vSLAM 定位、端到端深度估计与 AI 语义分割塞进更小机身的机器人空间感知模组。","image":"https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&w=1000&q=80","ai_summary":"简单说：思岚把 vSLAM 定位、深度估计、语义分割三套 AI 能力压缩进一个更小的机器人「眼睛+小脑」，主打即插即用，让普通机器人开箱就有空间感知。","detailed_info":"相比标准版 Aurora S，Lite 版升级了三个软件栈：AI-vSLAM 定位、端到端深度估计模型、AI 物体识别与语义分割——定位、几何、语义三件事一体化输出。\n\n形态上主打更小机身、即插即用、开放 SDK，明显是冲着「机器人厂商不想自己养感知团队」这个痛点去的。\n\n需要坦白的是，这次发布缺少量化指标：定位精度、功耗、价格都没给，我们只能把它归为弱信号，等待实测数据。","ai_comment":"机器人感知模组正在复刻手机摄像头的「集成化」路径：从买器件自己调，到买整套交钥匙方案。思岚在扫地机器人激光雷达上的出货量是底牌，但这次发布零量化指标，诚意打折——建议等第三方实测再判断升级幅度。","key_facts":[{"metric":"能力","value":"AI-vSLAM + 端到端深度估计模型升级 + AI 物体识别/分割","baseline":"Aurora S（标准版）","condition":"2026-10-27 发布"},{"metric":"形态/集成","value":"更小机身、即插即用、开放 SDK","baseline":null,"condition":null}],"position_relation":"在机器人定位-建图-语义理解一体化感知模组赛道补充轻量级产品位。","signal_strength":"弱","tags":["SLAM","深度估计","点云","实时重建"],"terms":[{"term":"vSLAM","definition_mechanism":"视觉 SLAM：只用相机画面估计自身位置并增量式构建环境地图","definition_contrast":"相比激光 SLAM 成本更低、信息更丰富，但弱纹理与暗光环境下稳定性是短板"}],"sources":[{"url":"https://new.qq.com/rain/a/20261027A0AZ6Z00","type":"media"}],"date":"2026-10-27","notes":"缺关键量化指标，归为弱信号。"},
-    {"item_id":"2026-10-28-B-006","category":"OpenSource","title":"Hi3D 开源生产级 3D 底座模型并推出创作者智能体","one_line_judgment":"把经过生产验证的 3D 底座模型 V1.0 开源并配套创作智能体，试图把生成式 3D 从能生成推向能落地/可打印。","image":"https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80","ai_summary":"一句话：一家 3D 生成公司把生产环境里验证过的底座模型开源了，还配了创作智能体——目标是让 AI 生成的模型不只是好看，而是真的能 3D 打印出来。","detailed_info":"商业面：Hi3D 半年内完成两轮近 5000 万美元融资，产品覆盖 120+ 国家、200 万+ 创作者（极客公园报道口径）。\n\n技术面：底座模型基于自研 Sparc3D 稀疏几何技术，本次开源 V1.0，并配套推出面向创作者的智能体。\n\n最值得注意的是他们选的行业痛点：部分头部产品的 3D 打印切片成功率仅 7%-17%——生成得很炫、打印出来全废，是生成式 3D 最难堪的短板。Hi3D 把「可制造性」而不是「美观度」立为核心指标。","ai_comment":"切片成功率这个指标选得很刁钻——它把生成式 3D 从 demo 竞赛拉回工程竞赛。开源能否形成生态，取决于模型在真实打印场景的通过率，而非宣传图的精美程度。另外 7%-17% 是「报道口径」，建议视为方向性参考而非精确统计。","key_facts":[{"metric":"融资/规模","value":"半年内两轮融资近 $50M，覆盖 120+ 国家、200 万+ 创作者","baseline":null,"condition":"极客公园"},{"metric":"技术底座","value":"基于 Sparc3D 稀疏几何技术，开源 V1.0","baseline":null,"condition":null},{"metric":"行业痛点","value":"部分头部产品 3D 打印切片成功率仅 7%-17%","baseline":null,"condition":"报道口径"}],"position_relation":"聚焦生成式 3D + 稀疏几何 + 可制造性，用切片成功率作为落地指标。","signal_strength":"中","tags":["三维重建","网格","数字孪生"],"terms":[{"term":"切片","definition_mechanism":"3D 打印前把模型切成逐层路径并生成打印机指令的过程","definition_contrast":"模型在屏幕上能看不代表能打印——壁厚、悬空、封闭性不达标都会导致切片失败"}],"sources":[{"url":"https://www.ai.jp.net/article/hi3d-opens-its-production-grade-3d-foundation-model-and-launches-a-creator-focus-cbd345?lang=sc","type":"media"}],"date":"2026-10-27","notes":""},
-    {"item_id":"2026-10-28-B-007","category":"Application","title":"Rivian 收购 Third Dimension AI：真实数据转可编辑 3D 仿真","one_line_judgment":"Rivian 收购 Third Dimension AI，把真实世界传感器数据重建为可编辑、可重放的 3D 场景用于自动驾驶边角案例仿真。","image":"https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80","ai_summary":"简单说：车企 Rivian 收购了一家能把真实驾驶数据变成可编辑三维仿真场景的公司——自动驾驶最怕的「边角案例」，以后可以无限重放，还能随意改光照和天气。","detailed_info":"交易本身金额未披露（TechCrunch 报道），标的 Third Dimension AI 此前拿过 700 万美元种子轮。\n\n能力面：从真实驾驶数据重建三维环境，并且场景可编辑——光照、天气都能改。这对自动驾驶验证意义重大：危险场景在现实里可遇不可求，在可编辑的重建场景里可以系统性复现和变异。\n\nRivian 手里的底牌是数据规模：每天从用户车辆采集 40 万+ 驾驶序列。收购把「数据采集」和「仿真验证」接成了闭环。","ai_comment":"这与 Tesla 纯靠车队规模堆数据的路线形成有趣对照：Rivian 选择用「重建+仿真」放大既有数据的密度。这条路的瓶颈在重建保真度——仿真与现实的细微偏差，恰恰是边角案例验证中最致命的变量。收购后的整合速度值得跟踪。","key_facts":[{"metric":"交易","value":"收购 Third Dimension AI，金额未披露","baseline":"此前 $7M 种子轮","condition":"TechCrunch 报道"},{"metric":"能力","value":"从真实驾驶数据重建 3D 环境，可编辑光照、天气","baseline":null,"condition":null},{"metric":"数据规模","value":"Rivian 每日从用户车辆采集 40 万+ 驾驶序列","baseline":null,"condition":null}],"position_relation":"与 Tesla 靠真实车队规模路线相对，Rivian 走重建+可编辑仿真放大既有真实数据。","signal_strength":"中","tags":["三维重建","数字孪生"],"terms":[{"term":"边角案例","definition_mechanism":"自动驾驶中罕见但高风险的长尾场景（如异形障碍物、极端光照），是安全验证的重点","definition_contrast":"常规路测很难碰到，只能靠大规模车队积累或仿真重建来覆盖"}],"sources":[{"url":"https://www.rivianwave.com/news/4908/rivian-buys-ai-startup-to-simulate-self-driving-edge-cases","type":"media"}],"date":"2026-10-27","notes":""},
-    {"item_id":"2026-10-28-D-001","category":"Engineering","title":"闽宁镇 23.5km² 空地一体 3DGS 数字模型（其域创新）","one_line_judgment":"用 18.6 万张影像 + 150 亿雷达点云生成 62 亿高斯椭球，构建 23.5km² 厘米级精度数字闽宁镇。","image":"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80","ai_summary":"一句话：18.6 万张照片加 150 亿个激光点，重建出一个 23.5 平方公里、厘米级精度的「数字闽宁镇」——这是城镇级三维重建已知的最大规模案例之一。","detailed_info":"规模数字先摆出来：23.5km² 面积、厘米级几何精度、18.6 万张影像、150 亿雷达点云、最终生成 62 亿个三维高斯椭球。成果在 CCTV-4《闽宁大道》纪录片中呈现。\n\n技术方是其域创新（XGRIDS）：自研采集设备 + 自研软件 + 自研 LCC 数据格式，空地一体采集（无人机 + 地面设备）。\n\n工程意义在于：3DGS 从单物体、小场景被推进到城镇级。到了这个规模，难点已经不是重建算法本身，而是数据管线——采集调度、压缩格式、流式加载与后期更新维护。","ai_comment":"要提醒：这些数字来自媒体转述而非论文或官方技术报告，建议保留一分审慎。但趋势判断没有疑问——当单场景重建不再是瓶颈，竞争点就转移到数据工程与格式标准，这正是「数字孪生运营商」的入场券，XGRIDS 的自研格式卡位很聪明。","key_facts":[{"metric":"场景规模","value":"23.5km²、厘米级几何精度","baseline":null,"condition":"CCTV-4《闽宁大道》纪录片"},{"metric":"数据/算力规模","value":"18.6 万张影像、150 亿雷达点云、62 亿三维高斯椭球","baseline":null,"condition":null},{"metric":"技术方","value":"其域创新（XGRIDS）自研采集设备 + 软件 + LCC 数据格式","baseline":null,"condition":"2026-10-28 报道"}],"position_relation":"把 3DGS 从单物体/小场景推向城镇级空地一体的已知最大规模之一。","signal_strength":"中","tags":["3DGS","Gaussian Splatting","点云","数字孪生","三维重建"],"terms":[],"sources":[{"url":"https://new.qq.com/rain/a/20261028A03CJA00","type":"media"}],      "date":"2026-10-28","notes":"数字来自媒体转述。"}
-  ]
+    "report_id": "daily-2026-10-01",
+    "window_start": "2026-09-30T08:00:00+08:00",
+    "window_end": "2026-10-01T08:00:00+08:00",
+    "generated_at": "2026-10-01T21:00:00+08:00",
+    "summary": {
+      "window_takeaway": "激光雷达厂商把「原生彩色点云」推向应急场景，三维感知的竞争从车规转向行业级。",
+      "direction": "Ouster 将 Rev8 原生彩色激光雷达装进野火应急无人机，用硬件级 RGB+深度融合替代后融合方案，指向浓烟、低能见度下的实时三维态势图。",
+      "academic_vs_industry": "产业侧单点推进：没有对应论文，属于把已有芯片能力（L4 SPAD SoC + 彩色感光）平移到新场景的产品动作。",
+      "remember_one_thing": "彩色点云不是「点云染色」，而是在传感器层面把 XYZ 与 RGB 逐像素对齐，恶劣环境下比后融合稳。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-01-A-001",
+        "category": "Hardware",
+        "title": "Ouster 联手 Seneca：原生彩色激光雷达上野火应急无人机",
+        "one_line_judgment": "把 Rev8 原生彩色激光雷达集成进自主无人机平台，用硬件级 6D 感知（XYZ+RGB）替代「点云+相机」的后融合，服务浓烟环境下的火线识别与三维态势。",
+        "ai_summary": "简单说，Ouster 把「能同时看见颜色和距离」的激光雷达装到了灭火无人机上。以前无人机是先扫出黑白三维点云，再靠另一台相机补颜色，两套数据对不齐；现在一颗传感器直接给出彩色三维点，浓烟里也能分清火线、植被和热区。",
+        "detailed_info": "合作对象 Seneca 做的是自主航空平台，这次集成的是 Ouster Rev8 OS 系列。该系列搭载 Ouster 与富士胶片联合开发的 L4 自研芯片，把彩色感光与飞行时间测距在芯片层面做像素级融合，输出的是每个点自带 RGB 的三维数据，而不是事后把照片贴到点云上。\n\n野火场景的技术意义在于退化条件：浓烟、逆光、夜间都会让纯视觉的深度估计失灵，而黑白点云又缺少区分「烧过」与「未烧」地表的颜色线索。原生彩色点云同时提供几何与光谱，火线位置、植被类型、热区分布可以在同一帧里判读，地面指挥拿到的就是实时三维态势图而不是拼贴图层。\n\n商业上这是激光雷达「第二增长曲线」的又一落点：车载 ADAS 价格战已经把毛利压到很低，测绘、应急、工业巡检这类对可靠性付费意愿更高的行业市场，正在成为出货量的新出口。",
+        "ai_comment": "方向清晰，但要留意两点：一是「硬件级彩色」的实际标定精度很少公开，彩色与深度的微秒级对齐在剧烈机动下会不会漂，需要实测；二是应急采购季节性强、单价高但量小，撑不起财报，真正的看点是这套 6D 感知能不能被测绘、电力巡检批量采纳。",
+        "key_facts": [
+          {
+            "metric": "感知形态",
+            "value": "Rev8 OS 原生彩色激光雷达，硬件级输出 XYZ+RGB",
+            "baseline": "黑白点云 + 相机后融合",
+            "condition": "与富士胶片联合开发的 L4 芯片"
+          },
+          {
+            "metric": "合作方",
+            "value": "Seneca 自主无人机平台，用于野火应急响应",
+            "baseline": null,
+            "condition": "2026-10-01 公告"
+          }
+        ],
+        "position_relation": "与禾赛 Kosmo、速腾空间相机同属「激光雷达厂商向空间感知终端延伸」，但主打应急这种极端退化场景。",
+        "signal_strength": "中",
+        "tags": [
+          "激光雷达",
+          "点云",
+          "三维重建",
+          "数字孪生"
+        ],
+        "terms": [
+          {
+            "term": "原生彩色点云",
+            "definition_mechanism": "在传感器芯片层把彩色感光与激光测距逐像素对齐，每个三维点直接带真实颜色",
+            "definition_contrast": "不同于先扫几何、再用相机照片给点云「染色」的后融合方案，省掉了配准误差与时间同步问题"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.businesswire.com/news/home/20261001005123/en/",
+            "type": "official"
+          }
+        ],
+        "date": "2026-10-01",
+        "notes": "公告日 2026-10-01。"
+      }
+    ]
   },
   {
-  "report_id": "daily-2026-10-29",
-  "window_start": "2026-10-28T08:00:00+08:00",
-  "window_end": "2026-10-29T08:00:00+08:00",
-  "generated_at": "2026-10-29T08:11:00+08:00",
-  "summary": {
-    "window_takeaway": "本窗口为安静窗口，未采集到落在窗口内、可核实的实质新增信息。",
-    "direction": "无新增方向；上一窗口的前馈式重建与一体化采集硬件密集发布暂告一段落，本窗口属正常信息间隙。",
-    "academic_vs_industry": "学术侧与产业侧同步静默，未见新的实质发布或更新。",
-    "remember_one_thing": "本窗口三维重建领域没有可确认的新事实，属正常信息间隙，无需用旧闻填充。"
+    "report_id": "daily-2026-10-02",
+    "window_start": "2026-10-01T08:00:00+08:00",
+    "window_end": "2026-10-02T08:00:00+08:00",
+    "generated_at": "2026-10-02T21:10:00+08:00",
+    "summary": {
+      "window_takeaway": "本窗口为安静窗口，未采集到落在窗口内、可核实的实质新增信息。",
+      "direction": "无新增方向；国内处于国庆假期，海外厂商亦无三维重建相关发布，属正常信息间隙。",
+      "academic_vs_industry": "学术侧与产业侧同步静默。",
+      "remember_one_thing": "没有可确认的新事实，不用旧闻填充。"
+    },
+    "items": []
   },
-  "items": []
+  {
+    "report_id": "daily-2026-10-03",
+    "window_start": "2026-10-02T08:00:00+08:00",
+    "window_end": "2026-10-03T08:00:00+08:00",
+    "generated_at": "2026-10-03T20:40:00+08:00",
+    "summary": {
+      "window_takeaway": "超表面固态激光雷达从实验室走向工业产品，机器人感知多了一条「无运动部件」的路线。",
+      "direction": "Lumotive 与 Leopard Imaging 联合发布 Sirius Max，用液晶超表面做电子扫描，把固态 3D 激光雷达做成带 GMSL2 接口、140° 水平视场的边缘 AI 模组。",
+      "academic_vs_industry": "产业侧推进：把可编程光学（metasurface）的学术路线工程化，重点不在参数堆叠而在可靠性与集成接口。",
+      "remember_one_thing": "没有机械扫描部件的激光雷达，寿命与体积优势是结构性的，代价是成本与量产良率。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-03-A-001",
+        "category": "Hardware",
+        "title": "Lumotive × Leopard Imaging：超表面固态 3D 激光雷达 Sirius Max",
+        "one_line_judgment": "用液晶超表面实现电子光束扫描，做出无运动部件的固态 3D 激光雷达模组，原生 GMSL2 接口与 140° 水平视场，直指机器人与工业自动化。",
+        "ai_summary": "简单说，这是一款「没有转镜、没有马达」的激光雷达——靠一层可编程的光学超表面来偏转激光，所以更小、更耐震、寿命更长。它把接口做成了机器人算力平台能直接吃的 GMSL2，插上就能用。",
+        "detailed_info": "传统激光雷达靠机械旋转或 MEMS 微镜扫视，前者体积大、后者寿命受限。Lumotive 的路线是用液晶超表面（metasurface）做光束控制：电压改变液晶分子的排布，从而改变光束偏转角度，整个过程没有宏观运动部件。\n\nSirius Max 是这条路线与 Leopard Imaging 的联合产品化：集成 GMSL2 接口（机器人、车载视觉平台的事实标准）、140° 水平视场，面向 AI 感知、机器人、工业自动化与智能边缘系统。对整机厂来说，GMSL2 意味着可以直接接进 NVIDIA Jetson 一类的平台，不必自研采集板。\n\n工程上真正难的不是「能扫」，而是扫描线性度、温漂与量产一致性——超表面的相位分布对温度敏感，标定复杂度会从整机转移到光学模组环节。",
+        "ai_comment": "技术路线漂亮，但固态激光雷达的历史教训是「Demo 惊艳、量产掉队」。判断这家公司要看三个数：量产良率、单颗成本、以及有没有拿到车规或工业级认证。这次只给了视场和接口，没有测距、点频、角分辨率，信息量偏薄，先记为中等信号。",
+        "key_facts": [
+          {
+            "metric": "扫描方式",
+            "value": "液晶超表面电子扫描，无运动部件",
+            "baseline": "机械旋转 / MEMS 微镜",
+            "condition": null
+          },
+          {
+            "metric": "集成规格",
+            "value": "GMSL2 接口、140° 水平视场",
+            "baseline": null,
+            "condition": "面向边缘 AI 与机器人"
+          },
+          {
+            "metric": "合作模式",
+            "value": "Lumotive 光学 + Leopard Imaging 模组与集成",
+            "baseline": null,
+            "condition": "2026-10-03 发布"
+          }
+        ],
+        "position_relation": "在固态激光雷达赛道补充「超表面」路线，与 Ouster 的 SPAD 数字路线形成对照。",
+        "signal_strength": "中",
+        "tags": [
+          "激光雷达",
+          "SLAM",
+          "端侧部署",
+          "深度估计"
+        ],
+        "terms": [
+          {
+            "term": "超表面",
+            "definition_mechanism": "在平面上的纳米结构阵列，通过设计每个单元的几何形状来精确控制光的相位与方向",
+            "definition_contrast": "取代传统透镜与机械扫描机构，用电压调液晶即可改变光束指向，体积小但温漂与标定更难"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.leopardimaging.com/news/sirius-max-solid-state-lidar/",
+            "type": "official"
+          }
+        ],
+        "date": "2026-10-03",
+        "notes": "发布日 2026-10-03。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-04",
+    "window_start": "2026-10-03T08:00:00+08:00",
+    "window_end": "2026-10-04T08:00:00+08:00",
+    "generated_at": "2026-10-04T21:05:00+08:00",
+    "summary": {
+      "window_takeaway": "激光雷达的成本曲线被车企公开确认：从数万美元降到「几百美元」量级。",
+      "direction": "Rivian 确认带激光雷达与自研 RAP1 芯片的 R2 先交付员工、消费者版推迟到 2027，同时给出成本降幅口径，说明感知硬件的经济性拐点已到。",
+      "academic_vs_industry": "产业侧：成本与交付节奏的信息，比任何算法论文都更能决定三维感知的装机量。",
+      "remember_one_thing": "激光雷达不再是「豪华配置」，而是几百美元级的常规传感器——这会直接抬高三维数据采集的密度。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-04-A-001",
+        "category": "Hardware",
+        "title": "Rivian R2 激光雷达版先交付员工，成本降至数百美元级",
+        "one_line_judgment": "Rivian 确认带激光雷达与自研 RAP1 芯片的 R2 年底前先交付员工、消费者版推迟至 2027，并称激光雷达成本已从数万美元降至几百美元级。",
+        "ai_summary": "一句话：激光雷达便宜到「几百美元」了。Rivian 先把带激光雷达的 R2 交给自家员工试水，普通消费者要等到 2027 年——这不是技术不行，而是产能和验证节奏的问题。",
+        "detailed_info": "Rivian 的口径有三层信息：一是 R2 的激光雷达版本在 2026 年底前先交付员工，消费者版本推迟到 2027；二是成本已从早期的数万美元降到「几百美元」级别；三是点对点自动驾驶功能不依赖第三代硬件，年底会先向早期用户开放。\n\nRAP1 是 Rivian 自研的感知芯片，与激光雷达配套。车企自研芯片的动机很直白：把传感器融合的时延与功耗压在自己手里，同时摆脱对 Tier1 的议价依赖。\n\n对三维重建领域的意义在于数据供给侧——当激光雷达成为几百美元的常规件，车队每天回传的就是带真值深度的多模态序列，而不是纯图像。这类数据正是重建、仿真与物理 AI 训练最缺的「有尺度、有遮挡、有反射」的真实样本。",
+        "ai_comment": "「几百美元」是方向性口径，没说清是 BOM 成本还是采购价，也没说是哪一档线数，别直接引用成结论。真正值得跟踪的是：员工版交付后的实际可用率，以及 2027 消费者版会不会再跳票——车企的硬件时间表向来乐观。",
+        "key_facts": [
+          {
+            "metric": "交付节奏",
+            "value": "R2 激光雷达版 2026 年底前先交付员工，消费者版推迟至 2027",
+            "baseline": null,
+            "condition": "2026-10-04 报道"
+          },
+          {
+            "metric": "成本",
+            "value": "激光雷达成本从数万美元降至几百美元级",
+            "baseline": "早期机械式激光雷达",
+            "condition": "厂商口径"
+          },
+          {
+            "metric": "自研芯片",
+            "value": "RAP1 感知芯片与激光雷达配套",
+            "baseline": "外购 Tier1 方案",
+            "condition": null
+          }
+        ],
+        "position_relation": "与禾赛、Ouster 的成本下降曲线同向，但视角来自整车厂的装机决策。",
+        "signal_strength": "中",
+        "tags": [
+          "激光雷达",
+          "自动驾驶",
+          "端侧部署",
+          "深度估计"
+        ],
+        "terms": [
+          {
+            "term": "点对点自动驾驶",
+            "definition_mechanism": "车辆在起点与终点之间自主完成行驶，不限定单一路段或固定路线",
+            "definition_contrast": "与仅在高速或固定园区运行的功能不同，对感知冗余与长尾场景覆盖要求更高"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.telset.id/2026/10/rivian-r2-lidar-employee-delivery/",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-04",
+        "notes": "成本口径来自厂商，未披露统计方式。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-05",
+    "window_start": "2026-10-04T08:00:00+08:00",
+    "window_end": "2026-10-05T08:00:00+08:00",
+    "generated_at": "2026-10-05T21:00:00+08:00",
+    "summary": {
+      "window_takeaway": "本窗口为安静窗口，未采集到落在窗口内、可核实的实质新增信息。",
+      "direction": "无新增方向；国庆假期叠加周末，国内外均无三维重建相关实质发布。",
+      "academic_vs_industry": "学术侧与产业侧同步静默。",
+      "remember_one_thing": "属正常信息间隙，不用旧闻填充。"
+    },
+    "items": []
+  },
+  {
+    "report_id": "daily-2026-10-06",
+    "window_start": "2026-10-05T08:00:00+08:00",
+    "window_end": "2026-10-06T08:00:00+08:00",
+    "generated_at": "2026-10-06T21:20:00+08:00",
+    "summary": {
+      "window_takeaway": "3DGS 第一次拿到政府技术登记号，从「演示」变成公共工程可引用的技术条目。",
+      "direction": "日本国土交通省 NETIS 数据库登记东北大学与 XMAT 的高斯溅射桥梁/隧道检测方法（KK-260044），用普通 360 相机或无人机采集即可建模。",
+      "academic_vs_industry": "同向：学术团队（东北大学 NICHe）把方法交给校办企业 XMAT 产品化，再由主管部门登记，形成「论文—产品—标准条目」的完整链路。",
+      "remember_one_thing": "登记号很枯燥，但它意味着公共工程的工程师可以在标书里正当地引用这项技术。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-06-A-001",
+        "category": "Application",
+        "title": "日本国交省 NETIS 首次登记 3DGS 桥梁隧道检测技术",
+        "one_line_judgment": "东北大学与 XMAT 的高斯溅射建模方法获 NETIS 登记号 KK-260044，成为日本首个进入公共工程技术数据库的 3DGS 方法。",
+        "ai_summary": "简单说：日本管基建的部门把一项「拍照片就能给桥和隧道建三维模型」的技术，正式录进了官方技术名录。以后工程单位做检测招标，可以直接引用这个编号，而不用再解释「高斯溅射是什么」。",
+        "detailed_info": "登记主体是东北大学 New Industry Creation Hatchery Center（Akira Yoshikawa、Hiroki Sato、Kenji Inoue）与仙台的校办企业 XMAT。方法用市售 360 相机或无人机拍摄图像，不需要专用测量设备，生成的模型轻到普通笔记本就能打开。\n\n工程可用性上补了两个关键件：一是用已知尺寸的参考标尺（reference jig）锁定尺度，解决单目/多视图重建的尺度不确定性；二是做了免费查看器，可以把检测照片与病害记录钉在三维模型上，供多方远程核对。\n\n官方口径称这是日本首次有 3DGS 技术在全国范围登记进 NETIS（KK-260044）。NETIS 是国土交通省的新技术数据库，登记本身不等于强制标准，但意味着公共工程的发包方可以把它作为可比选的技术方案引用。",
+        "ai_comment": "这类「制度性接纳」比论文引用更能说明技术成熟度——它要求方法可复现、成果可验收、责任可追溯。短板也很明显：发布里没有任何精度指标，只能当作「记录现场长什么样」，不能当作计量成果。如果面向资产所有者卖这类方案，下一个必答题就是「误差多大」。",
+        "key_facts": [
+          {
+            "metric": "登记",
+            "value": "NETIS 登记号 KK-260044，日本首个 3DGS 类登记技术",
+            "baseline": null,
+            "condition": "2026-10-06 东北大学公告"
+          },
+          {
+            "metric": "采集方式",
+            "value": "市售 360 相机或无人机，无需专用测量设备",
+            "baseline": "专用测量仪器",
+            "condition": "模型可在普通笔记本打开"
+          },
+          {
+            "metric": "尺度基准",
+            "value": "已知尺寸参考标尺锁定尺度",
+            "baseline": null,
+            "condition": "Radiance Fields 报道"
+          }
+        ],
+        "position_relation": "把 3DGS 从内容制作推进到基础设施检测的合规工具链。",
+        "signal_strength": "强",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "三维重建",
+          "数字孪生"
+        ],
+        "terms": [
+          {
+            "term": "NETIS",
+            "definition_mechanism": "日本国土交通省的新技术登记数据库，收录经审查的施工与检测新技术，供公共工程选型引用",
+            "definition_contrast": "不是强制标准也不是认证，而是「可被标书引用的技术条目」，门槛在于可复现与可验收"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.tohoku.ac.jp/japanese/2026/10/press20261006-01.html",
+            "type": "official"
+          }
+        ],
+        "date": "2026-10-06",
+        "notes": "发布日 2026-10-06。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-07",
+    "window_start": "2026-10-06T08:00:00+08:00",
+    "window_end": "2026-10-07T08:00:00+08:00",
+    "generated_at": "2026-10-07T21:30:00+08:00",
+    "summary": {
+      "window_takeaway": "芯片厂用 82 亿美元买下世界模型团队，空间智能的估值锚从「产品收入」变成「算力—模型的耦合」.",
+      "direction": "AMD 以约 82 亿美元全股票收购 World Labs 的对价机制被拆解：无营收、纯股权、按交割前均价计算，本质是买下一代负载的定义权。",
+      "academic_vs_industry": "产业侧：这是资本结构事件，不是技术发布；但它会改变空间智能初创的退出预期与融资叙事。",
+      "remember_one_thing": "全股票交易意味着最终对价随 AMD 股价浮动,82 亿美元只是签约时的账面数。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-07-A-001",
+        "category": "Application",
+        "title": "82 亿美元全股票收购 World Labs：AMD 买的不是产品，是负载定义权",
+        "one_line_judgment": "AMD 以约 82 亿美元全股票收购李飞飞创办的 World Labs，交易无营收支撑、对价随股价浮动，核心资产是空间智能团队与下一代模型负载的早期认知。",
+        "ai_summary": "一句话：AMD 用股票买了一家还没有收入的世界模型公司。它买的不是现成生意，而是「提前知道下一代 AI 要算什么」——这样设计芯片时就不会踩空。",
+        "detailed_info": "交易结构值得细看：全股票、约 82 亿美元、按交割前连续 10 个交易日的成交量加权平均价计算发行股数，预计 2026 年底前交割，仍需多国监管批准。AMD 截至 2026 年 6 月 27 日的现金及等价物只有 50.86 亿美元，掏现金根本不够，所以只能用股票。\n\n标的侧：World Labs 2024 年 4 月成立，约 70 人，核心产品 Marble 可从文本、图像、视频、360 全景生成可漫游三维世界，2026 年 9 月发布 Atlas，主打新视角预测与多模态统一处理。公司未披露营收，这笔钱在账上只能记成无形资产与商誉，每年做减值测试。\n\n战略逻辑：芯片从设计到量产要 3 到 5 年，等需求摆在面前再适配就永远慢半拍。把模型团队放进芯片公司，训练时撞到的瓶颈会直接变成下一代的架构要求。对照面是英伟达——它已经有从训练算力到仿真环境再到机器人大脑的完整栈。",
+        "ai_comment": "这不构成对三维重建技术路线的直接判断，但它是一个强信号：空间智能的估值已经脱离收入，绑到了算力叙事上。风险在于整合——70 人的研究团队进大公司后还能不能保持迭代速度，是这类收购最常见的失败点。另外「82 亿」会随股价变动，别当成确定数字引用。",
+        "key_facts": [
+          {
+            "metric": "交易",
+            "value": "约 82 亿美元全股票收购 World Labs",
+            "baseline": "AMD 史上第二大收购（仅次于 500 亿美元收购赛灵思）",
+            "condition": "2026-09-28 签约，预计 2026 年底交割"
+          },
+          {
+            "metric": "标的规模",
+            "value": "成立 2024-04，约 70 人，未披露营收",
+            "baseline": null,
+            "condition": null
+          },
+          {
+            "metric": "人事",
+            "value": "李飞飞任 AMD 执行副总裁兼首席科学家，直接向苏姿丰汇报",
+            "baseline": null,
+            "condition": "交割后生效"
+          }
+        ],
+        "position_relation": "与英伟达 Cosmos/Omniverse 路线对位：芯片厂向上收购模型实验室，抢占物理 AI 的定义权。",
+        "signal_strength": "强",
+        "tags": [
+          "空间智能",
+          "世界模型",
+          "数字孪生",
+          "生成式3D"
+        ],
+        "terms": [
+          {
+            "term": "世界模型",
+            "definition_mechanism": "学习环境如何随动作演化的生成式模型，可预测未来观测并支持规划",
+            "definition_contrast": "与只生成单帧或单段视频的生成模型不同，世界模型强调空间一致性、动作可控性与长期预测"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.toutiao.com/article/7693421198398456361/",
+            "type": "media"
+          },
+          {
+            "url": "https://www.sdyanbao.com/detail/996301",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-07",
+        "notes": "交易宣布于 2026-09-28，本条为 10-07 的对价机制拆解报道。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-08",
+    "window_start": "2026-10-07T08:00:00+08:00",
+    "window_end": "2026-10-08T08:00:00+08:00",
+    "generated_at": "2026-10-08T21:45:00+08:00",
+    "summary": {
+      "window_takeaway": "三维世界模型开始把「动作」放进表示里，重建与机器人控制的边界被打通。",
+      "direction": "跨维智能 UNITAS 把观察、动作、场景变化统一到三维物理空间；OuroWorld 让静态 3DGS 场景循环动起来；资本侧景立构科技拿到空间智能基础设施的天使轮。",
+      "academic_vs_industry": "同向：论文在补「几何即训练信号」的证据，创业公司在补「空间数据基础设施」的位。",
+      "remember_one_thing": "UNITAS 在 LIBERO 上 99.8%、真机 85%，说明三维表示正在成为具身策略的通用底座。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-08-A-001",
+        "category": "Research",
+        "title": "UNITAS：把观察、动作、场景变化压进同一个三维物理空间",
+        "one_line_judgment": "跨维智能等机构提出 1.7B 参数的三维世界动作模型，在统一三维空间中表示观察与动作，LIBERO 平均成功率 99.8%、真机任务平均 85%。",
+        "ai_summary": "简单说，这个模型不是「看图说话」，而是先在脑子里建一个三维世界，再在这个世界里推演「我动了之后会变成什么样」。所以它换个机器人、换个场景，动作逻辑还能用。",
+        "detailed_info": "具身策略的主流做法是在二维视觉表征上叠动作头，问题是视角一变、遮挡一来，策略就崩。UNITAS 的选择是把观察、动作与场景变化统一表示在三维物理空间里：模型的中间状态不是图像特征，而是带几何结构的三维场景，动作是这个空间里的变换。\n\n参数规模 1.7B，训练数据融合仿真、真机与人类操作三类来源。评测上 LIBERO 基准平均成功率 99.8%，已接近饱和；更有说服力的是真机：整理书籍与装球两项任务各做 20 次试验，成功率 90% 与 80%，平均 85%。\n\n相关工作随后公开了代码，这一点比数字更关键——三维世界模型领域长期缺少可复现的基线，能跑起来才有对比意义。",
+        "ai_comment": "LIBERO 99.8% 这种数字要打折看，基准本身已经被刷到接近上限，参考价值在「不比别人差」而不是「真的这么强」。真机 85%、各 20 次试验的样本量也偏小。真正值得关注的是表示层选择：如果三维空间真是比二维特征更好的策略底座，接下来应该看到它在跨本体迁移上明显占优。",
+        "key_facts": [
+          {
+            "metric": "模型规模",
+            "value": "1.7B 参数，统一三维物理空间表示",
+            "baseline": "二维视觉特征 + 动作头",
+            "condition": "跨维智能等机构"
+          },
+          {
+            "metric": "基准成绩",
+            "value": "LIBERO 平均成功率 99.8%",
+            "baseline": null,
+            "condition": "仿真基准"
+          },
+          {
+            "metric": "真机成绩",
+            "value": "整理书籍 90%、装球 80%，平均 85%",
+            "baseline": null,
+            "condition": "每项 20 次试验"
+          }
+        ],
+        "position_relation": "与 3DGS/NeRF 的重建路线互补：重建负责「世界长什么样」，UNITAS 负责「世界怎么随动作变」。",
+        "signal_strength": "强",
+        "tags": [
+          "空间智能",
+          "世界模型",
+          "具身智能",
+          "三维重建"
+        ],
+        "terms": [
+          {
+            "term": "世界动作模型",
+            "definition_mechanism": "在三维空间里同时建模场景状态与动作后果，可直接用于策略学习与规划",
+            "definition_contrast": "区别于纯视频预测模型：它要求几何一致，动作是空间变换而非像素变化"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2610.10892",
+            "type": "paper"
+          }
+        ],
+        "date": "2026-10-08",
+        "notes": "论文提交 2026-10-08，10-12 公开发布并开源代码。"
+      },
+      {
+        "item_id": "2026-10-08-A-002",
+        "category": "Research",
+        "title": "OuroWorld：让任意静态 3DGS 场景循环动起来",
+        "one_line_judgment": "用视觉语言模型推断动力学、视频模型生成循环参考视频，再拟合「构造上必然循环」的周期 4DGS，把静态高斯场景变成可移动机位的 3D 电影感循环。",
+        "ai_summary": "一句话：给一张「凝固的三维照片」加上会循环播放的动态——树叶在风里摆、水面在流，而且你绕着走也看得对。它靠的不是手工做动画，而是让 AI 猜「这里应该怎么动」。",
+        "detailed_info": "静态 3DGS 场景能走进去看，但里面什么都不动。OuroWorld 的做法分三步：先用视觉语言模型推断场景里合理的动力学，引导视频模型生成一段循环的参考视频；再把单视角视频「抬升」成多视角视频作为监督；最后拟合 Inconsistency-Robust Periodic 4DGS。\n\n两个技术件值得记住：一是用傅里叶级数变形场，让循环成为构造性质——正弦余弦天然周期，末帧自然落回首帧，不需要额外的循环损失；二是 Grounded Drift Field，把生成的多视角视频之间不一致的部分吸收到一个以参考视角为锚的漂移场里，渲染时直接丢弃。\n\n在 39 个重建与生成场景上，用户研究中以 70.8% 到 99.0% 的比例优于基线。代码已开源。",
+        "ai_comment": "「把不一致单独放一个场、渲染时丢掉」这个思路比结果本身更有价值——任何用生成数据做多视角监督的工作都能借用。要提醒的是：动起来的内容是视频模型编的，不是观测到的；拿给客户看时应该明确标注，否则就是「伪造现场动态」。",
+        "key_facts": [
+          {
+            "metric": "方法",
+            "value": "VLM 推断动力学 + 视频模型生成循环参考 + 周期 4DGS 拟合",
+            "baseline": "欧拉方法（仅支持流体类运动）",
+            "condition": "39 个重建/生成场景"
+          },
+          {
+            "metric": "主观评测",
+            "value": "用户研究对比胜率 70.8%–99.0%",
+            "baseline": "3D 世界模型与重建基线",
+            "condition": "Hugging Face 41 赞"
+          },
+          {
+            "metric": "可复现性",
+            "value": "论文 arXiv 2610.12461，代码已开源",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "补 3DGS 的「静态」短板，与动态重建（4DGS）路线在目标上重合、在数据来源上不同（生成 vs 观测）。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "4D重建",
+          "生成式3D"
+        ],
+        "terms": [
+          {
+            "term": "3D cinemagraph",
+            "definition_mechanism": "在三维场景中植入局部、无缝循环的动态，观看者可自由移动机位",
+            "definition_contrast": "与传统 cinemagraph（二维局部动图）不同，它要求在任意视角下动态都成立"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2610.12461",
+            "type": "paper"
+          }
+        ],
+        "date": "2026-10-08",
+        "notes": "论文发布 2026-10-08，10-12 情报报告收录。"
+      },
+      {
+        "item_id": "2026-10-08-A-003",
+        "category": "Application",
+        "title": "景立构科技获国海创新资本天使轮：做「Real-Sim-Real」空间数据飞轮",
+        "one_line_judgment": "2024 年 11 月成立的空间智能基础设施公司拿到天使轮，主打新一代空间硬件 + 三维重建算法，为具身智能提供可地理扩展的空间感知与导航能力。",
+        "ai_summary": "一句话：这家公司想给机器人造「随地点扩展的空间记忆」——在真实世界采一遍，进仿真里训练，再回到真实世界用。",
+        "detailed_info": "公司全称景立构科技（上海）有限公司，2024 年 11 月 15 日成立，定位空间智能基础设施。融资由国海创新资本领投，资金用于空间智能/具身智能方向的研发与市场拓展。\n\n其提法是 Real-Sim-Real 空间数据飞轮：用自研空间硬件采集真实场景，经三维重建与空间计算转成可仿真的表示，用于机器人训练，再把训练结果回到真实环境验证，形成闭环。目标客户是所有需要「随地理可扩展」空间感知与导航能力的机器人厂商。\n\n时间线值得注意：据 DoNews 报道，该公司自 2026 年 6 月起 4 个月内连续完成种子轮、种子+轮与 Pre-天使轮，累计融资数千万元，投资方包括小苗朗程、国海创新资本、一家头部具身机器人企业及多家产业投资机构。",
+        "ai_comment": "这是典型的「数据基础设施」叙事：不造本体、不做通用模型，卖的是场景数据与空间表示。逻辑成立，但壁垒要靠两件事撑住——采集硬件的成本曲线，以及数据格式能不能被下游仿真/训练栈接受。四个月三轮融资说明资本在抢位，也说明单轮金额不大，仍在验证期。",
+        "key_facts": [
+          {
+            "metric": "融资",
+            "value": "天使轮，国海创新资本领投",
+            "baseline": null,
+            "condition": "2026-10-08 公告"
+          },
+          {
+            "metric": "公司",
+            "value": "成立于 2024-11-15，空间智能基础设施",
+            "baseline": null,
+            "condition": null
+          },
+          {
+            "metric": "融资节奏",
+            "value": "4 个月内连续完成种子、种子+、Pre-天使，累计数千万元",
+            "baseline": null,
+            "condition": "DoNews 报道"
+          }
+        ],
+        "position_relation": "与其域创新（采集+格式）、Vangrid（众包空间数据）同处空间数据基础设施层。",
+        "signal_strength": "中",
+        "tags": [
+          "空间智能",
+          "三维重建",
+          "具身智能",
+          "数字孪生"
+        ],
+        "terms": [
+          {
+            "term": "Real-Sim-Real",
+            "definition_mechanism": "真实采集→仿真训练→真实部署的闭环数据流程，用仿真放大真实数据的覆盖面",
+            "definition_contrast": "与纯仿真（Sim-only）相比保留了真实感与物理真实性，与纯真机采集相比成本更低"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://m.sohu.com/a/1085323167_115035",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-08",
+        "notes": "融资公告 2026-10-08。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-09",
+    "window_start": "2026-10-08T08:00:00+08:00",
+    "window_end": "2026-10-09T08:00:00+08:00",
+    "generated_at": "2026-10-09T21:15:00+08:00",
+    "summary": {
+      "window_takeaway": "开源 3DGS 训练器补上「可自动化」的两块拼图：16 位 HDR 与无头渲染。",
+      "direction": "LichtFeld Studio 0.5.4 加入 16 位真值影像支持与命令行相机路径渲染，并接上 MCP 桥，让重建流程可以被脚本与智能体驱动。",
+      "academic_vs_industry": "工具侧：不是新算法，而是把研究代码变成可流水线化的工程件。",
+      "remember_one_thing": "无头相机路径渲染意味着同一条巡检航线可以在每次新采集上重跑，这是「可重复交付」的前提。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-09-A-001",
+        "category": "OpenSource",
+        "title": "LichtFeld Studio 0.5.4：16 位 HDR 训练与无头相机路径渲染",
+        "one_line_judgment": "开源 3DGS 训练/查看器加入 16 位真值影像与无损缓存、命令行相机路径渲染、COLMAP 轨迹长度过滤与 MCP 桥，把重建从手工操作推向可脚本化流水线。",
+        "ai_summary": "简单说，这个开源工具现在能「一条命令渲完整条飞行路线」，还能吃 16 位 HDR 照片——隧道口、有单扇窗的设备间这种大光比场景，高光不会再一片死白。",
+        "detailed_info": "0.5.4 的更新条目很工程化，但有两三条改变了可自动化程度：一是支持 16 位真值影像与无损 16 位缓存，HDR 训练不再是「转成 8 位再练」；二是新增无头相机路径渲染（--render-camera-path），把漫游视频变成脚本里的一行命令；三是 COLMAP 文本导入加速与最小轨迹长度过滤。\n\n最小轨迹长度过滤是个「安静的提质项」：训练前丢掉只在极少数影像里出现的点，成本几乎为零，但能明显减少漂浮物。另外还加了 MCP 桥，可以按需启动/关闭 Studio，官方文档给了连接 Claude 到 MCP 服务器的说明。\n\n发布说明里承诺「更快训练、更低显存」，但没有给出具体数字。",
+        "ai_comment": "真正有价值的是「同一条相机路径可以在每次新采集上重跑」——这才叫可重复交付，而不是每次手工拖视角。HDR 支持对大光比工业场景是刚需。至于提速和降显存，发布说明没给数，别当成结论引用；MCP 桥目前更像实验性接口，生产环境要谨慎。",
+        "key_facts": [
+          {
+            "metric": "版本",
+            "value": "v0.5.4，2026-10-09 13:02 UTC 发布",
+            "baseline": "v0.5.x",
+            "condition": "开源仓库 MrNeRF/LichtFeld-Studio"
+          },
+          {
+            "metric": "新增能力",
+            "value": "16 位 HDR 训练、无头相机路径渲染、MCP 桥",
+            "baseline": "8 位影像 + 手工查看",
+            "condition": null
+          },
+          {
+            "metric": "性能声明",
+            "value": "更快训练、更低显存（无具体数字）",
+            "baseline": null,
+            "condition": "发布说明未量化"
+          }
+        ],
+        "position_relation": "与 SuperSplat（编辑/发布）、Rerun（可视化）构成 3DGS 开源工具链的三段。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "开源工具",
+          "工程化"
+        ],
+        "terms": [
+          {
+            "term": "无头渲染",
+            "definition_mechanism": "不打开图形界面，直接在命令行/服务器上完成渲染并输出文件",
+            "definition_contrast": "与交互式查看器相对，是批量流水线与 CI 环境的前提"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://github.com/MrNeRF/LichtFeld-Studio/releases",
+            "type": "official"
+          }
+        ],
+        "date": "2026-10-09",
+        "notes": "发布 2026-10-09。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-10",
+    "window_start": "2026-10-09T08:00:00+08:00",
+    "window_end": "2026-10-10T08:00:00+08:00",
+    "generated_at": "2026-10-10T21:30:00+08:00",
+    "summary": {
+      "window_takeaway": "3DGS 在广电落地成完整工作流，同时地方政府开始把「数采场景」当公共资源挂牌。",
+      "direction": "广东台打通扫描—生成—虚拟系统合成的全链路；常德武陵区一次性发布 1658 个具身智能数采场景，需求侧开始清单化。",
+      "academic_vs_industry": "产业侧双线：内容生产端（广电）与数据供给端（地方政府）同时起量。",
+      "remember_one_thing": "数采场景清单化，意味着「去哪采、采什么」开始由需求方而不是采集方决定。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-10-A-001",
+        "category": "Application",
+        "title": "广东广播电视台打通 3DGS 虚拟制作全链路",
+        "one_line_judgment": "广东台完成从前期扫描、场景生成到虚拟系统合成拍摄的完整链路，演播室数字分身从数月建模压缩到数小时，并明确 4K 大屏仍需专业采集与集成能力。",
+        "ai_summary": "一句话：电视台用一台设备在演播室走一圈，几小时就有了一个可以任意运镜的「数字分身」。但要做成能上 4K 大屏的成片，靠的还是团队对采集路径、光线和海量数据的控制力，不是手机 App。",
+        "detailed_info": "10 月 10 日，广东台邀请高级记者、范长江新闻奖获得者邬志豪围绕 3DGS 与广电虚拟制作交流，台长李宜航接待。此前广东台已打通「前期扫描—场景生成—虚拟系统合成拍摄」的完整工作链路。\n\n实操层面：在《午间新闻》演播室，持设备绕场一周，数小时后得到演播室的数字分身；镜头可任意角度推进，抬头能看到灯阵在吊顶的光斑，低头能看到主播台后的走线槽。相比传统建模动辄数月，这是数量级的效率变化。\n\n但报道也给了一个清醒的判断：手机 App 已能完成类似采集，可一旦场景要上 4K 大屏，采集路径规划、光线控制、海量数据处理、与虚拟系统的集成仍然需要一支既懂摄影测量又懂电视制作的复合团队。",
+        "ai_comment": "这是 3DGS 在广电的第一个「完整链路」样本，价值不在炫技而在流程：扫描、生成、合成、播出四个环节都跑通了。要注意的是这类项目的隐性成本在后期集成——3DGS 场景进虚拟演播室要解决色彩管理、时码同步与跟踪协议，这些没有标准化方案，每家台都得自己趟一遍。",
+        "key_facts": [
+          {
+            "metric": "效率",
+            "value": "演播室数字分身数小时完成",
+            "baseline": "传统建模数月",
+            "condition": "《午间新闻》演播室实测"
+          },
+          {
+            "metric": "链路",
+            "value": "扫描—场景生成—虚拟系统合成拍摄全流程打通",
+            "baseline": null,
+            "condition": "广东台 2026-10-10 交流"
+          },
+          {
+            "metric": "边界",
+            "value": "4K 大屏输出仍需专业采集与集成团队",
+            "baseline": "手机 App 采集",
+            "condition": null
+          }
+        ],
+        "position_relation": "把 3DGS 从「能扫」推进到「能播」，与 Octave Alto 的国防可视化属同类制度化落地。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "虚拟制作",
+          "三维重建"
+        ],
+        "terms": [
+          {
+            "term": "虚拟制作",
+            "definition_mechanism": "用实时渲染的三维背景替代实景，摄影机运动与虚拟场景同步，直接拍成成片",
+            "definition_contrast": "与后期合成不同，虚拟制作要求场景实时可渲染、机位跟踪低延迟"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://v.gdtv.cn/article/8ece97d1e8ece6f694929e9e55c817b1",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-10",
+        "notes": "活动 2026-10-10，报道 2026-10-13。"
+      },
+      {
+        "item_id": "2026-10-10-A-002",
+        "category": "Application",
+        "title": "常德武陵区发布 1658 个具身智能数采场景清单",
+        "one_line_judgment": "第三批 384 个、第四批 1274 个场景合计 1658 个，从仓储物流铺到咖啡店、快递站、汽修店，把「去哪采数据」变成可挂牌的公共资源。",
+        "ai_summary": "一句话：政府把「机器人可以来练手的真实场景」列成了清单，一共 1658 个，连咖啡店、修车铺都算。对做三维数据采集的公司来说，这是一张可以直接对接的订单地图。",
+        "detailed_info": "常德市武陵区发布的第三批与第四批具身智能数采场景资源清单，分别覆盖 384 个与 1274 个场景。第三批集中在商业零售、仓储物流、工业制造、医疗康养、服务业、农业作业、餐饮文旅、建筑业；第四批进一步细分到酒店、咖啡店、快递站、汽修店、书店、日杂店、加油站、房产中介、康复训练等。\n\n这份清单的意义在于把数据采集从「企业自己找场地」变成「政府组织供给」。对三维重建与空间数据公司而言，场景清单等于需求地图：哪些场景缺数据、由谁付费、验收标准如何，都能提前对齐。\n\n配套背景是具身智能的数据缺口：行业估计成熟具身模型需要千万小时级数据，而当前高质量训练数据仅数十万至百万小时量级。",
+        "ai_comment": "场景清单是必要但不充分条件——挂牌 1658 个场景不等于能产出 1658 份可用数据，真正的瓶颈在采集设备、时间同步、标注体系与质量验收。判断这类项目成败，看的是最终交付了多少小时「可训练」数据，而不是清单上有多少条目。",
+        "key_facts": [
+          {
+            "metric": "场景规模",
+            "value": "第三批 384 个 + 第四批 1274 个 = 1658 个",
+            "baseline": null,
+            "condition": "2026-10-10 发布"
+          },
+          {
+            "metric": "覆盖行业",
+            "value": "零售、仓储、制造、医疗康养、农业、餐饮文旅、建筑等",
+            "baseline": null,
+            "condition": "第四批延伸至酒店/咖啡店/快递站/汽修店"
+          }
+        ],
+        "position_relation": "需求侧的清单化，与禾赛 Kosmo、其域 LCC 等供给侧的采集工具形成上下游。",
+        "signal_strength": "中",
+        "tags": [
+          "具身智能",
+          "数据采集",
+          "空间智能",
+          "数字孪生"
+        ],
+        "terms": [
+          {
+            "term": "数采场景清单",
+            "definition_mechanism": "地方政府把可用于机器人数据采集的真实场所整理成可对接的资源目录，供企业申请使用",
+            "definition_contrast": "与单纯的产业园招商不同，它卖的是「真实作业环境的使用权」而非土地与补贴"
+          }
+        ],
+        "sources": [
+          {
+            "url": "http://mp.weixin.qq.com/s?__biz=MzY5MDQyOTg4NQ==&mid=2247483960",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-10",
+        "notes": "清单发布 2026-10-10。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-11",
+    "window_start": "2026-10-10T08:00:00+08:00",
+    "window_end": "2026-10-11T08:00:00+08:00",
+    "generated_at": "2026-10-11T22:05:00+08:00",
+    "summary": {
+      "window_takeaway": "世界模型第一次以「综艺晚会演示」的方式面向大众，但官方零公告、参数全无。",
+      "direction": "字节跳动未公开的世界模型在北京卫视晚会上由创作者演示：文字生成三维房间、键鼠漫游、实时增删物体，官方模型清单中查无此条。",
+      "academic_vs_industry": "产业侧单点：演示形态本身是信号——它瞄的是大众想象力，不是学术审视。",
+      "remember_one_thing": "能演示「开门连通两个空间」说明场景在几何上是连通的，不只是视频拼接。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-11-A-001",
+        "category": "Application",
+        "title": "字节世界模型晚会首秀：一句话生成可漫游三维房间",
+        "one_line_judgment": "字节跳动一款尚未命名、未官宣的世界模型在电视晚会上首次公开演示，支持文字生成三维场景、键鼠自由探索、实时增删物体与开门连通两个空间。",
+        "ai_summary": "简单说，这是在一台电视晚会上「顺手」演示的世界模型：说一句话生成一个三维房间，用键盘鼠标走进去，中途还能让一支汤匙掉到主角面前给他爬。问题是——官方一个字都没发。",
+        "detailed_info": "演示发生在 10 月 11 日晚北京卫视与抖音双平台直播的《2026 美好奇妙夜》，由创作者潘天鸿（Tim）在 7 分钟演讲《让想像此刻登场》中完成。观众看到：输入文字生成三维房间；用键鼠在场景中移动；中途下指令让汤匙落到主角面前供其攀爬；开门连通两个空间。\n\n可信度的边界很清楚：北京卫视官方微博称其为世界模型，但截至 10 月 13 日，字节 Seed 官网模型清单中没有这款产品的任何条目，名称、开放时程、价格全部未公布。此前彭博 9 月报道称字节计划 10 月推出世界模型。\n\n「开门连通两个空间」是唯一有技术含量的可核对细节：它意味着场景不是几段视频的拼接，而是在几何上连续、可被动作改变的表示。",
+        "ai_comment": "判断这类演示要用「可核对细节」而不是观感：能键鼠漫游说明有实时渲染；能中途增删物体说明场景表示可编辑；能开门连通说明空间是连续的。但这三条都不等于「可训练」——没有相机位姿一致性、没有物理正确性、没有持久性指标的演示，离产品还有距离。官方沉默本身就是信息：现在还不是发布。",
+        "key_facts": [
+          {
+            "metric": "演示时间",
+            "value": "2026-10-11 晚，北京卫视 + 抖音直播",
+            "baseline": null,
+            "condition": "《2026 美好奇妙夜》，7 分 01 秒"
+          },
+          {
+            "metric": "能力",
+            "value": "文字生成三维房间、键鼠漫游、实时增删物体、开门连通两空间",
+            "baseline": null,
+            "condition": "创作者现场演示"
+          },
+          {
+            "metric": "官方状态",
+            "value": "字节 Seed 官网无条目，名称/时程/价格未公布",
+            "baseline": null,
+            "condition": "截至 2026-10-13"
+          }
+        ],
+        "position_relation": "与 World Labs Marble/Atlas、Google Genie 同属生成式世界模型，但停留在演示阶段。",
+        "signal_strength": "弱",
+        "tags": [
+          "世界模型",
+          "空间智能",
+          "生成式3D",
+          "实时重建"
+        ],
+        "terms": [
+          {
+            "term": "可漫游生成",
+            "definition_mechanism": "生成的场景支持连续移动视点，而不是只能播放固定镜头",
+            "definition_contrast": "与视频生成模型的核心差别：要求几何一致与持久性，而不只是画面连贯"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://techmoon.xyz/bytedance-world-model-tim-demo",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-11",
+        "notes": "仅电视演示，无官方技术信息，归为弱信号。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-12",
+    "window_start": "2026-10-11T08:00:00+08:00",
+    "window_end": "2026-10-12T08:00:00+08:00",
+    "generated_at": "2026-10-12T22:20:00+08:00",
+    "summary": {
+      "window_takeaway": "工博会成为具身智能的「工位验收场」，同期三维世界模型与第一视角 4D 重建同日发布。",
+      "direction": "机器人展区 450+ 新品、182 款全球首发，演示重心从跳舞翻跟头转向拆码垛、拧螺丝；跨维智能 UNITAS 与觅蜂科技 MEgoVista 分别补齐「动作」与「人手」两条 4D 数据线。",
+      "academic_vs_industry": "同向：展会证明场景在收敛，论文证明表示在收敛，两者的交汇点是「真实作业的时空数据」。",
+      "remember_one_thing": "450 余款新品里，真正被反复演示的是「能不能在工位上连续干 8 小时」，不是动作难度。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-12-A-001",
+        "category": "Application",
+        "title": "第 26 届中国工博会：450+ 新品，具身智能从表演转向工位",
+        "one_line_judgment": "机器人展区 5.6 万㎡、350 余家企业、450 余款新品（全球首发 182 款），演示重心从跳舞翻跟头转为拆码垛、拧螺丝、插接线等工业实操。",
+        "ai_summary": "一句话：今年的机器人展不表演了，改「上班」——拆垛、拧螺丝、插线，都是工厂里真有的活。首发新品 182 款，国产整机厂和四大家族同台。",
+        "detailed_info": "第二十六届中国国际工业博览会 10 月 12 日在国家会展中心（上海）开幕，机器人展区 5.6 万㎡，350 余家企业参展，450 余款新品首发，其中全球首发 182 款，主题为「具身智能·智领未来」。\n\n最值得记的不是数量而是演示内容的变化：拆码垛、拧螺丝、插接线这类工序成为主秀，人形机器人从表演走向工业应用；发那科、ABB、库卡、安川四大家族与宇树、智元、优必选、傅利叶等国产整机厂同台，国产化成为另一条主线。\n\n同期亮相的还有地瓜机器人 RoboGo 软件平台（覆盖数据采集、模型训练、仿真验证、量化部署）、汇川 InoBot W1 液冷轮式机器人、中科硅纪 7 款灵巧手等，指向的都是「能不能连续干活」。",
+        "ai_comment": "从「会跳舞」到「会拧螺丝」，看似退步其实是进步：工业客户的验收标准是可重复的成功率与节拍，不是视觉冲击。但要清醒——展台上的工位是布置过的，真实产线的光照、来料偏差、节拍压力才是分水岭。接下来该盯的是「连续运行 8 小时的良率」，而不是首发数量。",
+        "key_facts": [
+          {
+            "metric": "规模",
+            "value": "机器人展区 5.6 万㎡、350+ 企业、450+ 新品",
+            "baseline": null,
+            "condition": "全球首发 182 款"
+          },
+          {
+            "metric": "演示转向",
+            "value": "拆码垛、拧螺丝、插接线等工业实操",
+            "baseline": "跳舞、翻跟头等表演动作",
+            "condition": "2026-10-12 开幕"
+          },
+          {
+            "metric": "生态",
+            "value": "地瓜 RoboGo、汇川 InoBot W1、中科硅纪 7 款灵巧手同期发布",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "为三维重建与空间数据提供明确的下游出口：工业工位的可重复作业验证。",
+        "signal_strength": "中",
+        "tags": [
+          "具身智能",
+          "数字孪生",
+          "工业检测",
+          "空间智能"
+        ],
+        "terms": [
+          {
+            "term": "具身智能",
+            "definition_mechanism": "让智能体通过身体与物理世界交互来学习与完成任务，强调感知—决策—动作闭环",
+            "definition_contrast": "与大语言模型只处理符号不同，它必须处理几何、力学与实时性约束"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.cameta.org.cn/index.php?a=show&catid=238&id=3839",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-12",
+        "notes": "展会 2026-10-12 至 10-16。"
+      },
+      {
+        "item_id": "2026-10-12-A-002",
+        "category": "Research",
+        "title": "MEgoVista：第一视角视频直接还原真实尺度的双手 4D 动作",
+        "one_line_judgment": "无需预先布置场景，把第一视角视频转成带真实尺度的双手动作与头部轨迹 4D 数据，为机器人学习提供低成本的人类操作样本。",
+        "ai_summary": "简单说：戴个头戴相机干一遍活，就能把你的双手动作还原成三维动画，连尺度都是真的。这对训练机器人「看人怎么干」特别有用——不用专门搭动捕棚。",
+        "detailed_info": "第一视角（ego-centric）视频是采集人类操作数据最便宜的方式，但难点在于尺度：单目鱼眼画面里的手有多大、离镜头多远，天然不可知。MEgoVista 的框架把这个问题拆成几个可优化的约束——度量腕深约束、解剖合理性（关节角度范围）、时间连续性（角速度限制）与二维重投影一致性，联合求解双手网格序列与头部轨迹。\n\n流程上做了三件事：多相机鱼眼输入（中央 + 左右）与手部检测跟踪；静态/动态筛选与共享虚拟平面构建；最后在重力对齐的坐标系里输出度量 4D 手部运动。\n\n据披露，该工作由觅蜂科技联合西北工业大学、西安交通大学于 10 月 12 日发表，实验显示在无需预布置场景的录制数据上具备较高重建精度。",
+        "ai_comment": "「不需要动捕棚」是这类工作的全部价值所在——数据规模能不能起来，取决于采集成本能不能降到「戴个相机就行」。但要留意两个隐性成本：标注与质检（第一视角视频的失败率很高），以及跨设备标定（不同头戴设备的鱼眼参数差异会直接污染尺度）。",
+        "key_facts": [
+          {
+            "metric": "输入/输出",
+            "value": "第一视角多鱼眼视频 → 真实尺度双手网格序列 + 头部轨迹",
+            "baseline": "需动捕棚或标记点",
+            "condition": "无需预先布置场景"
+          },
+          {
+            "metric": "关键约束",
+            "value": "度量腕深、解剖合理性、时间连续性、二维重投影一致",
+            "baseline": null,
+            "condition": "联合优化"
+          },
+          {
+            "metric": "发布",
+            "value": "2026-10-12，觅蜂科技 + 西北工业大学 + 西安交通大学",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "与 UNITAS 互补：UNITAS 建模「动作如何改变场景」，MEgoVista 解决「人的动作怎么低成本采到」。",
+        "signal_strength": "中",
+        "tags": [
+          "4D重建",
+          "具身智能",
+          "数据采集",
+          "三维重建"
+        ],
+        "terms": [
+          {
+            "term": "第一视角视频",
+            "definition_mechanism": "相机戴在头部、随人移动拍摄的画面，天然记录「操作者看到什么、手在做什么」",
+            "definition_contrast": "与第三人称拍摄相比更贴近机器人视角，但尺度与遮挡问题更难解"
+          }
+        ],
+        "sources": [
+          {
+            "url": "http://mp.weixin.qq.com/s?__biz=MzY5MDQyOTg4NQ==&mid=2247483960",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-12",
+        "notes": "论文与报道同日。"
+      },
+      {
+        "item_id": "2026-10-12-A-003",
+        "category": "Hardware",
+        "title": "地瓜机器人 RoboGo：把「采集—训练—仿真—部署」打包成一套开发平台",
+        "one_line_judgment": "首次参展工博会，以旭日系列芯片、RDK 开发套件与 RoboGo 软件平台覆盖数据采集到量化部署全链路，旭日 S600 已服务 20 余家整机企业。",
+        "ai_summary": "一句话：它卖的不是机器人，是「造机器人要用的一整套工具」——从采数据、训模型、跑仿真到塞进端侧芯片，全给你串好了。",
+        "detailed_info": "RoboGo 的定位是软件平台，覆盖数据采集、模型训练、仿真验证与量化部署四个环节，支持云端训练结果部署到端侧。硬件底座是旭日系列智能计算芯片与 RDK 机器人开发者套件。\n\n据企业介绍，展出的旭日 S600 已服务小雨智造、优必选、它石智航等 20 余家国内具身机器人企业。这一数字比参数更能说明定位：它做的是「卖水」的生意，客户是整机厂而不是终端用户。\n\n对三维重建领域的关联在于「数据采集」这一环——具身训练需要的不是图像集，而是带位姿、深度、时序对齐的多模态序列，这类采集管线目前各家自建、标准不一。",
+        "ai_comment": "平台型玩家最容易犯的错是「什么都做、什么都不深」。RoboGo 的机会在于端侧芯片 + 工具链的垂直整合，这在国产替代语境下有真实需求；风险是与英伟达 Isaac/Jetson 生态正面竞争，而后者在仿真与模型库上的积累厚得多。20 余家客户是起点，不是护城河。",
+        "key_facts": [
+          {
+            "metric": "平台范围",
+            "value": "数据采集、模型训练、仿真验证、量化部署",
+            "baseline": "各家自建零散工具",
+            "condition": "2026-10-12 工博会首展"
+          },
+          {
+            "metric": "客户",
+            "value": "旭日 S600 已服务 20 余家整机企业（小雨智造、优必选、它石智航等）",
+            "baseline": null,
+            "condition": "企业口径"
+          }
+        ],
+        "position_relation": "处于「具身智能算力+工具链」层，与三维数据采集设备商是上下游。",
+        "signal_strength": "中",
+        "tags": [
+          "具身智能",
+          "端侧部署",
+          "数据采集"
+        ],
+        "terms": [
+          {
+            "term": "量化部署",
+            "definition_mechanism": "把训练好的模型权重与计算压到低精度（如 INT8/FP4），以便在功耗受限的端侧芯片上实时运行",
+            "definition_contrast": "与云端 FP16/BF16 推理相比速度与能效更高，但会损失少量精度"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.cameta.org.cn/index.php?a=show&catid=238&id=3839",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-12",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-13",
+    "window_start": "2026-10-12T08:00:00+08:00",
+    "window_end": "2026-10-13T08:00:00+08:00",
+    "generated_at": "2026-10-13T21:40:00+08:00",
+    "summary": {
+      "window_takeaway": "第一篇把 3DGS 五大流派放进同一张成本表里的综述出现，行业开始有「选型语言」。",
+      "direction": "Pattern Recognition 录用的综述把 GS 重建分为单发生成、动态表示、效率压缩、流式沉浸、GS-SLAM 五类，并明确区分「渲染吞吐」与「场景构建/更新成本」。",
+      "academic_vs_industry": "学术侧：从「谁画得更好」转向「谁的综合成本更低」，这是技术进入工程选型阶段的标志。",
+      "remember_one_thing": "渲染快不等于重建便宜——综述把这两个成本拆开，是这篇最有用的地方。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-13-A-001",
+        "category": "Research",
+        "title": "3DGS 综述：把五大流派放进同一张「质量—延迟—显存—更新成本」表",
+        "one_line_judgment": "一篇被 Pattern Recognition 录用的综述把高斯溅射场景重建分为单发生成、动态表示、效率与压缩、流式沉浸、GS-SLAM 五类，并系统区分渲染吞吐与场景构建/维护成本。",
+        "ai_summary": "简单说，这是一张「3DGS 选型对照表」：你要的是快、是省显存、是能实时更新，还是能边跑边建图？五大流派各自擅长什么、代价是什么，它一次讲清。",
+        "detailed_info": "综述的贡献不在提出新方法，而在建立了可比较的口径。它把 GS 场景重建分成五个互相重叠的家族：单发（single-shot）生成、动态表示、效率与压缩、流式与沉浸式系统、高斯溅射 SLAM。\n\n关键的方法论拆解是：把「只渲染」的吞吐量与「任务相关的场景生成、更新、跟踪、建图、优化」成本分开统计。这两件事在论文里常被混为一谈——一个模型能 120 FPS 渲染，不代表它构建这个场景只花了几秒钟。\n\n评测上采用受控稀疏视角基准与原生评测结合的方式，用来识别跨家族在质量、延迟、内存、更新成本上的真实权衡。文章发表于 Pattern Recognition（DOI 10.1016/j.patcog.2026.115120），arXiv 编号 2610.17513。",
+        "ai_comment": "这类综述的真正读者不是研究者，是做技术选型的工程负责人——他终于有一张能拿去说服老板的表。但要提醒：综述的结论依赖它选的基准，而 3DGS 的评测协议至今不统一（训练时长、视角数、分辨率都不同），跨论文比数字仍有风险。",
+        "key_facts": [
+          {
+            "metric": "发表",
+            "value": "Pattern Recognition，DOI 10.1016/j.patcog.2026.115120；arXiv 2610.17513",
+            "baseline": null,
+            "condition": "2026-10-13"
+          },
+          {
+            "metric": "分类",
+            "value": "单发生成、动态表示、效率压缩、流式沉浸、GS-SLAM 五类",
+            "baseline": null,
+            "condition": null
+          },
+          {
+            "metric": "方法论",
+            "value": "区分渲染吞吐与场景构建/更新/跟踪成本",
+            "baseline": "多数论文只报渲染 FPS",
+            "condition": null
+          }
+        ],
+        "position_relation": "为 3DGS 的工程选型提供统一坐标系，补的是「可比性」而不是「新方法」。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "SLAM",
+          "三维重建"
+        ],
+        "terms": [
+          {
+            "term": "渲染吞吐",
+            "definition_mechanism": "单位时间内能画出多少帧，衡量的是「已有场景的显示速度」",
+            "definition_contrast": "与场景构建成本不同：后者包括采集、训练、压缩、更新，往往是实际项目的主要开销"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2610.17513",
+            "type": "paper"
+          }
+        ],
+        "date": "2026-10-13",
+        "notes": "arXiv v1 2026-10-13。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-14",
+    "window_start": "2026-10-13T08:00:00+08:00",
+    "window_end": "2026-10-14T08:00:00+08:00",
+    "generated_at": "2026-10-14T22:30:00+08:00",
+    "summary": {
+      "window_takeaway": "激光雷达厂商正式把「真实世界数据」当成独立产品线来卖，硬件+云平台+引擎三件套成形。",
+      "direction": "禾赛在上海发布 Kosmo 三维世界数据引擎，同步推出 8K AI 空间相机 Kosmo One 与云平台 Kosmo World，一次重建同步输出 3DGS/mesh/depth。",
+      "academic_vs_industry": "产业侧：把学术界的三条表示路线（高斯、网格、深度）打包成一份「sim-ready」交付物，是产品定义上的创新。",
+      "remember_one_thing": "15 分钟扫 100㎡、对标人工建模 300 小时——效率差两个数量级，这才是它真正的卖点。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-14-A-001",
+        "category": "Hardware",
+        "title": "禾赛 Kosmo One：8K AI 空间相机，15 分钟扫完 100㎡",
+        "one_line_judgment": "集成高解析激光雷达、8K 影像、一英寸大底 CMOS 与高精度 IMU，微秒级同步采集几何/色彩/纹理/位姿，普通室内 100㎡ 约 15 分钟完成扫描，几何精度达毫米级。",
+        "ai_summary": "一句话：这是一台「扫一遍就把真实房间变成三维数据」的相机。100 平米的房间 15 分钟扫完，而传统人工建模同样面积要 300 小时——差了两个数量级。",
+        "detailed_info": "硬件堆得很满：超高空间解析力激光雷达 + 8K 影像系统 + 一英寸大底 CMOS + 高精度 IMU，四路数据做微秒级硬件同步，保证几何、色彩、纹理与位姿在同一时间基准上。配合 3DGS 重建与专门的 ISP 调教，官方口径是毫米级几何精度与 8K 画质。\n\n效率数字是核心：普通室内场景约 15 分钟完成 100 平方米扫描；传统专业团队人工建模同样面积约需 300 小时；模型生成速度为行业同类 5 倍。\n\n产品定位不是「又一款扫描仪」，而是物理 AI 的数据入口——禾赛把十年积累的光机电软能力，封装成面向具身智能训练的采集终端。",
+        "ai_comment": "参数漂亮，但要追问三件事：毫米级精度是单点还是全局（有没有闭环控制与标定报告）？8K 影像是每帧还是全景拼接？15 分钟是否包含后处理？这三个口径决定了它是「演示机」还是「生产工具」。另外 300 小时的人工建模对比有稻草人嫌疑——真实项目里人工建模也会用摄影测量辅助。",
+        "key_facts": [
+          {
+            "metric": "采集效率",
+            "value": "100㎡ 约 15 分钟；人工建模约 300 小时",
+            "baseline": "传统人工建模",
+            "condition": "普通室内场景"
+          },
+          {
+            "metric": "硬件",
+            "value": "激光雷达 + 8K 影像 + 一英寸 CMOS + 高精度 IMU，微秒级同步",
+            "baseline": null,
+            "condition": "2026-10-14 上海发布"
+          },
+          {
+            "metric": "精度/速度",
+            "value": "毫米级几何精度，生成速度为行业 5 倍",
+            "baseline": "行业同类",
+            "condition": "厂商口径"
+          }
+        ],
+        "position_relation": "与 SpAItial（手机路线）、其域创新（SLAM 手持）形成三条采集路线：专业硬件、消费手机、空地一体。",
+        "signal_strength": "强",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "点云",
+          "手持扫描仪",
+          "数字孪生",
+          "具身智能"
+        ],
+        "terms": [
+          {
+            "term": "空间相机",
+            "definition_mechanism": "同时采集几何（深度/点云）与影像，并输出带位姿的三维数据的相机",
+            "definition_contrast": "与普通相机只记录二维亮度不同，它直接产出可测量的三维场景表示"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.qimingvc.com/cn/news/%E5%90%AF%E6%98%8E%E5%91%A8%E6%8A%A5%EF%BD%9C%E5%90%AF%E6%98%8E%E5%88%9B%E6%8A%95%E6%8A%95%E8%B5%84%E4%BC%81%E4%B8%9A%E8%A6%81%E9%97%BB%E5%8D%81%E6%9D%A1-vol32-20261021",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-14",
+        "notes": "发布会 2026-10-14。"
+      },
+      {
+        "item_id": "2026-10-14-A-002",
+        "category": "Application",
+        "title": "Kosmo World：一次重建同时吐出 3DGS、mesh 与 depth",
+        "one_line_judgment": "云平台底层 Kosmo Spatial Core 一次重建同步输出三种形态的三维数据，分别对应机器人训练中「画面假」「交互假」「空间不精准」三个痛点，且三者空间对齐。",
+        "ai_summary": "简单说：同一份扫描，它同时给你「看起来真」的高斯、「能碰撞」的网格、「量得准」的深度图。机器人训练里这三种数据各有各的用处，以前要跑三套流程，现在一次搞定。",
+        "detailed_info": "Kosmo World 的底层是 KSC（Kosmo Spatial Core），AI 原生的三维重建与理解系统。它的产品定义是「一次重建、三种形态」：3DGS 解决渲染真实感（画面假），mesh 解决物理交互与碰撞（交互假），depth 解决几何量测（空间不精准）。三者源自同一场景、彼此空间对齐，这一点比单独做好任何一种都难。\n\n落地案例：Sharpa 机器人在 DQ 冰淇淋门店，用 Kosmo 约 15 分钟完成扫描并生成三维训练环境，机器人失败案例降到原来的十分之一，任务成功率提升至 99%。发布会现场与银河通用机器人、原力灵机签订战略合作，并展示了与皮克斯 RenderMan、高德的合作案例。\n\n皮克斯侧的细节值得一提：RenderMan 创意负责人 Dylan Sisson 用不到 20 分钟扫描皮克斯总部广场，数据以 USD 格式直接导入 Houdini 再经 RenderMan 渲染，连纸板电视框上的胶水痕迹都还原了。",
+        "ai_comment": "「三种形态、空间对齐」是这份产品最实在的差异化——多数管线是把 3DGS 转 mesh 再转深度，误差逐级累积。风险在闭环：99% 成功率是单个门店、单个任务的案例，换业态（比如货架密集的便利店）能否复现是未知数。USD 直通 Houdini 这一点对影视侧是真需求，说明产品团队懂下游工作流。",
+        "key_facts": [
+          {
+            "metric": "输出",
+            "value": "一次重建同步输出 3DGS / mesh / depth，三者空间对齐",
+            "baseline": "需分别跑三套流程再配准",
+            "condition": "Kosmo Spatial Core"
+          },
+          {
+            "metric": "案例",
+            "value": "Sharpa 在 DQ 门店：失败率降至 1/10，成功率 99%",
+            "baseline": "原训练方案",
+            "condition": "单店单任务"
+          },
+          {
+            "metric": "影视链路",
+            "value": "20 分钟扫描皮克斯总部广场，USD 直导 Houdini + RenderMan",
+            "baseline": "传统多边形重建",
+            "condition": "Dylan Sisson 实测"
+          }
+        ],
+        "position_relation": "把 3DGS 从「给人看」推进到「给机器人练」，与 UNITAS 类世界模型形成数据—模型配对。",
+        "signal_strength": "强",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "mesh",
+          "数字孪生",
+          "具身智能",
+          "虚拟制作"
+        ],
+        "terms": [
+          {
+            "term": "sim-ready 数据",
+            "definition_mechanism": "可直接导入仿真器、带正确尺度与物理属性的三维资产",
+            "definition_contrast": "与只可观看的模型不同，它要求拓扑封闭、单位正确、碰撞体可用"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?id=SN202610151251049536b9a4",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-14",
+        "notes": "发布会 2026-10-14，报道 2026-10-15。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-15",
+    "window_start": "2026-10-14T08:00:00+08:00",
+    "window_end": "2026-10-15T08:00:00+08:00",
+    "generated_at": "2026-10-15T22:10:00+08:00",
+    "summary": {
+      "window_takeaway": "世界模型从「写提示词」变成「摆机位」，创作者开始能像导演一样控制生成的三维场景。",
+      "direction": "World Labs 开放 Atlas beta：直接输入相机位置与角度、复用已生成视角的相机与深度数据作为上下文，输出含高斯溅射的三维场景。",
+      "academic_vs_industry": "产业侧：把「新视角预测」的研究能力包装成可导演的创作工具，是 Marble 之后的下一代产品形态。",
+      "remember_one_thing": "能指定机位，意味着生成结果要满足几何一致，而不只是画面好看。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-15-A-001",
+        "category": "Application",
+        "title": "World Labs 开放 Atlas beta：用相机路径而不是提示词拍三维场景",
+        "one_line_judgment": "Atlas 允许创作者直接给出相机位置与角度来定义镜头，并可把已生成视角连同相机与深度数据复用为后续镜头的上下文，为未来版本的 Marble 供能。",
+        "ai_summary": "简单说，以前你想生成一个三维场景，只能写「一座阴森的城堡」；现在你可以直接说「相机从这儿推到那儿，往下压 15 度」。这更接近导演的工作方式，也更难糊弄——机位一固定，几何不对就露馅。",
+        "detailed_info": "Atlas 是 World Labs 9 月发布的多模态世界模型，支持视频与三维输出（含高斯溅射，也就是 Marble 用的场景格式）。10 月 15 日开放的 beta 把交互方式改了：不再依赖文字描述运镜，而是直接输入相机位置与角度，把镜头路径定义在三维空间里。\n\n更实用的是上下文复用：官方文档显示，已生成的视角可以连同其相机与深度数据一起，作为后续镜头的上下文。对真实地点的重建，参考照片越多，模型需要「编」的未见细节就越少——这实际上把摄影测量里的多视约束，搬进了生成模型的输入端。\n\nAtlas 被定位为未来 Marble 版本的动力来源，创作者通过 waitlist 申请 beta 访问。",
+        "ai_comment": "「可指定机位 + 可复用深度」是把生成模型往工程工具方向拽的关键一步：它让输出可被验证（机位对不上就是错的），也让多镜头之间能保持一致。要观察的是成本与可控性的平衡——参考照片越多越准，但生成越慢；以及版权与真实性标注，生成出来的「真实地点」如果被当作实拍使用，会带来麻烦。",
+        "key_facts": [
+          {
+            "metric": "交互方式",
+            "value": "直接输入相机位置与角度定义镜头路径",
+            "baseline": "文字提示描述运镜",
+            "condition": "Atlas beta，2026-10-15"
+          },
+          {
+            "metric": "上下文复用",
+            "value": "已生成视角可连同相机与深度数据复用",
+            "baseline": null,
+            "condition": "官方开发者文档"
+          },
+          {
+            "metric": "输出",
+            "value": "视频与三维场景（含 Gaussian splats）",
+            "baseline": null,
+            "condition": "Atlas 2026-09 发布"
+          }
+        ],
+        "position_relation": "与 Marble 同源、与 Google Genie 4 对位：一个强调显式三维结构与机位可控，一个强调像素级世界演化。",
+        "signal_strength": "强",
+        "tags": [
+          "世界模型",
+          "空间智能",
+          "3DGS",
+          "生成式3D"
+        ],
+        "terms": [
+          {
+            "term": "新视角预测",
+            "definition_mechanism": "给定少量图像与目标相机位姿，推理出该位姿下场景应呈现的画面",
+            "definition_contrast": "与视频生成不同，它要求跨视角几何一致，而不是时间上连贯"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://spatialinsiders.com/stories/world-labs-atlas-beta-rollout",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-15",
+        "notes": "2026-10-15 官方宣布开放 beta。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-16",
+    "window_start": "2026-10-15T08:00:00+08:00",
+    "window_end": "2026-10-16T08:00:00+08:00",
+    "generated_at": "2026-10-16T21:50:00+08:00",
+    "summary": {
+      "window_takeaway": "工博会落幕，真正的信号是「国产供应链 + 工位验证」成为具身智能的默认叙事。",
+      "direction": "五天展会收官，机器人展区 450+ 新品中，液冷轮式机器人、灵巧手、端到端装卸货成为被反复演示的三类形态。",
+      "academic_vs_industry": "产业侧：展会不谈模型参数，谈防护等级、续航、热插拔与节拍。",
+      "remember_one_thing": "IP54、10 小时续航、双电池热插拔——这些参数比「多少自由度」更能决定能不能进厂。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-16-A-001",
+        "category": "Application",
+        "title": "工博会收官盘点：能进厂的三类形态浮出水面",
+        "one_line_judgment": "五天展会结束，被反复演示的不是人形整机而是液冷轮式机器人、行业级灵巧手与端到端装卸货系统，评价标准转向防护、续航与连续作业。",
+        "ai_summary": "一句话：展会上最像「商品」的不是会走路的人形，而是带液冷、能连续干 10 小时的轮式机器人，和一堆能拧螺丝的灵巧手。买家关心的是坏不坏、修不修得快。",
+        "detailed_info": "本届工博会 10 月 12 日至 16 日，机器人展区 5.6 万㎡。收官阶段被讨论最多的三类形态：\n\n一是液冷轮式具身机器人，如汇川 InoBot W1，标称 IP54、续航约 10 小时、支持双电池模块热插拔，配力控双臂与全身运动控制，面向工业现场移动操作。二是行业级灵巧手，中科硅纪一次展出 7 款并给出 4 套工业场景方案。三是端到端模型驱动的专用机器人，如深诣机器人 Sculptor（自研 SE-1 模型）用于装卸货，可根据货物与环境变化自主调整取放顺序。\n\n同期节卡发布 JAKA Zu50 大负载协作机器人与 Kargo50 重载轮式人形，移远通信旗下宝维塔发布具身智能柔性制造方案，均指向「与人同工位」。",
+        "ai_comment": "从「自由度竞赛」转向「可用性竞赛」是行业成熟的标志。但要注意展会的选择性偏差：能上台演示的都是调过的场景，真正的考验是来料偏差、光照变化与 24 小时连续运行。下一阶段的竞争点会落在维护成本与备件供应，而不是发布会参数。",
+        "key_facts": [
+          {
+            "metric": "展期",
+            "value": "2026-10-12 至 10-16，机器人展区 5.6 万㎡",
+            "baseline": null,
+            "condition": null
+          },
+          {
+            "metric": "代表产品",
+            "value": "汇川 InoBot W1（IP54、约 10h、双电池热插拔）、中科硅纪 7 款灵巧手",
+            "baseline": null,
+            "condition": "厂商资料"
+          },
+          {
+            "metric": "形态趋势",
+            "value": "端到端模型驱动的专用机器人（如深诣 Sculptor 装卸货）",
+            "baseline": "通用人形演示",
+            "condition": null
+          }
+        ],
+        "position_relation": "为三维采集与仿真提供明确的验收场景：工位级连续作业。",
+        "signal_strength": "中",
+        "tags": [
+          "具身智能",
+          "工业检测",
+          "数字孪生"
+        ],
+        "terms": [
+          {
+            "term": "热插拔",
+            "definition_mechanism": "不断电更换电池模块，使设备可以连续运行而无需停机充电",
+            "definition_contrast": "与固定电池方案相比提升稼动率，但要求电源管理与机械结构双重设计"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.cameta.org.cn/index.php?a=show&catid=238&id=3839",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-16",
+        "notes": "展会闭幕日。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-17",
+    "window_start": "2026-10-16T08:00:00+08:00",
+    "window_end": "2026-10-17T08:00:00+08:00",
+    "generated_at": "2026-10-17T21:30:00+08:00",
+    "summary": {
+      "window_takeaway": "3DGS 进入国际视频编码标准的议程，压缩与随机访问成为下一个战场。",
+      "direction": "JVET 第 44 次会议在杭州开幕，中国团队提交的提案覆盖三维高斯编码与空间随机访问/细节层次联合方案。",
+      "academic_vs_industry": "标准侧：从「能不能重建」转向「能不能高效传输与随机访问」，这是规模化分发的前提。",
+      "remember_one_thing": "标准化的对象不是重建算法，而是「码流」——谁定义码流，谁定义生态。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-17-A-001",
+        "category": "Engineering",
+        "title": "JVET 第 44 次会议杭州开幕：3DGS 编码进入联合视频标准议程",
+        "one_line_judgment": "会议提案覆盖三维高斯编码与超低时延视频传输两条主线，其中空间随机访问与细节层次联合提案由多方共同完成，指向 3DGS 码流的标准统一。",
+        "ai_summary": "简单说：3DGS 现在能扫能看，但一个场景动辄几个 GB，怎么压缩、怎么让人「跳着看」而不必下载全部，还没有统一答案。这次是把这件事拿到国际标准会议上去定规矩。",
+        "detailed_info": "JVET（联合视频专家组）第 44 次会议于 10 月 17 日至 23 日在杭州举行。马栏山音视频实验室有四项技术提案获采纳（10 月 27 日公布），其中三项独立提出、一项与上海交通大学联合提出，覆盖三维高斯编码（3DGS）与超低时延视频传输。\n\n其中「空间随机访问与细节层次（LOD）联合提案」由实验室与高通、飞利浦、字节跳动、上海交通大学共同完成。这两个词对应两个真实痛点：随机访问决定用户能不能只加载视野内的部分；LOD 决定远处物体用多少高斯表示。\n\n实验室专家还担任 GSC VSEI 参考软件负责人，参与三维高斯编码公共研发平台建设——参考软件是谁维护，谁的实现就容易成为事实基线。",
+        "ai_comment": "标准会议的新闻通常枯燥，但这次的意义在于「对象变了」：以前 JVET 管的是二维视频码流，现在要管带几何的三维高斯码流。难点在于三维内容的随机访问比二维复杂得多——空间分块、LOD 切换、与现有 ISOBMFF 封装的兼容都要重新设计。中国团队拿到参考软件负责人位置，比多几篇提案更值钱。",
+        "key_facts": [
+          {
+            "metric": "会议",
+            "value": "JVET 第 44 次，2026-10-17 至 10-23，杭州",
+            "baseline": null,
+            "condition": null
+          },
+          {
+            "metric": "提案",
+            "value": "马栏山音视频实验室 4 项获采纳（3 项独立、1 项与上海交大联合）",
+            "baseline": null,
+            "condition": "2026-10-27 公布"
+          },
+          {
+            "metric": "技术点",
+            "value": "空间随机访问与 LOD 联合提案（与高通、飞利浦、字节、上海交大）",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "与 UWA Spatial Vivid 1.0 的国内标准形成呼应：一个走国际编码标准，一个走行业格式标准。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "压缩",
+          "标准"
+        ],
+        "terms": [
+          {
+            "term": "空间随机访问",
+            "definition_mechanism": "只解码并加载用户当前视野/位置所需的那部分三维数据，而不必载入整个场景",
+            "definition_contrast": "与顺序解码整段视频不同，它要求数据按空间分块组织并支持独立解码"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.thepaper.cn/newsDetail_forward_34389077",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-17",
+        "notes": "会议首日；成果于 10-27 公布。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-18",
+    "window_start": "2026-10-17T08:00:00+08:00",
+    "window_end": "2026-10-18T08:00:00+08:00",
+    "generated_at": "2026-10-18T21:20:00+08:00",
+    "summary": {
+      "window_takeaway": "空间数据开始被「众包 + 链上结算」组织，物理 AI 的地图生意出现了加密版本。",
+      "direction": "Vangrid 完成 900 万美元融资，用浏览器+手机采集真实空间、端侧脱敏、Base 链上 USDC 悬赏与可验证记录，构建去中心化空间数据层。",
+      "academic_vs_industry": "产业侧：把测绘众包的经济学问题（谁出钱、谁验证、谁结算）用智能合约重写。",
+      "remember_one_thing": "它卖的不是地图，是「按需采集某个地点」的能力。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-18-A-001",
+        "category": "Application",
+        "title": "Vangrid：给物理 AI 做去中心化空间数据层，融资 900 万美元",
+        "one_line_judgment": "用浏览器工具让普通手机采集空间数据、端侧脱敏后重建为带纹理网格与 3DGS，再通过链上悬赏与可验证记录把「按需采集」变成可结算的市场。",
+        "ai_summary": "简单说：机器人要跑的那些街道、门口、路缘，传统地图没有。Vangrid 让普通人拿手机拍一圈就能贡献，买家出钱指定地点，数据上链存证，谁采谁拿钱。",
+        "detailed_info": "三层结构：采集层是浏览器工具，贡献者用普通智能手机拍摄，影像处理成带纹理的网格与 3D 高斯溅射；隐私与真实性靠端侧模糊（上传前去除人脸、车牌）与物理运动/视角检查（判断是否为真实采集而非复用旧素材）。\n\n交易层是链上市场：软件智能体或买家通过程序化接口发布特定地点的采集任务，以 Base 上的 USDC 支付，内容哈希、时间戳与默克尔树承诺用于确立数据来源。结算层用智能合约，把付款与提交、验证要求绑定；贡献者还通过遥测积分与排行榜获得激励。\n\n融资 900 万美元，投资方包括 Borderless Capital、HashKey Capital、Animoca Brands、Gate Labs、Mapleblock。",
+        "ai_comment": "这个模式解决的是测绘业最老的痛点：长尾地点的采集成本。但三个假设都很强——手机影像的几何精度够不够机器人用（大概率不够，只能做语义/拓扑层）；验证机制能否防住批量伪造；以及买家是否愿意为「可能不准」的数据付钱。它更像空间数据的「众包语义层」，而不是测绘级底图。",
+        "key_facts": [
+          {
+            "metric": "融资",
+            "value": "900 万美元，Borderless/HashKey/Animoca/Gate Labs/Mapleblock 等",
+            "baseline": null,
+            "condition": "2026-10-18 报道"
+          },
+          {
+            "metric": "输出",
+            "value": "带纹理网格 + 3D 高斯溅射，端侧脱敏",
+            "baseline": null,
+            "condition": "浏览器采集，普通手机"
+          },
+          {
+            "metric": "结算",
+            "value": "Base 链上 USDC 悬赏 + 默克尔承诺 + 智能合约",
+            "baseline": "集中式测绘外包",
+            "condition": null
+          }
+        ],
+        "position_relation": "与其域创新（专业设备）、景立构（自建硬件）相对，走众包低成本路线。",
+        "signal_strength": "中",
+        "tags": [
+          "空间智能",
+          "三维重建",
+          "3DGS",
+          "点云"
+        ],
+        "terms": [
+          {
+            "term": "去中心化物理基础设施网络",
+            "definition_mechanism": "用代币或稳定币激励分散的个体贡献硬件/数据，形成无需自建队伍的基础设施",
+            "definition_contrast": "与集中式测绘公司相比覆盖更广、单价更低，但质量一致性难保证"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://ai-pulse-lab.com/signals/2026-10-18/vangrid-%E8%A6%81%E7%BB%99%E7%89%A9%E7%90%86-ai-%E5%81%9A%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%B1%82-%E6%99%AE%E9%80%9A%E5%9C%B0%E5%9B%BE%E5%B7%B2%E7%BB%8F%E4%B8%8D%E5%A4%9F%E7%94%A8%E4%BA%86.html",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-18",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-19",
+    "window_start": "2026-10-18T08:00:00+08:00",
+    "window_end": "2026-10-19T08:00:00+08:00",
+    "generated_at": "2026-10-19T22:00:00+08:00",
+    "summary": {
+      "window_takeaway": "多智能体高斯 SLAM 摆脱 RGB-D 依赖，纯 RGB 协作重建达到 RGB-D 水准。",
+      "direction": "MAGS-SLAM 用单目高斯子图 + 紧凑子图通信 + 几何/外观联合回环，实现无深度传感器的多机协作重建，并发布更大规模的多机基准。",
+      "academic_vs_industry": "学术侧：把「多机协作」从实验室演示推进到低成本机器人可部署的形态。",
+      "remember_one_thing": "只传子图摘要而不是原始观测，通信带宽才是多机 SLAM 的真实瓶颈。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-19-A-001",
+        "category": "Research",
+        "title": "MAGS-SLAM：纯 RGB 的多机协作高斯溅射 SLAM",
+        "one_line_judgment": "首个仅用 RGB 的多智能体 3DGS SLAM 框架：各机独立建单目高斯子图、只传紧凑子图摘要，配合几何与外观感知的回环验证与占据感知融合，精度对齐 RGB-D 方案。",
+        "ai_summary": "简单说：几台机器人各拍各的，最后拼成一张完整的三维地图——而且不需要昂贵的深度相机，普通摄像头就行。关键是它们之间只传「摘要」不传原始视频，所以网线压力小。",
+        "detailed_info": "多机协作重建的价值是快速覆盖大场景（虚拟制片、协同探索），但现有多智能体高斯 SLAM 大多依赖 RGB-D 拿度量深度，这让低成本、低功耗平台用不上。更麻烦的是单目尺度歧义：各机各自估的尺度不一致，拼起来就错位。\n\nMAGS-SLAM 的做法：每台智能体独立构建局部单目高斯子图，只传输紧凑的子图摘要而非原始观测；协作时用几何与外观双通道的回环验证，再做占据感知的高斯融合，从而在没有主动深度传感器的情况下得到连贯的全局重建。\n\n作者还发布了 ReplicaMultiagent Plus 基准，包含更大规模的机器人团队，用于评测协作高斯 SLAM。",
+        "ai_comment": "「只传摘要」是对的方向——多机 SLAM 真正的瓶颈是通信与时钟同步，不是单机算力。单目尺度歧义靠回环与融合解决，在纹理丰富、回环充分的室内场景可行，但在长走廊、重复结构里容易失效。基准的发布比方法本身更重要，这个领域一直缺少可比的多人多机数据集。",
+        "key_facts": [
+          {
+            "metric": "方法类型",
+            "value": "RGB-only 多智能体 3DGS SLAM，紧凑子图通信",
+            "baseline": "依赖 RGB-D 的多机高斯 SLAM",
+            "condition": "arXiv 2605.10760，2026-10-19"
+          },
+          {
+            "metric": "新增基准",
+            "value": "ReplicaMultiagent Plus，更大机器人团队",
+            "baseline": "Replica 单机/双机设置",
+            "condition": null
+          },
+          {
+            "metric": "成绩",
+            "value": "跟踪、渲染、几何质量与 SOTA RGB-D 协作方案相当或更优",
+            "baseline": "RGB-D 协作高斯 SLAM",
+            "condition": "合成 + 真实数据集"
+          }
+        ],
+        "position_relation": "补 3DGS SLAM 的「多机 + 低成本传感器」空白，与 SG²SLAM 的单目户外路线互补。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "SLAM",
+          "三维重建",
+          "多机协作"
+        ],
+        "terms": [
+          {
+            "term": "子图",
+            "definition_mechanism": "把大场景切成局部一致的小块分别重建，再通过位姿与回环把它们拼成全局地图",
+            "definition_contrast": "与全局一次性优化相比内存可控、支持增量更新，但拼接处容易出现漂移与接缝"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://arxiv.science/abs/2605.10760",
+            "type": "paper"
+          }
+        ],
+        "date": "2026-10-19",
+        "notes": "arXiv 发布 2026-10-19，10-20 更新。"
+      },
+      {
+        "item_id": "2026-10-19-A-002",
+        "category": "Application",
+        "title": "首批 6 项人形机器人国家标准定档 2027-04-01 实施",
+        "one_line_judgment": "工信部发布会披露首批 6 项人形机器人国家标准，计划 2027 年 4 月 1 日实施，接口与数据格式走向统一，直接缓解方案碎片化带来的集成成本。",
+        "ai_summary": "一句话：现在各家机器人的「眼睛」接口、数据格式都不一样，整机厂每换一家供应商就要重做适配。国家标准把这件事定下来，对做 3D 相机和采集设备的公司是利好——门槛从「搞定客户」变成「符合标准」。",
+        "detailed_info": "在 2026 年 10 月 19 日的国新办发布会上，工信部披露首批 6 项人形机器人国家标准相关安排，计划于 2027 年 4 月 1 日实施。\n\n产业背景是碎片化：不同整机厂、不同场景的 3D 视觉方案在接口、数据格式、时序同步、安全认证上均未统一，集成成本高企，中小供应商很难规模化。标准统一后，感知层的竞争会从「定制适配能力」转向「性能与成本」。\n\n同期政策还包括《2026 年度人形机器人与具身智能实景实训专项行动通知》（工信厅联科函〔2026〕256 号），以及工信部与财政部 10 月 30 日公布的第一批政府采购本国产品标准征求意见稿。",
+        "ai_comment": "标准是双刃剑：它降低集成成本、扩大市场，但也把差异化压平——当接口一致，客户就只看价格与良率。对三维视觉厂商，真正的机会在标准落地前的窗口期：谁能把自己的数据格式做成事实标准（像其域 LCC 被英伟达采纳那样），谁就能吃到标准红利。",
+        "key_facts": [
+          {
+            "metric": "标准",
+            "value": "首批 6 项人形机器人国家标准，2027-04-01 实施",
+            "baseline": null,
+            "condition": "2026-10-19 国新办发布会"
+          },
+          {
+            "metric": "覆盖问题",
+            "value": "接口、数据格式、时序同步、安全认证碎片化",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "从制度侧降低三维感知硬件的集成门槛，与工博会的「工位验证」形成供需两端。",
+        "signal_strength": "中",
+        "tags": [
+          "具身智能",
+          "标准",
+          "端侧部署"
+        ],
+        "terms": [
+          {
+            "term": "接口标准",
+            "definition_mechanism": "规定硬件之间的电气、协议与数据格式，使不同厂商的部件可以互换",
+            "definition_contrast": "与性能标准不同，接口标准不规定「多好」，只规定「怎么接」"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.163.com/dy/article/LAOD17810556BPTV.html",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-19",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-20",
+    "window_start": "2026-10-19T08:00:00+08:00",
+    "window_end": "2026-10-20T08:00:00+08:00",
+    "generated_at": "2026-10-20T22:15:00+08:00",
+    "summary": {
+      "window_takeaway": "世界模型开始显式预测「点的轨迹」，几何从输出变成了训练信号。",
+      "direction": "Video-Point Model 在预测未来视频的同时预测持久场景点的三维轨迹，点监督反过来提升了视频保真度；国内国家数据集团挂牌，数据要素基础设施落子。",
+      "academic_vs_industry": "双线：学术侧把几何一致性写进损失函数；制度侧把数据供给组织化。",
+      "remember_one_thing": "「这个点还是那个点」——跨视角的身份一致性，才是三维世界模型最难的部分。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-20-A-001",
+        "category": "Research",
+        "title": "VPM：预测视频的同时预测每个三维点的轨迹",
+        "one_line_judgment": "Video-Point Model 在多视角视频历史与语言指令下，同时预测任意视角的未来视频与持久场景点的三维轨迹，点监督使视频保真度与三维运动精度同时提升。",
+        "ai_summary": "简单说：视频模型会「画」下一帧，但它不知道画面里那个杯子的把手还是不是同一个把手。这项工作让模型顺便预测「这个点在三维里往哪走」，结果视频反而画得更准——几何成了训练的监督信号。",
+        "detailed_info": "视频世界模型预测像素，但像素不记得身份：同一物体在不同视角、不同时刻的对应关系是隐含的。VPM 的做法是让模型同时输出两件事——任意视角的未来视频，以及一组持久场景点的三维轨迹，每条轨迹跟随同一个点跨越所有视角。\n\n实现上是在预训练世界模型（NVIDIA Cosmos3-Nano）上扩展相机条件的多视角处理与一个轨迹头。为评测，作者构建了 VP-WorldBench：1200 段同步多视角片段，带三维点轨迹。\n\n结果有两个值得记的点：点监督不仅提升三维运动精度，也提升了视频保真度（对比纯视频基线）；把机器人动作作为 token 模态加入后，仿真与真机的操作成功率都有提升。作者包括 Marc Pollefeys、Saining Xie、Hanbyul Joo。",
+        "ai_comment": "「几何是训练信号而非输出」这个判断如果成立，会改变世界模型的训练范式——不再只比 FID/FVD，而是比点的轨迹误差。要谨慎的是：结果主要对比自家视频基线，且为非商业许可；跨视角点跟踪在遮挡与反光下仍是最脆弱环节，基准里的 1200 段片段是否覆盖这些退化条件，值得看细节。",
+        "key_facts": [
+          {
+            "metric": "方法",
+            "value": "Video-Point Model，视频 + 三维点轨迹联合预测",
+            "baseline": "纯视频世界模型",
+            "condition": "基于 Cosmos3-Nano 扩展"
+          },
+          {
+            "metric": "基准",
+            "value": "VP-WorldBench，1200 段同步多视角片段带 3D 点轨迹",
+            "baseline": null,
+            "condition": null
+          },
+          {
+            "metric": "效果",
+            "value": "点监督同时提升视频保真度与 3D 运动精度；加动作 token 提升操作成功率",
+            "baseline": "视频-only 基线",
+            "condition": "仿真 + 真机"
+          }
+        ],
+        "position_relation": "与 4DGS/动态重建互补：一个从观测拟合运动，一个从生成模型预测运动。",
+        "signal_strength": "强",
+        "tags": [
+          "世界模型",
+          "4D重建",
+          "空间智能",
+          "三维重建"
+        ],
+        "terms": [
+          {
+            "term": "点轨迹",
+            "definition_mechanism": "跟踪场景中同一个三维点在时间与视角变化下的位置序列",
+            "definition_contrast": "与光流（二维像素位移）不同，它要求跨视角的三维身份一致，能直接约束几何"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2610.28594",
+            "type": "paper"
+          }
+        ],
+        "date": "2026-10-20",
+        "notes": "arXiv 2026-10-20，10-22 报告收录。"
+      },
+      {
+        "item_id": "2026-10-20-A-002",
+        "category": "Application",
+        "title": "国家数据集团挂牌：数据要素从「建库」转向「按需求清单供给」",
+        "one_line_judgment": "国家数据集团 10 月 20 日正式挂牌，一周后国家数据局召开行业高质量数据集建设链主座谈会，把「摸清 AI 用数需求」前置。",
+        "ai_summary": "一句话：以前是「先建一堆数据库，再找谁来用」，现在改成「先问清楚模型到底要什么数据，再组织采集」。对做三维数据采集的公司，这意味着订单会更明确，但验收也更严。",
+        "detailed_info": "10 月 20 日，国家数据集团有限公司正式挂牌成立；10 月 28 日上午，国家数据局组织召开行业高质量数据集建设链主工作座谈会，强调「以需定供、以用促建、以评提质」，把摸清人工智能用数需求列为重点工作。\n\n对物理 AI 而言这个转向尤其关键：文本模型可以从互联网爬语料，具身模型不行——它需要任务指令、环境观测、机器人状态、控制动作与执行结果的时序关联，还要覆盖关节位姿、力觉、触觉，满足「准、全、广、真」。这类数据无法靠网页爬取，只能靠采集设备、时间同步、空间标定、边缘处理与标注体系协同完成。\n\n供需缺口有量化口径：行业预计成熟具身大模型所需数据至少千万小时级，当前高质量训练数据仅数十万至百万小时，缺口约 90%。",
+        "ai_comment": "「以需定供」听着像官话，实际影响很具体：数据集项目从此要有明确的用数方与验收指标，否则容易变成「有库无市」。对采集服务商是好事——需求清单化意味着可预期的订单；但也是压力——按小时交付的「数据工时」会被按「可训练性」验收。",
+        "key_facts": [
+          {
+            "metric": "机构",
+            "value": "国家数据集团 2026-10-20 挂牌",
+            "baseline": null,
+            "condition": null
+          },
+          {
+            "metric": "会议",
+            "value": "2026-10-28 行业高质量数据集建设链主座谈会",
+            "baseline": null,
+            "condition": "以需定供、以用促建、以评提质"
+          },
+          {
+            "metric": "缺口",
+            "value": "成熟具身模型需千万小时级，当前仅数十万至百万小时，缺口约 90%",
+            "baseline": null,
+            "condition": "国金证券口径"
+          }
+        ],
+        "position_relation": "从制度侧定义三维/空间数据的采购与验收方式，与禾赛 Kosmo 等供给工具直接对接。",
+        "signal_strength": "中",
+        "tags": [
+          "具身智能",
+          "数据采集",
+          "数字孪生",
+          "空间智能"
+        ],
+        "terms": [
+          {
+            "term": "链主",
+            "definition_mechanism": "在产业链中牵头组织上下游、定义需求与标准的核心企业或机构",
+            "definition_contrast": "与普通供应商不同，链主负责把分散的场景需求拆成可执行的供给任务"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.cls.cn/detail/2522219",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-20",
+        "notes": "挂牌 10-20，座谈会 10-28。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-21",
+    "window_start": "2026-10-20T08:00:00+08:00",
+    "window_end": "2026-10-21T08:00:00+08:00",
+    "generated_at": "2026-10-21T22:40:00+08:00",
+    "summary": {
+      "window_takeaway": "三维数据的两端同时被资本加注：上游把激光扫描转成 CAD 初稿，下游把现实空间编译成可计算资产。",
+      "direction": "Mach9 拿 3400 万美元 A 轮做「点云→土木 CAD」；乙太具身完成超亿元种子+天使轮做「物理空间引擎」；Rerun 0.40 让智能体读取坐标变换图；UWA  summit 在深圳开幕。",
+      "academic_vs_industry": "产业侧密集：资本在补「数据加工」与「空间资产标准化」两个中间层。",
+      "remember_one_thing": "点云本身不值钱，把点云变成设计院能直接用的图纸才值钱。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-21-A-001",
+        "category": "Application",
+        "title": "Mach9 获 3400 万美元 A 轮：把激光扫描点云转成土木 CAD 初稿",
+        "one_line_judgment": "Mach9 从硬件转向 AI 软件，用模型把测量级点云自动绘成土木工程 CAD 底图，押注美国绘图人员短缺这一结构性缺口。",
+        "ai_summary": "简单说：以前测绘队扫完街，要人对着点云一笔一笔画出道路、管线、地块的图纸，又慢又缺人。Mach9 让 AI 先画出「明显的东西」，人只负责复核和判断。",
+        "detailed_info": "Mach9 完成 3400 万美元 A 轮（Bessemer 领投，TechCrunch 2026-10-21 报道），资金用于产品开发、招聘行业专家与扩张。它的切入点很窄：不做完整设计工具，只做位于设计、审批与施工上游的「现状测量底图」。\n\n之所以成立，是美国绘图人员短缺正在制约道路、公用设施与数据中心项目。现状测量是所有下游模型的基础，这一步的错误会一路传导到设计与协调。AI 先画明显要素、把判断留给人，能显著缩短这一步。\n\n竞争格局上，这一市场仍由 Autodesk 与 Bentley Systems 主导，同批初创还有做地下管线的 CivilGrid。",
+        "ai_comment": "选择「上游底图」而不是「全流程设计」是聪明的——它避开了与 Autodesk/Bentley 的正面冲突，又能吃到每一张图纸的入口价值。风险在责任边界：AI 画错的线谁负责？所以「人工签核」会长期存在，效率提升会被审校环节吃掉一部分。采购方应要求用自己的控制点核精度。",
+        "key_facts": [
+          {
+            "metric": "融资",
+            "value": "3400 万美元 A 轮，Bessemer 领投",
+            "baseline": null,
+            "condition": "TechCrunch 2026-10-21"
+          },
+          {
+            "metric": "产品",
+            "value": "激光扫描点云 → 土木 CAD 现状底图（AI 初稿 + 人工判断）",
+            "baseline": "人工逐笔绘图",
+            "condition": null
+          },
+          {
+            "metric": "市场背景",
+            "value": "绘图人员短缺制约美国道路、公用设施、数据中心项目",
+            "baseline": null,
+            "condition": "Bessemer 观点"
+          }
+        ],
+        "position_relation": "典型的「点云下游加工」生意，与其域 LCC、NavVis 的采集端形成上下游。",
+        "signal_strength": "中",
+        "tags": [
+          "点云",
+          "三维重建",
+          "数字孪生",
+          "工程化"
+        ],
+        "terms": [
+          {
+            "term": "现状测量",
+            "definition_mechanism": "对既有场地/设施进行测量并绘制成图，作为改造设计的基础资料",
+            "definition_contrast": "与竣工图不同，它记录的是「现在实际长什么样」，而非设计意图"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://construbim.com/news-post.php?lang=zh&slug=mach9-34m-series-a-ai-cad-lidar-survey-drafting-civil-engineering",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-21",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-21-A-002",
+        "category": "Application",
+        "title": "乙太具身完成超亿元融资：把现实空间「编译」成可运行资产",
+        "one_line_judgment": "连续完成种子轮与天使轮、累计超亿元，核心产品「物理空间引擎」以五层架构把现实空间编译为可计算表达，主打亚毫米级人类交互数据采集与空间资产标准化。",
+        "ai_summary": "一句话：它想把「一间屋子」变成一段可以反复调用的程序——机器人、游戏、培训系统都能直接加载这段空间，而不是每次重新扫一遍。",
+        "detailed_info": "乙太具身科技（北京）2025 年成立，总部海淀，定位具身智能数据解决方案与「空间智能 INFRA」。本轮投资方包括 X Square、深圳高新投、高瓴创投、瀚晖资本、中科第五纪、哈勃投资、智元机器人、软通动力等十余家。\n\n产品是「物理空间引擎」，从输入层到应用层共五层架构，目标是把现实空间编译为可计算、可运行的表达，实现亚毫米级精度的人类交互数据采集与空间资产标准化，支持跨场景复用，为具身智能与世界模型提供基础设施。\n\n团队来自 HTC VIVE、微软、京东、美团、北大、港科大、北航，创始人杨叶青曾任 HTC VIVE Chief of Staff 及中国区元宇宙事业部负责人，主导开发过国内首款元宇宙系统平台。已落地场景包括机器人、世界模型、文娱、游戏、工业、文物、医疗。",
+        "ai_comment": "「编译空间」这个说法抓住了要点：真正可复用的是「带语义与交互属性的空间资产」，而不是一坨点云。亚毫米级采集是硬指标，但要问清楚是单点精度还是全场景一致性。赛道竞争已经开始拥挤——博登智能、简智机器人都在建数采中心，乙太的差异化要靠「资产可复用」而不是「采得多」。",
+        "key_facts": [
+          {
+            "metric": "融资",
+            "value": "种子轮 + 天使轮累计超亿元",
+            "baseline": null,
+            "condition": "2026-10-21 披露"
+          },
+          {
+            "metric": "技术指标",
+            "value": "亚毫米级人类交互数据采集，空间资产标准化",
+            "baseline": null,
+            "condition": "五层架构物理空间引擎"
+          },
+          {
+            "metric": "团队",
+            "value": "来自 HTC VIVE、微软、京东、美团、北大、港科大、北航",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "与景立构、Vangrid 同处空间数据基础设施层，但更强调「资产标准化 + 跨场景复用」。",
+        "signal_strength": "中",
+        "tags": [
+          "空间智能",
+          "具身智能",
+          "数据采集",
+          "数字孪生"
+        ],
+        "terms": [
+          {
+            "term": "空间资产",
+            "definition_mechanism": "把真实空间数字化后形成的、带语义与交互属性、可重复调用的数据资产",
+            "definition_contrast": "与一次性扫描成果不同，它强调标准化、可索引、可跨项目复用"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.163.com/dy/article/L9PCABNQ0550B1DU.html",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-21",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-21-A-003",
+        "category": "OpenSource",
+        "title": "Rerun 0.40：智能体可以通过 MCP 读坐标变换图",
+        "one_line_judgment": "Rerun 0.40 重构查看器界面并新增 rerun_get_transform_graph 等 MCP 接口，让智能体能直接查询多传感器录制的坐标变换关系，调试从「看图」变成「问图」。",
+        "ai_summary": "简单说：机器人/扫描设备录了一大堆传感器数据，坐标关系乱成一团。以前靠人点开界面一层层找，现在可以直接问智能体「相机相对雷达在哪」，它去查那张变换图。",
+        "detailed_info": "0.40 版本的更新分两类。界面侧：新首页、顶栏命令面板、统一的字体与配色。能力侧：智能体可通过 MCP 检查变换图（rerun_get_transform_graph），意味着多传感器录制的坐标层级关系可以被程序化查询，而不只是人眼看。\n\n这类工具的价值在调试效率。三维重建与多传感器融合项目最常见的故障不是算法错，而是某一路数据的坐标系挂错了父节点、时间戳偏了几毫秒。能把变换图暴露给智能体，就等于把「排查」变成可自动化的查询。\n\n同步发布的还有 19 个资产，非预发布版本。",
+        "ai_comment": "Rerun 一直是多传感器可视化的「开发者最爱」，这次往 MCP 走是对的方向——但真正的考验是「智能体能不能据此自动修错」，而不只是读出来。目前它只是把图暴露出去，诊断逻辑还得自己写。对团队来说，值得先接进 CI：每次采集自动检查变换树完整性，比事后人肉排查便宜得多。",
+        "key_facts": [
+          {
+            "metric": "版本",
+            "value": "0.40.0，2026-10-21 10:25 UTC 发布",
+            "baseline": "0.3x",
+            "condition": "非预发布，19 个资产"
+          },
+          {
+            "metric": "新增",
+            "value": "MCP 接口 rerun_get_transform_graph，可查询坐标变换图",
+            "baseline": "仅人工在查看器中浏览",
+            "condition": null
+          }
+        ],
+        "position_relation": "与 LichtFeld Studio 的 MCP 桥同向：三维工具链正在把「可被智能体操作」当成新特性。",
+        "signal_strength": "中",
+        "tags": [
+          "开源工具",
+          "多传感器融合",
+          "SLAM",
+          "工程化"
+        ],
+        "terms": [
+          {
+            "term": "坐标变换图",
+            "definition_mechanism": "描述各传感器/坐标系之间平移旋转关系的树状结构，是融合与重建的对齐基础",
+            "definition_contrast": "与单一路径的标定参数不同，它要维护随时间变化的动态关系"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://github.com/rerun-io/rerun/releases",
+            "type": "official"
+          }
+        ],
+        "date": "2026-10-21",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-22",
+    "window_start": "2026-10-21T08:00:00+08:00",
+    "window_end": "2026-10-22T08:00:00+08:00",
+    "generated_at": "2026-10-22T21:35:00+08:00",
+    "summary": {
+      "window_takeaway": "3DGS 在重工业落地：钢厂不停产、无图纸，单日扫完一个车间。",
+      "direction": "图扑软件与其域创新联合推出智慧钢厂 3DGS 方案，打通实景采集—LCC 高斯生成—Web 实时渲染—业务可视化四段，用 .lcc2 工程文件对接工业管控底座。",
+      "academic_vs_industry": "产业侧：价值不在算法，而在「不停产采集」与「Web 端超大场景实时渲染」这两个工程约束的解法。",
+      "remember_one_thing": "钢铁厂不能停产配合扫描——这是三维数字化在重工业最难的一条约束。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-22-A-001",
+        "category": "Engineering",
+        "title": "图扑 × 其域创新：钢厂 3DGS 实景孪生，不停产单日扫完车间",
+        "one_line_judgment": "用灵光系列 SLAM 扫描设备融合激光雷达/视觉/IMU 采集，LCC Studio 自动生成高斯场景并做动态 LOD 与空间分块压缩，输出 .lcc2 供 Web 引擎实时渲染，实现不停产的全厂区实景覆盖。",
+        "ai_summary": "简单说：钢铁厂设备密集、管线乱、还不能停产配合扫描。这套方案拿着手持设备走一圈，一天扫完一个车间，回来自动生成三维场景，网页上就能漫游查看，还能挂上设备状态和人员位置。",
+        "detailed_info": "流程分三步。采集：其域创新的灵光系列行业级 SLAM 扫描设备进入精轧车间、油库，融合激光雷达、视觉与 IMU 同步采集，完整收录轧机、冷却设备、管线、护栏、消防、监控的纹理与空间坐标，不需要停产、不需要图纸，单日完成单车间全域扫描。\n\n生成：数据导入 LCC Studio，用 LCC 算法自动生成 3DGS 场景，内置动态 LOD 分层与空间分块压缩，输出轻量化 .lcc2 工程文件。\n\n应用：.lcc2 导入图扑 HT 二三维一体化引擎，支持调整 LOD 层级、校准中心点、设定碰撞检测包围盒，再把设备、作业人员、安防设施、生产工艺、运行状态的数据叠加进去，做巡检与安全管控。",
+        "ai_comment": "这是 3DGS 少见的「重工业闭环」案例，价值在于证明了三件事：不停产可采、超大场景可在 Web 端实时渲染、高斯场景能承载业务数据。要留意的是精度口径缺失——方案没说点云厚度或绝对精度，因此它适合「看与管」，不适合「量与验收」。这也是工业客户最容易误解的地方。",
+        "key_facts": [
+          {
+            "metric": "采集效率",
+            "value": "单日完成一个车间全域扫描，无需停产、无需图纸",
+            "baseline": "停产配合 + 依据图纸建模",
+            "condition": "精轧车间、油库现场"
+          },
+          {
+            "metric": "数据链路",
+            "value": "灵光 SLAM 采集 → LCC Studio 生成 → .lcc2 → 图扑 HT 渲染",
+            "baseline": "多软件拼接",
+            "condition": "动态 LOD + 空间分块压缩"
+          },
+          {
+            "metric": "业务融合",
+            "value": "设备、人员、安防、工艺、运行状态叠加到高斯场景",
+            "baseline": null,
+            "condition": "HT 二三维一体化底座"
+          }
+        ],
+        "position_relation": "与其域创新的城市级案例（闽宁镇）互补：一个拼规模，一个拼工业合规与业务集成。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "数字孪生",
+          "SLAM",
+          "点云"
+        ],
+        "terms": [
+          {
+            "term": "LOD",
+            "definition_mechanism": "按距离与屏幕占比切换模型的精细程度，近处用高精度、远处用低精度，控制渲染开销",
+            "definition_contrast": "与固定精度模型相比可在同等算力下渲染更大场景，但切换处容易出现跳变"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.toutiao.com/article/7699425766798361151/",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-22",
+        "notes": "2026-10-22 报道。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-23",
+    "window_start": "2026-10-22T08:00:00+08:00",
+    "window_end": "2026-10-23T08:00:00+08:00",
+    "generated_at": "2026-10-23T21:25:00+08:00",
+    "summary": {
+      "window_takeaway": "3D 视觉厂商开始把「采集设备」当成独立品类卖，而不只是卖传感器。",
+      "direction": "奥比中光在调研中披露数据采集设备可实现多模态精确对齐、多相机硬件级同步误差小于 1 毫秒、RGB 与 IMU 长时间零丢帧，并规划 600 万台/年产能。",
+      "academic_vs_industry": "产业侧：把「同步精度」这类隐性指标摆到台面上，说明竞争已经从「能不能出深度」转向「数据能不能直接用于训练」。",
+      "remember_one_thing": "多相机同步误差小于 1 毫秒、长时间零丢帧——这两个指标决定采集数据能不能用于训练，而不只是演示。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-23-A-001",
+        "category": "Hardware",
+        "title": "奥比中光：多相机硬件级同步误差 <1ms，RGB+IMU 零丢帧",
+        "one_line_judgment": "在 10 月 23 日至 27 日的调研中披露，其数据采集设备可实现多模态精确对齐、多相机硬件级同步误差小于 1 毫秒、RGB 与 IMU 长时间零丢帧录制，并规划 600 万台/年产能。",
+        "ai_summary": "简单说：做机器人训练数据，最怕几路相机各拍各的、时间对不上。奥比中光说他们的采集设备能把误差压到 1 毫秒以内，而且连续录几个小时不丢帧——这决定了数据能不能用。",
+        "detailed_info": "披露的三个指标都指向同一个问题：数据的可用性。多模态精确对齐（深度、彩色、IMU 在同一时间基准）、多相机硬件级同步误差 <1ms、RGB 与 IMU 长时间零丢帧录制——这些不是发布会参数，而是数据采集的及格线。\n\n技术体系上，公司覆盖结构光、iToF、dToF、双目、LiDAR 与工业三维测量六条路线，业务已延伸至 AIoT、机器人、数据采集、三维扫描、生物识别。产能侧，顺德 3D 视觉生产基地分期建设，并规划越南工厂，目标形成超 600 万台/年能力；Gemini 330 系列完成与英伟达生态适配。\n\n10 月 29 日，公司与大晓机器人签署万台战略采购协议，提供深度相机等硬件及软件适配，支持具身智能数据采集与模型迭代。",
+        "ai_comment": "「<1ms 同步、零丢帧」这类指标比分辨率更能说明工程成熟度——它们决定了数据能不能直接进训练管线。要追问的是测试条件：几路相机、多长时长、什么分辨率下零丢帧。600 万台/年的产能规划偏激进，人形机器人整机量还没起来，产能落地节奏要看订单。",
+        "key_facts": [
+          {
+            "metric": "同步",
+            "value": "多相机硬件级同步误差 <1 毫秒，多模态精确对齐",
+            "baseline": "软件时间戳对齐（毫秒级抖动）",
+            "condition": "2026-10-23 至 10-27 调研"
+          },
+          {
+            "metric": "可靠性",
+            "value": "RGB 与 IMU 长时间零丢帧录制",
+            "baseline": null,
+            "condition": null
+          },
+          {
+            "metric": "产能",
+            "value": "顺德基地 + 越南工厂，目标 600 万台/年",
+            "baseline": null,
+            "condition": "分期建设"
+          }
+        ],
+        "position_relation": "与 Stereolabs ZED Box 2 的 8 路硬件级同步同向，但奥比中光同时供传感器与采集整机。",
+        "signal_strength": "中",
+        "tags": [
+          "深度相机",
+          "数据采集",
+          "具身智能",
+          "多传感器融合"
+        ],
+        "terms": [
+          {
+            "term": "零丢帧",
+            "definition_mechanism": "在整个录制过程中不丢失任何一帧图像或 IMU 样本，保证时序完整",
+            "definition_contrast": "掉帧会造成时间戳空洞，训练时被误当作「没有变化」，是具身数据最常见的隐性污染"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://caifuhao.eastmoney.com/news/20261101142912498375670",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-23",
+        "notes": "调研 10-23 至 10-27，11-01 披露。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-24",
+    "window_start": "2026-10-23T08:00:00+08:00",
+    "window_end": "2026-10-24T08:00:00+08:00",
+    "generated_at": "2026-10-24T21:40:00+08:00",
+    "summary": {
+      "window_takeaway": "3DGS 有了「行业格式 + 开源播放器」，内容分发的最后一公里被打通。",
+      "direction": "UWA 联盟在深圳发布 Spatial Vivid 1.0 标准参考工具并开源，覆盖 EGSC 编解码、封装与 Web Viewer，平均 20 倍压缩、手机浏览器可播。",
+      "academic_vs_industry": "标准侧：不是新算法，而是把已有 3DGS 能力装进可互操作的容器里。",
+      "remember_one_thing": "七款手机、加载 <0.9 秒、>45FPS——这组实测数字比「标准发布」本身更有说服力。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-24-A-001",
+        "category": "Engineering",
+        "title": "Spatial Vivid 1.0 参考工具开源：手机浏览器直接播 3DGS",
+        "one_line_judgment": "UWA 联盟开源六自由度三维影像标准 Spatial Vivid 1.0 的全链路参考实现（EGSC 编解码、Toolkit、Web Viewer），面向 3DGS 实现平均 20 倍压缩，七款手机实测加载小于 0.9 秒、帧率超过 45 FPS。",
+        "ai_summary": "一句话：以后 3DGS 场景可以像视频一样在手机浏览器里直接打开——不用装 App、不用下载几个 GB。标准加开源播放器一起给，开发者才有得用。",
+        "detailed_info": "2026 UWA SUMMIT（10 月 21 日至 24 日，深圳）主论坛上，世界超高清视频产业联盟宣布 Spatial Vivid 1.0 标准参考工具开源，包括 EGSC 编解码工具、Web 渲染器工具、封装解封装工具，全部以 MIT 协议开放。\n\n标准依据是《T/UWA 050-2026 支持六自由度交互的三维图像格式》，这是业界首个六自由度三维空间影像格式标准；本次开源的是配套参考实现，覆盖三维资产压缩、媒体封装到交互式展示。\n\n实测数据：Web Viewer 已在华为、荣耀、vivo、OPPO、小米、Apple 多款手机与平板完成兼容性与性能验证，支持系统浏览器与微信内置浏览器。七款设备、约 105 万与 140 万高斯球两个场景下，加载时间均小于 0.9 秒（部分小于 0.3 秒），渲染帧率均超过 45 FPS（部分配置 120 FPS）。Web Viewer 可直接加载工具集生成的 GLB。",
+        "ai_comment": "这件事的分量在「可分发」：3DGS 一直卡在「做得出来、传不出去」。20 倍压缩 + 浏览器播放，等于把分发成本降到接近短视频。要观察两点：EGSC 的专利与授权政策（MIT 只覆盖参考实现，不覆盖专利），以及复杂材质/大范围场景下的画质衰减。如果这两关过了，电商与文旅会最先受益。",
+        "key_facts": [
+          {
+            "metric": "标准",
+            "value": "T/UWA 050-2026，Spatial Vivid 1.0，业界首个 6DoF 三维影像格式标准",
+            "baseline": null,
+            "condition": "2026-10-21 至 10-24 深圳"
+          },
+          {
+            "metric": "压缩/性能",
+            "value": "平均 20 倍压缩；加载 <0.9s；>45FPS（部分 120FPS）",
+            "baseline": "未压缩 3DGS 资产",
+            "condition": "7 款设备，105 万/140 万高斯两个场景"
+          },
+          {
+            "metric": "开源范围",
+            "value": "EGSC 编解码器 + Toolkit + Web Viewer，MIT 协议",
+            "baseline": "各厂商私有播放器",
+            "condition": null
+          }
+        ],
+        "position_relation": "与 JVET 的 3DGS 编码语法标准互补：一个定国际码流，一个定行业格式与播放器。",
+        "signal_strength": "强",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "压缩",
+          "标准",
+          "空间智能"
+        ],
+        "terms": [
+          {
+            "term": "六自由度",
+            "definition_mechanism": "同时支持三个平移与三个旋转的视点变化，观看者可在空间中自由移动与转头",
+            "definition_contrast": "与 360 全景（三自由度，只能转头）相比，6DoF 能产生真实视差"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://k.sina.com.cn/article_1826017320_6cd6d02802001ykmk.html",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-24",
+        "notes": "大会 10-21 至 10-24；开源消息 11-02 正式传播。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-25",
+    "window_start": "2026-10-24T08:00:00+08:00",
+    "window_end": "2026-10-25T08:00:00+08:00",
+    "generated_at": "2026-10-25T21:10:00+08:00",
+    "summary": {
+      "window_takeaway": "本窗口为安静窗口，未采集到落在窗口内、可核实的实质新增信息。",
+      "direction": "无新增方向；周末叠加展会/会议空档，三维重建领域无实质发布。",
+      "academic_vs_industry": "学术侧与产业侧同步静默。",
+      "remember_one_thing": "属正常信息间隙，不用旧闻填充。"
+    },
+    "items": []
+  },
+  {
+    "report_id": "daily-2026-10-26",
+    "window_start": "2026-10-25T08:00:00+08:00",
+    "window_end": "2026-10-26T08:00:00+08:00",
+    "generated_at": "2026-10-26T22:30:00+08:00",
+    "summary": {
+      "window_takeaway": "3DGS 工具链开始「可被智能体操作」，同时 SLAM 侧在补几何先验与内存可扩展性。",
+      "direction": "SuperSplat 3.7 加入 WebMCP 与类型化编辑 API；SG²SLAM 用流式几何先验约束单目户外建图；TopoGS-SLAM 用覆盖触发初始化把建图变成有界问题；奥比中光 Q3 视觉方案收入翻倍。",
+      "academic_vs_industry": "同向：学术在解决「漂移与显存」，工具在解决「谁来操作」，产业在给出货量。",
+      "remember_one_thing": "智能体能选中、裁剪、清理高斯——编辑动作从此可以被脚本化重放。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-26-A-001",
+        "category": "OpenSource",
+        "title": "SuperSplat 3.7：智能体可以通过 WebMCP 编辑高斯场景",
+        "one_line_judgment": "发布原生 WebMCP 工具与基于序列化选择命令的类型化编辑 API，非法命令直接拒绝而非半执行，24 天内第四个版本，延续 MIT 许可。",
+        "ai_summary": "简单说：以前清理一个高斯场景要人手点选、裁剪、去漂浮物；现在智能体可以用同一套命令帮你干，而且命令写错会被拒绝，不会改到一半留下烂摊子。",
+        "detailed_info": "3.7.0 于 10 月 26 日发布，距 9 月 8 日的 v3.0.0 WebGPU 重写仅 24 天，是第四个版本。关键变化在「谁握鼠标」：原生 WebMCP 工具（PR #1081）加上基于序列化选择命令的类型化编辑 API（PR #1078），使智能体可以通过与你点击时相同的命令完成选择、裁剪与清理。\n\n一个容易被忽略但很重要的细节：非法命令会被拒绝，而不是半应用（PR #1082）。对智能体来说，「改到一半失败」比「不改」危险得多——场景状态不可预期，后续所有操作都失去基准。另外补了变换与颜色面板的复制粘贴（PR #1077）。\n\n许可证仍是 MIT。",
+        "ai_comment": "这是「3D 工具为智能体而改」的第一个明确样本，方向对。但别高估：目前能自动化的都是「无聊的活」——去漂浮物、按边界裁剪、每次采集重复同样的清理。真正有价值的半自动编辑（比如按语义分割物体再删除）还没到。建议团队先把这类批处理接进采集流水线，收益立刻可见。",
+        "key_facts": [
+          {
+            "metric": "版本节奏",
+            "value": "v3.7.0（2026-10-26），24 天内第四个版本",
+            "baseline": "v3.0.0 WebGPU 重写（2026-09-08）",
+            "condition": "MIT 许可"
+          },
+          {
+            "metric": "新增",
+            "value": "WebMCP 工具 + 类型化编辑 API + 非法命令拒绝",
+            "baseline": "纯手工编辑",
+            "condition": "PR #1077/#1078/#1081/#1082"
+          }
+        ],
+        "position_relation": "与 LichtFeld 的 MCP 桥、Rerun 的变换图接口同属「三维工具智能体化」趋势。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "开源工具",
+          "工程化"
+        ],
+        "terms": [
+          {
+            "term": "类型化命令 API",
+            "definition_mechanism": "把编辑操作定义成有明确参数与校验规则的结构化命令，供程序或智能体调用",
+            "definition_contrast": "与模拟鼠标点击相比可验证、可回放、失败可拒绝，是自动化的前提"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://github.com/playcanvas/supersplat/releases",
+            "type": "official"
+          }
+        ],
+        "date": "2026-10-26",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-26-A-002",
+        "category": "Research",
+        "title": "SG²SLAM：用流式几何先验治单目户外建图的「级联退化」",
+        "one_line_judgment": "以块级度量先验替代逐帧二维-三维对应来同时监督跟踪与建图，并用射线条件化的高斯基元感知单目视角，在 KITTI 与 Waymo 上优于逐帧关联基线。",
+        "ai_summary": "简单说：单目 SLAM 的老毛病是「跟踪错一点，地图就跟着错，越走越歪」。这个方法不再一帧一帧地对像素，而是先攒一小块空间的几何先验，用同一个来源同时约束定位和建图，误差就不会层层放大。",
+        "detailed_info": "单目户外导航需要稳健的相机运动估计与稠密可导航地图，3DGS SLAM 靠显式可微参数化与闭式投影来做这件事。但典型做法是把二维像素与三维点关联，模块化系统会把跟踪误差吸收进地图，形成级联退化。\n\nSG²SLAM 的两个设计：一是流式空间几何（streaming spatial geometry），用块级度量先验取代逐帧的跨维对应，让跟踪与建图由同一个来源监督；二是射线条件化核（ray-conditioned kernel），给每个基元扩展一个视角方向子空间，用来感知单目相机的视点变化。\n\n在 KITTI 与 Waymo Open 数据集上，单目户外导航任务优于逐帧关联基线。代码将在录用后公开。",
+        "ai_comment": "「块级先验替代逐帧对应」是合理的工程折中——它把误差积累的周期从一个帧拉长到一块空间，稳定性提升但响应变慢。真正的问题是块边界处的接缝，论文用联合优化来压，实际长距离运行是否稳定还要看。KITTI/Waymo 都是结构化道路，非结构化户外（山林、工地）才是单目 SLAM 的坟场。",
+        "key_facts": [
+          {
+            "metric": "方法",
+            "value": "流式空间几何（块级度量先验）+ 射线条件化 3DGS 核",
+            "baseline": "逐帧 2D-3D 关联的模块化 SLAM",
+            "condition": "单目户外导航"
+          },
+          {
+            "metric": "验证",
+            "value": "KITTI、Waymo Open 上优于逐帧关联基线",
+            "baseline": "逐帧关联基线",
+            "condition": "代码待录用后公开"
+          }
+        ],
+        "position_relation": "补 3DGS SLAM 的「单目 + 户外 + 长距离漂移」短板。",
+        "signal_strength": "中",
+        "tags": [
+          "SLAM",
+          "3DGS",
+          "三维重建",
+          "自动驾驶"
+        ],
+        "terms": [
+          {
+            "term": "级联退化",
+            "definition_mechanism": "跟踪误差被写入地图，地图误差又反过来误导跟踪，形成正反馈式的持续恶化",
+            "definition_contrast": "与单次误差不同，它会随轨迹长度累积，是长距离 SLAM 的主要失效模式"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://arxiv.science/abs/2610.36312",
+            "type": "paper"
+          }
+        ],
+        "date": "2026-10-26",
+        "notes": "arXiv 2026-10-26，10-28 更新。"
+      },
+      {
+        "item_id": "2026-10-26-A-003",
+        "category": "Research",
+        "title": "TopoGS-SLAM：把高斯建图从「无限加密」变成有界问题",
+        "one_line_judgment": "用覆盖触发的高斯初始化与有界拓扑优化，把细化与容量解耦，在标准室内基准上精度不降的同时显著改善内存可扩展性与吞吐。",
+        "ai_summary": "简单说：现在的高斯 SLAM 有个坏习惯——越走越多点，内存一路涨，速度一路掉，但精度早就到顶了。这个方法改成「哪里没盖住才加点」，点数有上界，跑长路线也不炸显存。",
+        "detailed_info": "主流高斯 SLAM 依赖残差驱动的致密化（densification），把「细化」和「表示增长」绑在一起：精度在中等基元数量时就饱和，但内存会沿整条轨迹持续增长，吞吐随之下降。\n\nTopoGS-SLAM 提出稳态采样（stationary sampling）表述：用覆盖触发的高斯初始化，只在没有被充分覆盖的区域新增基元；配合有界拓扑优化，把建图变成有界维度问题，规模可稳定扩展。\n\n在标准室内基准上，定位与重建精度与基于致密化的管线相当或更好，同时内存与吞吐明显改善。作者给出的边界条件也很诚实：在有足够多视角覆盖的、有界区域的静态室内场景中，迭代式的拓扑变异并非必需。",
+        "ai_comment": "「覆盖触发」比「残差触发」更符合几何直觉，也更容易设上限——这是把工程可控性放在精度之前的取舍，我认同。但作者自己划了边界：静态、有界、覆盖充分。一旦走出室内（大范围户外、动态物体），覆盖判据会失效，这套方法未必成立。",
+        "key_facts": [
+          {
+            "metric": "方法",
+            "value": "覆盖触发初始化 + 有界拓扑优化（稳态采样）",
+            "baseline": "残差驱动致密化",
+            "condition": "arXiv 2601.00705，2026-10-26"
+          },
+          {
+            "metric": "效果",
+            "value": "精度相当或更优，内存可扩展性与吞吐显著改善",
+            "baseline": "致密化管线",
+            "condition": "标准室内基准"
+          }
+        ],
+        "position_relation": "与 SG²SLAM 同日出现，一个治漂移、一个治内存，都是 3DGS SLAM 的工程化补课。",
+        "signal_strength": "中",
+        "tags": [
+          "SLAM",
+          "3DGS",
+          "三维重建",
+          "工程化"
+        ],
+        "terms": [
+          {
+            "term": "致密化",
+            "definition_mechanism": "在重建过程中不断分裂/克隆高斯基元以增加细节，是 3DGS 提升画质的主要手段",
+            "definition_contrast": "代价是基元数量与显存持续增长，长序列建图时容易失控"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://searcharxiv.com/abs/2601.00705",
+            "type": "paper"
+          }
+        ],
+        "date": "2026-10-26",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-26-A-004",
+        "category": "Application",
+        "title": "奥比中光 Q3：视觉方案收入翻倍，机器人客户超千家",
+        "one_line_judgment": "2026 年三季报显示 3D 视觉方案收入同比翻倍、机器人客户超过一千家，订单出现「计划采购量追不上实际提货量」的倒挂。",
+        "ai_summary": "一句话：机器人公司买 3D 相机的速度，比它们自己年初计划的还快。这说明「给机器人装眼睛」已经从演示需求变成产线刚需。",
+        "detailed_info": "三季报（10 月 26 日披露）的核心信息有三条：3D 视觉方案收入同比翻倍；机器人客户超过一千家；出现订单倒挂——计划采购量持续追不上实际提货量。\n\n供给侧的配套动作：顺德 3D 视觉生产基地分期建设，规划越南工厂，目标年产能超 600 万台；Gemini 330 系列完成英伟达生态适配，让「眼睛」直接接上主流机器人算力；端侧 AI 芯片已能本地流畅运行 7B 到 13B 参数模型。公司还计划最早年底推出集成深度增强引擎的商业版一体化相机，把「3D 相机 + 空间感知能力」打包交付。\n\n10 月 29 日与奥比中光的另一则消息呼应：大晓机器人与之签署万台战略采购协议。",
+        "ai_comment": "订单倒挂是比任何演示都真实的供需信号，但要区分「备货」与「装机」——整机厂常按融资节奏提前锁产能。真正该看的是季度末的存货周转与毛利率：如果收入翻倍而毛利下滑，说明在以价换量。600 万台/年的产能规划相对当前人形出货量偏乐观。",
+        "key_facts": [
+          {
+            "metric": "增长",
+            "value": "3D 视觉方案收入同比翻倍，机器人客户超 1000 家",
+            "baseline": "2025 年同期",
+            "condition": "2026 年三季报"
+          },
+          {
+            "metric": "供需",
+            "value": "订单倒挂：计划采购量追不上实际提货量",
+            "baseline": null,
+            "condition": "公司口径"
+          },
+          {
+            "metric": "产能",
+            "value": "顺德 + 越南，目标 600 万台/年",
+            "baseline": null,
+            "condition": "分期建设"
+          }
+        ],
+        "position_relation": "与禾赛 Kosmo、Stereolabs 同处「机器人三维感知硬件」层，但更偏传感器与模组。",
+        "signal_strength": "中",
+        "tags": [
+          "深度相机",
+          "具身智能",
+          "端侧部署",
+          "三维重建"
+        ],
+        "terms": [
+          {
+            "term": "订单倒挂",
+            "definition_mechanism": "客户实际提货量超过其原先申报的计划采购量，反映需求强于预期",
+            "definition_contrast": "与「订单积压」不同，倒挂说明的是预测失真，而非产能不足"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://t.10jqka.com.cn/pid_716279296.shtml",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-26",
+        "notes": "三季报 2026-10-26 披露。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-27",
+    "window_start": "2026-10-26T08:00:00+08:00",
+    "window_end": "2026-10-27T08:00:00+08:00",
+    "generated_at": "2026-10-27T22:50:00+08:00",
+    "summary": {
+      "window_takeaway": "具身智能的竞争从「本体」转向「数据引擎」，两家公司同一天给出不同答案。",
+      "direction": "智元发布 Genie Master 让机器人在岗自学；行元智能发布跨本体数据引擎 Chorus，押注训练数据的「词元化」整合；英国 Machenta 用纯仿真预训练做「演示一次即学会」。",
+      "academic_vs_industry": "产业侧：三条路线（在线自学、数据复用、仿真预训练）在同一天被摆上桌，说明数据瓶颈没有共识解法。",
+      "remember_one_thing": "不造本体、只做数据「词元化」——行元智能赌的是数据层会比本体层更集中。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-27-A-001",
+        "category": "Application",
+        "title": "智元 Genie Master：让机器人在便利店「上岗即自学」",
+        "one_line_judgment": "智元发布具身 Agent 框架 Genie Master，搭载该框架的精灵 G2 在真实便利店不依赖人工示范与调试，自主定位失败原因、调整策略并沉淀经验，实现无人工干预的持续进化。",
+        "ai_summary": "简单说：以前的机器人换个店就要工程师重新调一遍；现在它自己在店里试、失败、总结、改进，像新员工上手一样。",
+        "detailed_info": "Genie Master 的定位是「具身 Agent 框架」而不是某个模型：它把任务分解、失败诊断、策略调整与经验沉淀串成闭环，让机器人在真实作业中持续改进。\n\n演示场景选得很务实——真实便利店门店，而不是实验室货架。搭载框架的精灵 G2 在多个复杂精细任务上持续改进，且不依赖人工示范与现场调试。这一点比「成功率数字」更有意义：便利店的 SKU 每天都在变，靠预先编程无法覆盖。\n\n与同一天行元智能的 Chorus（跨本体数据引擎）形成对照：一个强调「在岗学习」，一个强调「数据复用」，本质是在回答同一个问题——数据从哪来。",
+        "ai_comment": "「不依赖人工示范」是关键承诺，但要区分「无需示范」和「无需人」：真实门店里补货、理货、异常处理仍需要人兜底。这套框架的价值在降低部署边际成本——每开一家新店的调试工时，才是连锁客户真正在意的账。",
+        "key_facts": [
+          {
+            "metric": "框架",
+            "value": "Genie Master 具身 Agent 框架",
+            "baseline": "预编程 + 人工现场调试",
+            "condition": "2026-10-27 发布"
+          },
+          {
+            "metric": "验证场景",
+            "value": "真实便利店门店，精灵 G2 自主诊断失败并调整策略",
+            "baseline": "实验室货架演示",
+            "condition": "无人工示范与调试"
+          }
+        ],
+        "position_relation": "与行元 Chorus、Machenta 同属「具身数据/学习范式」竞争，路线各异。",
+        "signal_strength": "中",
+        "tags": [
+          "具身智能",
+          "空间智能",
+          "端侧部署"
+        ],
+        "terms": [
+          {
+            "term": "具身 Agent",
+            "definition_mechanism": "把感知、任务规划、动作执行与失败恢复串成闭环的智能体，可在真实环境中自主改进",
+            "definition_contrast": "与单一大模型策略不同，它强调多轮试错与经验沉淀"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.toutiao.com/a7703571389801841161",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-27-A-002",
+        "category": "Application",
+        "title": "行元智能 Chorus：不造本体，做机器人训练数据的「词元化」整合",
+        "one_line_judgment": "发布面向机器人预训练的跨本体数据引擎 Chorus，把不同本体的采集数据统一成可复用的训练单元，押注数据规模化供给而非本体制造。",
+        "ai_summary": "一句话：这家公司不造机器人，专门解决「各家机器人采的数据互相不能用」的问题——把数据整理成通用格式，谁都能拿去训练。",
+        "detailed_info": "创始人杨世琦（00 后学者）的判断是：具身智能的命门不在硬件本体，也不在单纯追模型，而在训练数据的规模化供给与复用。Chorus 的定位就是跨本体数据引擎，把这批数据整理成可复用的「词元」式单元，供不同本体的预训练使用。\n\n这个切入点的现实基础是数据孤岛：每家整机厂的采集设备、关节构型、传感器配置都不同，采出来的数据维度与语义对不上，无法合并训练。谁能定义中间表示，谁就能吃到网络效应。\n\n同类玩家还有星忆智能（EgoKit 采集 + HBR Engine 处理）、景烁科技（EGOK 采集设备 + WorldEngine 数据平台）。",
+        "ai_comment": "「数据层的中间表示」是个好位置——一旦成为事实标准，粘性极强。但这也是最难的位置：要同时说服整机厂交出数据、又要让模型方相信这套表示不丢信息。没有本体业务做抓手，冷启动会很慢。同类公司三个月内冒出好几家，说明窗口真实存在，但也意味着很快会洗牌。",
+        "key_facts": [
+          {
+            "metric": "产品",
+            "value": "Chorus 跨本体数据引擎，面向机器人预训练",
+            "baseline": "各家自建数据格式",
+            "condition": "2026-10-27 发布"
+          },
+          {
+            "metric": "定位",
+            "value": "不造本体，做训练数据的规模化供给与复用",
+            "baseline": "本体厂自采自用",
+            "condition": null
+          }
+        ],
+        "position_relation": "与景烁科技、星忆智能同处「具身数据中间层」，与本体厂是合作而非竞争。",
+        "signal_strength": "中",
+        "tags": [
+          "具身智能",
+          "数据采集",
+          "空间智能"
+        ],
+        "terms": [
+          {
+            "term": "跨本体",
+            "definition_mechanism": "让同一套数据或策略能迁移到不同构型、不同传感器的机器人上",
+            "definition_contrast": "与单一本体专用数据相比通用性更强，但需要统一的动作与观测表示"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.toutiao.com/a7703571389801841161",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-27-A-003",
+        "category": "Application",
+        "title": "Machenta 获 4000 万美元种子轮：纯仿真预训练，演示一次即学会",
+        "one_line_judgment": "英国机器人公司 Machenta 完成 4000 万美元种子轮（Creandum、Union Square Ventures 领投），其基础模型完全基于仿真数据预训练，目标是「给机器人演示一次新任务、无需再训练即可习得」。",
+        "ai_summary": "简单说：它想让机器人「看一遍就会」。而且训练它的数据全是在电脑里模拟出来的，不烧真机、不雇人采集——如果成立，数据成本会塌下来。",
+        "detailed_info": "Machenta 聚焦 Instant Robot Learning：给机器人演示一次新任务，不需要再训练就能习得能力。模型完全基于仿真数据预训练，不使用现实数据。\n\n融资 4000 万美元种子轮，Creandum 与 Union Square Ventures 共同领投，资金用于扩大研发团队、提升算力投入，并用更多仿真数据训练基础模型。\n\n这条路线与「真机采集派」（禾赛 Kosmo、奥比中光、各大数采中心）形成正面对照：一方认为真实数据的物理真实性不可替代，一方认为仿真足够好且成本低三个数量级。",
+        "ai_comment": "纯仿真预训练的最大风险是 sim-to-real gap——摩擦、形变、透明反光这些物理细节，仿真里永远差一口气。它能拿到 4000 万美元种子轮，说明资本愿意为「数据成本归零」的叙事下注。判断标准很简单：演示一次就能学会的任务，是不是只限抓取这类接触简单的动作。",
+        "key_facts": [
+          {
+            "metric": "融资",
+            "value": "4000 万美元种子轮，Creandum + Union Square Ventures 领投",
+            "baseline": null,
+            "condition": "2026-10-27"
+          },
+          {
+            "metric": "方法",
+            "value": "完全基于仿真数据预训练，演示一次即习得",
+            "baseline": "真机遥操作采集 + 微调",
+            "condition": "Instant Robot Learning"
+          }
+        ],
+        "position_relation": "与真机数采派（Kosmo、数采中心）路线相反，是「仿真 vs 真实」之争的又一个注脚。",
+        "signal_strength": "中",
+        "tags": [
+          "具身智能",
+          "仿真",
+          "世界模型"
+        ],
+        "terms": [
+          {
+            "term": "sim-to-real gap",
+            "definition_mechanism": "仿真环境与真实世界在物理参数、传感噪声、材质表现上的差异，导致仿真训练的模型在真机上性能下降",
+            "definition_contrast": "差距越小，仿真数据的替代性越强；接触密集任务差距最大"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://news.qq.com/rain/a/20261101A04ZT100",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-28",
+    "window_start": "2026-10-27T08:00:00+08:00",
+    "window_end": "2026-10-28T08:00:00+08:00",
+    "generated_at": "2026-10-28T21:52:43+08:00",
+    "summary": {
+      "window_takeaway": "前馈式重建与一体化采集硬件密集涌现，学术与产业同向推进真实世界度量级三维采集的下沉。",
+      "direction": "学术侧 GeoGSplat、DomeGS 推进前馈非像素对齐 3DGS 的几何先验与无界背景补全；产业侧多款采集/重建产品同日发布或获背书，共同指向物理 AI 与具身智能的数据入口。",
+      "academic_vs_industry": "同向：学术补齐 3DGS 的图元冗余与无界背景短板，产业把同一技术打包成手机/机器人可用的采集终端，两者互相印证。",
+      "remember_one_thing": "禾赛 Kosmo 获皮克斯官方渲染教程点名，中国激光雷达厂商的 3DGS 采集终端首次进入好莱坞视效流程。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-28-A-001",
+        "category": "Research",
+        "title": "GeoGSplat：几何约束下的非像素对齐前馈高斯溅射",
+        "one_line_judgment": "通过注入几何先验抑制非像素对齐前馈 3DGS 在大视角变化下的渲染伪影，使图元数量不随分辨率和视角数增长的同时保住质量。",
+        "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80",
+        "ai_summary": "简单说，这是一套「看一眼就能把照片变成三维场景」的算法，而且不靠传统的逐场景反复优化。它聪明的地方在于：不是每个像素都堆一个点，而是用几何约束把点「安排」得更合理，所以视角转得再大也不会糊成一团。",
+        "detailed_info": "传统 3DGS 的前馈重建分两条路线：像素对齐路线会把图元数量随着分辨率和视角数线性堆上去，成本失控；非像素对齐路线虽然省点，但视角一大就容易出现中心错位、渲染伪影。\n\nGeoGSplat 的思路是给这条前馈管线注入一个显式几何先验——用双分支编码器同时输出 Anchor 和 Triplane，再由分层解码器解码出稠密 3D 点和高斯图元。这样一来，图元不再盲目铺满空间，而是贴合真实几何表面。\n\n代价是它多了一个几何先验分支，泛化边界受先验质量约束；但在输入视角覆盖不足、目标视角偏离大的场景下，稳定性明显优于纯前馈方法。",
+        "ai_comment": "方向是对的：前馈重建想真正落地，迟早要解决「图元冗余」和「大视角伪影」这两块硬骨头。但论文目前只给了 DTU、NRGBD 这类室内基准，距离真实世界无界场景还有距离；而且代码和权重还没放出来，复现成本高。结论：值得关注，但先别急着当生产工具。",
+        "key_facts": [
+          {
+            "metric": "方法类型",
+            "value": "前馈式非像素对齐 3DGS，双分支编码器输出 Anchor+Triplane",
+            "baseline": "像素对齐前馈 3DGS",
+            "condition": "DTU 与 NRGBD 基准"
+          },
+          {
+            "metric": "泛化优势",
+            "value": "目标视角偏离输入相机越远优势越大",
+            "baseline": "SOTA 像素对齐与非像素对齐 3DGS",
+            "condition": "大视角变化"
+          },
+          {
+            "metric": "复现资产",
+            "value": "项目页与 arXiv:2610.36760",
+            "baseline": null,
+            "condition": "暂无代码/权重说明"
+          }
+        ],
+        "position_relation": "补充像素对齐前馈 3DGS 的图元冗余与非像素对齐方法的中心错位问题。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "前馈式重建",
+          "3D reconstruction"
+        ],
+        "terms": [
+          {
+            "term": "前馈式重建",
+            "definition_mechanism": "一次前向推理直接输出场景表示或几何结果，无需逐场景迭代优化",
+            "definition_contrast": "与 NeRF 类逐场景训练路线不同，优势在速度，代价是细节与泛化边界"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2610.36760",
+            "type": "paper"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": "arXiv v1 提交时间 2026-10-27 07:15 UTC。"
+      },
+      {
+        "item_id": "2026-10-28-A-002",
+        "category": "Research",
+        "title": "DomeGS：无界 3DGS 的感知一致背景补全（VR 场景）",
+        "one_line_judgment": "把传统 VR 的 skydome 从扁平背景壳改造为融入 3DGS 场景的一部分，缓解无界户外场景重建的地平线残缺。",
+        "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1000&q=80",
+        "ai_summary": "简单说，VR 里的三维场景到了边缘常常「露馅」——地平线残缺、天空像一张贴在远处的画。这篇工作把天空穹顶改造成真正属于三维场景的一部分，你转头、走近，远景依然连贯。",
+        "detailed_info": "无界户外场景的 3DGS 重建有个老大难：相机没拍到的远处背景和地平线，重建出来要么缺失、要么扭曲。在屏幕上看看也许能忍，但在 VR 里用户会自由移动头部，这种残缺会立刻破坏沉浸感，甚至引发不适。\n\nDomeGS 的做法是改造 VR 沿用多年的 skydome（天空穹顶）：不再把它当作一张贴在无穷远处的扁平背景图，而是让天空与地平线成为 3DGS 场景表示的一部分，前景与背景用同一套图元统一表达。\n\n验证上用了 36 人的用户实验（N=36），空间临场感与真实感两项主观指标均显著优于传统 skybox 基线（p=0.042）。属表示层面的修补，而非新范式。",
+        "ai_comment": "这是典型的「体验型修补」创新：不改变 3DGS 的技术范式，但修掉的恰好是 VR 沉浸感最敏感的那块短板。主观指标达到统计显著是加分项，但提升幅度有限；真正的考验在于能否被主流 VR 重建管线低成本集成，以及在大范围移动（而非原地转头）时是否依然稳定。",
+        "key_facts": [
+          {
+            "metric": "主观指标",
+            "value": "空间临场感 p=0.042、真实感 p=0.042 显著优于基线",
+            "baseline": "skybox 基线",
+            "condition": "N=36 用户实验"
+          },
+          {
+            "metric": "方法类型",
+            "value": "将天空/地平线整合进 3DGS 表示，统一前景与背景",
+            "baseline": "传统背景壳",
+            "condition": "无界户外场景重建"
+          }
+        ],
+        "position_relation": "补充 3DGS 在无界户外场景的地平线不完整短板，属表示层面的修补而非新范式。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "三维重建",
+          "AR/VR"
+        ],
+        "terms": [
+          {
+            "term": "skydome",
+            "definition_mechanism": "VR/游戏里的「天空穹顶」：把远景天空贴在一个包围用户的球壳上，制造无限远的假象",
+            "definition_contrast": "传统 skydome 是扁平贴图，不随视角产生视差；DomeGS 让它成为可感知深度的场景一部分"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://arxiv.org/abs/2610.37172v1",
+            "type": "paper"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-28-B-001",
+        "category": "Application",
+        "title": "SpAItial Echo-3：iPhone 视频到度量级 3D 世界",
+        "one_line_judgment": "把短 iPhone 视频到度量级 3D 高斯/点云/网格从云端研究带进消费级 iOS App，用生成式填充未覆盖区域。",
+        "image": "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1000&q=80",
+        "ai_summary": "一句话：用 iPhone 拍一段短视频，就能拿到可以量尺寸的三维模型。以前这是专业激光扫描仪才能干的活，现在被装进了一个订阅制 App。",
+        "detailed_info": "工作流非常轻：iPhone 拍一段短视频（iOS 18+），上传到云端处理，拿回度量级的 3D 高斯溅射、点云和网格——所谓度量级，就是模型里可以直接量距离、量尺寸。没拍到的区域由生成式模型补齐。\n\n商业化走订阅制：Standard $49.99/7500 credits，Pro $99.99/15000 credits。公司 SpAItial 2025 年 5 月刚拿到 1300 万美元种子轮，CEO Matthias Niessner 是慕尼黑工业大学的视觉计算教授，学术背景很硬。\n\n值得注意的定位：它不挑战专业扫描的精度上限，而是把「快速数字化真实空间」这件事的门槛降到消费级——房产展示、小型电商建模、社交分享是典型场景。",
+        "ai_comment": "真正值得关注的是分发形态：重建能力以消费 App 而非开发者 API 出现，说明团队赌的是大众市场。风险有二——云端处理的隐私顾虑，以及订阅价格能否被普通用户接受。如果体验站稳，这类「扫描即服务」会反过来挤压低端手持扫描硬件的市场。",
+        "key_facts": [
+          {
+            "metric": "输入/输出",
+            "value": "短 iPhone 视频到度量级 3D splats、点云、网格，可测距",
+            "baseline": "需专业激光扫描硬件",
+            "condition": "iOS 18+，云处理"
+          },
+          {
+            "metric": "定价",
+            "value": "Standard $49.99/7500 credits，Pro $99.99/15000 credits",
+            "baseline": null,
+            "condition": "订阅制"
+          },
+          {
+            "metric": "公司背景",
+            "value": "2025 年 5 月获 $13M 种子轮，CEO Matthias Niessner",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "替代专业激光扫描工作流在普通用户快速数字化真实空间这一场景。",
+        "signal_strength": "强",
+        "tags": [
+          "三维重建",
+          "3DGS",
+          "点云",
+          "网格",
+          "数字孪生",
+          "手持扫描仪"
+        ],
+        "terms": [
+          {
+            "term": "度量尺度重建",
+            "definition_mechanism": "输出的三维场景保持真实世界物理尺寸，可直接测量距离与尺寸",
+            "definition_contrast": "与仅视觉上逼真但尺度任意或未知的神经渲染结果不同"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://spatialinsiders.com/stories/spaitial-echo-3-iphone-3d-scanning",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": "发布日 2026-10-27。"
+      },
+      {
+        "item_id": "2026-10-28-B-002",
+        "category": "Hardware",
+        "title": "禾赛 Kosmo 获皮克斯官方渲染教程点名",
+        "one_line_judgment": "禾赛 Kosmo 手持 3D 采集终端进入皮克斯 RenderMan 官方教程，把车载激光雷达厂商推入好莱坞视效流程。",
+        "image": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1000&q=80",
+        "ai_summary": "简单说：激光雷达大厂禾赛做的手持三维扫描设备，被皮克斯官方渲染教程当作「真实世界三维采集」的示范工具——中国硬件第一次以这种方式进入好莱坞的视效工作流。",
+        "detailed_info": "事件本身不大，但分量不轻：皮克斯的 RenderMan 官方教程引用禾赛 Kosmo，演示如何用专业渲染器处理真实世界采集的 3DGS 数据。这意味着影视视效行业开始把这类手持终端当作正经的生产工具。\n\n设备侧，Kosmo One 集成了定制激光雷达、最高 8K 成像、一英寸 CMOS 与高精度 IMU，官方口径约 100㎡ 的手持扫描只需 15-20 分钟——此前同精度级别往往需要多传感器拼装的台架方案。\n\n更深层的变化是叙事转向：禾赛的主业是车载激光雷达，Kosmo 系列把它带入「物理世界数字化入口」这条新故事线——机器人、影视、空间计算都需要高质量的真实世界三维数据。",
+        "ai_comment": "背书的含金量高，但要冷静：这是「教程点名」而非采购公告，商业转化仍待观察。对禾赛而言真正的价值在于第二增长曲线的叙事成立——激光雷达从车载走向万物数字化。这条故事线能否兑现，取决于采集终端的出货量，而非教程里的露脸次数。",
+        "key_facts": [
+          {
+            "metric": "第三方背书",
+            "value": "皮克斯官方教程引用 Kosmo，用 RenderMan 处理真实世界 3DGS 数据",
+            "baseline": null,
+            "condition": "QbitAI 报道"
+          },
+          {
+            "metric": "采集效率",
+            "value": "约 100㎡ 手持扫描 15-20 分钟",
+            "baseline": "传统多传感器拼装台架",
+            "condition": null
+          },
+          {
+            "metric": "硬件规格",
+            "value": "Kosmo One 集成定制激光雷达、最高 8K 成像、一英寸 CMOS、高精度 IMU",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "与 SpAItial 同属真实世界数据终端，但走专业硬件路线、以精度与尺度见长。",
+        "signal_strength": "强",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "点云",
+          "mesh",
+          "手持扫描仪",
+          "深度估计",
+          "数字孪生"
+        ],
+        "terms": [
+          {
+            "term": "激光雷达",
+            "definition_mechanism": "通过发射激光并测量回波时间/相位来精确测距，直接获取场景的三维几何",
+            "definition_contrast": "与纯相机的被动视觉方案相比，激光雷达主动发光、测距准且不受光照影响，代价是成本与体积"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://ainewsfeed.tech/articles/pixar-highlights-hesai-s-kosmo-3d-scanner-for-real-world-gaussian-splatting-37312-en-us-v1",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-28-B-003",
+        "category": "Hardware",
+        "title": "Stereolabs ZED Box 2 系列：边缘多相机视觉计算",
+        "one_line_judgment": "把最高 2070 FP4 TFLOPS 的 Jetson Thor 算力与最多 8 路 GMSL2 同步相机、硬件级帧同步整合进工业边缘 AI 机。",
+        "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80",
+        "ai_summary": "简单说：Stereolabs 把英伟达最新的 Jetson Thor 算力和最多 8 路相机同步接口塞进一个工业盒子里——相当于给机器人、机械臂装了一个「多眼睛视觉大脑」，就在巴黎发布。",
+        "detailed_info": "配置层面，ZED Box 2 最高可选 Jetson Thor 平台：2,070 FP4 TFLOPS 算力、128 GB 内存，已经能在本地跑相当规模的视觉模型，不必回传云端。\n\n更关键的是连接层：原生支持最多 8 路 GMSL2 相机接入，并提供硬件级帧同步——所有相机在同一瞬间曝光。对三维感知来说这一点是刚需：运动场景下哪怕差几毫秒，多视角融合的深度就会错位。\n\n目标场景写得很明白：AMR（自主移动机器人）、机械臂、人形机器人的多视角、多传感器融合。它不生产算法，卖的是「机器人感知的基础设施」。",
+        "ai_comment": "参数漂亮，但这类边缘盒子的竞争壁垒从来不在算力数字，而在相机生态、标定工具链与长期供货能力。Stereolabs 深耕立体视觉多年，8 路硬件级同步是实打实的工程壁垒；短板是与 Jetson 平台深度绑定带来的成本、功耗与供应链波动风险。",
+        "key_facts": [
+          {
+            "metric": "算力/内存",
+            "value": "最高 2,070 FP4 TFLOPS、128 GB 内存（Jetson Thor）",
+            "baseline": "上代 ZED Box",
+            "condition": null
+          },
+          {
+            "metric": "相机接入",
+            "value": "原生支持最多 8 路 GMSL2 相机，硬件级帧同步",
+            "baseline": "单/双立体相机",
+            "condition": null
+          },
+          {
+            "metric": "定位",
+            "value": "面向 AMR、机械臂/humanoid 多视角、多传感器融合",
+            "baseline": null,
+            "condition": "Paris 发布"
+          }
+        ],
+        "position_relation": "补齐多相机同步采集这一机器人三维感知基础设施。",
+        "signal_strength": "中",
+        "tags": [
+          "SLAM",
+          "端侧部署",
+          "数字孪生"
+        ],
+        "terms": [
+          {
+            "term": "硬件级帧同步",
+            "definition_mechanism": "用硬件信号让多路相机在同一瞬间曝光，保证各视角画面时间严格对齐",
+            "definition_contrast": "软件同步存在毫秒级抖动，运动场景下会导致多视角融合的深度错位"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://finance.yahoo.com/technology/ai/articles/stereolabs-launches-zed-box-2-110000974.html",
+            "type": "official"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-28-B-004",
+        "category": "Application",
+        "title": "Octave Alto 2026.1：地理空间可视化加入高斯溅射",
+        "one_line_judgment": "国防/航空/交通/基建类地理空间平台首次将高斯溅射作为正式资产类型，用于任务规划与基础设施监测。",
+        "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80",
+        "ai_summary": "一句话：高斯溅射第一次作为「正式资产类型」进入国防级地理空间平台——照片和扫描件可以直接变成可指挥、可监测的三维地图，用在任务规划和基础设施巡检上。",
+        "detailed_info": "Octave Alto 2026.1 的新能力：支持把 Gaussian splats 作为正式资产导入，把照片/扫描转换成可自由浏览的真实地点三维模型，服务于任务规划与基础设施监测。此前这类需求要靠人工在多个系统间拼合数据。\n\nAlto 的客户画像是国防、航空、交通、基建——对可视化可靠性要求最高、也最保守的一群用户。同版本还支持北约最新的军用地图符号与作战计划标准，说明产品节奏是跟着军工合规走的。\n\n这一步的意义不在技术新，而在于「被最保守的行业验收」：3DGS 从内容创作和研究 demo，进入了关键基础设施的日常运营工具链。",
+        "ai_comment": "信号意义大于产品意义：国防与基建是最保守的可视化市场，它们的接纳说明 3DGS 已经度过「玩具阶段」。接下来值得关注的是数据主权——国防场景进不了公有云，本地化处理与私有化部署能力会成为下一阶段的竞争点。",
+        "key_facts": [
+          {
+            "metric": "新增能力",
+            "value": "支持 Gaussian splats 将照片/扫描转为可浏览真实地点 3D 模型",
+            "baseline": "此前需人工跨系统拼合",
+            "condition": "Alto 2026.1"
+          },
+          {
+            "metric": "标准",
+            "value": "支持北约最新军用地图符号与作战计划标准",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "把 3DGS 从内容创作/研究推向国防与关键基础设施的运营可视化。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "数字孪生",
+          "实时重建"
+        ],
+        "terms": [],
+        "sources": [
+          {
+            "url": "https://investors.octave.com/news-releases/news-release-details/octave-alto-expands-visualization-capabilities",
+            "type": "official"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-28-B-005",
+        "category": "Hardware",
+        "title": "思岚 Aurora S Lite：轻量 AI 空间感知系统",
+        "one_line_judgment": "把 AI-vSLAM 定位、端到端深度估计与 AI 语义分割塞进更小机身的机器人空间感知模组。",
+        "image": "https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&w=1000&q=80",
+        "ai_summary": "简单说：思岚把 vSLAM 定位、深度估计、语义分割三套 AI 能力压缩进一个更小的机器人「眼睛+小脑」，主打即插即用，让普通机器人开箱就有空间感知。",
+        "detailed_info": "相比标准版 Aurora S，Lite 版升级了三个软件栈：AI-vSLAM 定位、端到端深度估计模型、AI 物体识别与语义分割——定位、几何、语义三件事一体化输出。\n\n形态上主打更小机身、即插即用、开放 SDK，明显是冲着「机器人厂商不想自己养感知团队」这个痛点去的。\n\n需要坦白的是，这次发布缺少量化指标：定位精度、功耗、价格都没给，我们只能把它归为弱信号，等待实测数据。",
+        "ai_comment": "机器人感知模组正在复刻手机摄像头的「集成化」路径：从买器件自己调，到买整套交钥匙方案。思岚在扫地机器人激光雷达上的出货量是底牌，但这次发布零量化指标，诚意打折——建议等第三方实测再判断升级幅度。",
+        "key_facts": [
+          {
+            "metric": "能力",
+            "value": "AI-vSLAM + 端到端深度估计模型升级 + AI 物体识别/分割",
+            "baseline": "Aurora S（标准版）",
+            "condition": "2026-10-27 发布"
+          },
+          {
+            "metric": "形态/集成",
+            "value": "更小机身、即插即用、开放 SDK",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "在机器人定位-建图-语义理解一体化感知模组赛道补充轻量级产品位。",
+        "signal_strength": "弱",
+        "tags": [
+          "SLAM",
+          "深度估计",
+          "点云",
+          "实时重建"
+        ],
+        "terms": [
+          {
+            "term": "vSLAM",
+            "definition_mechanism": "视觉 SLAM：只用相机画面估计自身位置并增量式构建环境地图",
+            "definition_contrast": "相比激光 SLAM 成本更低、信息更丰富，但弱纹理与暗光环境下稳定性是短板"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://new.qq.com/rain/a/20261027A0AZ6Z00",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": "缺关键量化指标，归为弱信号。"
+      },
+      {
+        "item_id": "2026-10-28-B-006",
+        "category": "OpenSource",
+        "title": "Hi3D 开源生产级 3D 底座模型并推出创作者智能体",
+        "one_line_judgment": "把经过生产验证的 3D 底座模型 V1.0 开源并配套创作智能体，试图把生成式 3D 从能生成推向能落地/可打印。",
+        "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80",
+        "ai_summary": "一句话：一家 3D 生成公司把生产环境里验证过的底座模型开源了，还配了创作智能体——目标是让 AI 生成的模型不只是好看，而是真的能 3D 打印出来。",
+        "detailed_info": "商业面：Hi3D 半年内完成两轮近 5000 万美元融资，产品覆盖 120+ 国家、200 万+ 创作者（极客公园报道口径）。\n\n技术面：底座模型基于自研 Sparc3D 稀疏几何技术，本次开源 V1.0，并配套推出面向创作者的智能体。\n\n最值得注意的是他们选的行业痛点：部分头部产品的 3D 打印切片成功率仅 7%-17%——生成得很炫、打印出来全废，是生成式 3D 最难堪的短板。Hi3D 把「可制造性」而不是「美观度」立为核心指标。",
+        "ai_comment": "切片成功率这个指标选得很刁钻——它把生成式 3D 从 demo 竞赛拉回工程竞赛。开源能否形成生态，取决于模型在真实打印场景的通过率，而非宣传图的精美程度。另外 7%-17% 是「报道口径」，建议视为方向性参考而非精确统计。",
+        "key_facts": [
+          {
+            "metric": "融资/规模",
+            "value": "半年内两轮融资近 $50M，覆盖 120+ 国家、200 万+ 创作者",
+            "baseline": null,
+            "condition": "极客公园"
+          },
+          {
+            "metric": "技术底座",
+            "value": "基于 Sparc3D 稀疏几何技术，开源 V1.0",
+            "baseline": null,
+            "condition": null
+          },
+          {
+            "metric": "行业痛点",
+            "value": "部分头部产品 3D 打印切片成功率仅 7%-17%",
+            "baseline": null,
+            "condition": "报道口径"
+          }
+        ],
+        "position_relation": "聚焦生成式 3D + 稀疏几何 + 可制造性，用切片成功率作为落地指标。",
+        "signal_strength": "中",
+        "tags": [
+          "三维重建",
+          "网格",
+          "数字孪生"
+        ],
+        "terms": [
+          {
+            "term": "切片",
+            "definition_mechanism": "3D 打印前把模型切成逐层路径并生成打印机指令的过程",
+            "definition_contrast": "模型在屏幕上能看不代表能打印——壁厚、悬空、封闭性不达标都会导致切片失败"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.ai.jp.net/article/hi3d-opens-its-production-grade-3d-foundation-model-and-launches-a-creator-focus-cbd345?lang=sc",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-28-B-007",
+        "category": "Application",
+        "title": "Rivian 收购 Third Dimension AI：真实数据转可编辑 3D 仿真",
+        "one_line_judgment": "Rivian 收购 Third Dimension AI，把真实世界传感器数据重建为可编辑、可重放的 3D 场景用于自动驾驶边角案例仿真。",
+        "image": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80",
+        "ai_summary": "简单说：车企 Rivian 收购了一家能把真实驾驶数据变成可编辑三维仿真场景的公司——自动驾驶最怕的「边角案例」，以后可以无限重放，还能随意改光照和天气。",
+        "detailed_info": "交易本身金额未披露（TechCrunch 报道），标的 Third Dimension AI 此前拿过 700 万美元种子轮。\n\n能力面：从真实驾驶数据重建三维环境，并且场景可编辑——光照、天气都能改。这对自动驾驶验证意义重大：危险场景在现实里可遇不可求，在可编辑的重建场景里可以系统性复现和变异。\n\nRivian 手里的底牌是数据规模：每天从用户车辆采集 40 万+ 驾驶序列。收购把「数据采集」和「仿真验证」接成了闭环。",
+        "ai_comment": "这与 Tesla 纯靠车队规模堆数据的路线形成有趣对照：Rivian 选择用「重建+仿真」放大既有数据的密度。这条路的瓶颈在重建保真度——仿真与现实的细微偏差，恰恰是边角案例验证中最致命的变量。收购后的整合速度值得跟踪。",
+        "key_facts": [
+          {
+            "metric": "交易",
+            "value": "收购 Third Dimension AI，金额未披露",
+            "baseline": "此前 $7M 种子轮",
+            "condition": "TechCrunch 报道"
+          },
+          {
+            "metric": "能力",
+            "value": "从真实驾驶数据重建 3D 环境，可编辑光照、天气",
+            "baseline": null,
+            "condition": null
+          },
+          {
+            "metric": "数据规模",
+            "value": "Rivian 每日从用户车辆采集 40 万+ 驾驶序列",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "与 Tesla 靠真实车队规模路线相对，Rivian 走重建+可编辑仿真放大既有真实数据。",
+        "signal_strength": "中",
+        "tags": [
+          "三维重建",
+          "数字孪生"
+        ],
+        "terms": [
+          {
+            "term": "边角案例",
+            "definition_mechanism": "自动驾驶中罕见但高风险的长尾场景（如异形障碍物、极端光照），是安全验证的重点",
+            "definition_contrast": "常规路测很难碰到，只能靠大规模车队积累或仿真重建来覆盖"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.rivianwave.com/news/4908/rivian-buys-ai-startup-to-simulate-self-driving-edge-cases",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-27",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-28-D-001",
+        "category": "Engineering",
+        "title": "闽宁镇 23.5km² 空地一体 3DGS 数字模型（其域创新）",
+        "one_line_judgment": "用 18.6 万张影像 + 150 亿雷达点云生成 62 亿高斯椭球，构建 23.5km² 厘米级精度数字闽宁镇。",
+        "image": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80",
+        "ai_summary": "一句话：18.6 万张照片加 150 亿个激光点，重建出一个 23.5 平方公里、厘米级精度的「数字闽宁镇」——这是城镇级三维重建已知的最大规模案例之一。",
+        "detailed_info": "规模数字先摆出来：23.5km² 面积、厘米级几何精度、18.6 万张影像、150 亿雷达点云、最终生成 62 亿个三维高斯椭球。成果在 CCTV-4《闽宁大道》纪录片中呈现。\n\n技术方是其域创新（XGRIDS）：自研采集设备 + 自研软件 + 自研 LCC 数据格式，空地一体采集（无人机 + 地面设备）。\n\n工程意义在于：3DGS 从单物体、小场景被推进到城镇级。到了这个规模，难点已经不是重建算法本身，而是数据管线——采集调度、压缩格式、流式加载与后期更新维护。",
+        "ai_comment": "要提醒：这些数字来自媒体转述而非论文或官方技术报告，建议保留一分审慎。但趋势判断没有疑问——当单场景重建不再是瓶颈，竞争点就转移到数据工程与格式标准，这正是「数字孪生运营商」的入场券，XGRIDS 的自研格式卡位很聪明。",
+        "key_facts": [
+          {
+            "metric": "场景规模",
+            "value": "23.5km²、厘米级几何精度",
+            "baseline": null,
+            "condition": "CCTV-4《闽宁大道》纪录片"
+          },
+          {
+            "metric": "数据/算力规模",
+            "value": "18.6 万张影像、150 亿雷达点云、62 亿三维高斯椭球",
+            "baseline": null,
+            "condition": null
+          },
+          {
+            "metric": "技术方",
+            "value": "其域创新（XGRIDS）自研采集设备 + 软件 + LCC 数据格式",
+            "baseline": null,
+            "condition": "2026-10-28 报道"
+          }
+        ],
+        "position_relation": "把 3DGS 从单物体/小场景推向城镇级空地一体的已知最大规模之一。",
+        "signal_strength": "中",
+        "tags": [
+          "3DGS",
+          "Gaussian Splatting",
+          "点云",
+          "数字孪生",
+          "三维重建"
+        ],
+        "terms": [],
+        "sources": [
+          {
+            "url": "https://new.qq.com/rain/a/20261028A03CJA00",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-28",
+        "notes": "数字来自媒体转述。"
+      },
+      {
+        "item_id": "2026-10-28-B-008",
+        "category": "Hardware",
+        "title": "先临三维 FreeScan Combo Wireless：550g 双光源无线手持扫描",
+        "one_line_judgment": "推出 Combo+ Wireless 与 Combo Wireless 两款无线手持扫描仪，均重 550g、支持五种模式与双光源，最高扫描速度 910 万点/秒、最高精度 0.015mm。",
+        "ai_summary": "一句话：把工业级手持扫描仪做成了 550 克的无线设备——以前这类设备要拖着线、扛着架子，现在单手举着绕工件走一圈就行。",
+        "detailed_info": "两款产品的差异在档位：Combo+ Wireless 最高扫描速度 910 万点/秒、最高精度 0.015mm；Combo Wireless 为 730 万点/秒、0.02mm。共同点是 550g 机身、五种扫描模式、双光源（蓝光激光 + 红外结构光），覆盖从高反光金属到深色表面的不同材质。\n\n无线化对工业现场的意义不只是「方便」：汽车钣金、大型模具这类工件往往在车间里、装夹状态下就要检测，有线设备需要把工件搬到测量室，拆装与复位的误差有时比扫描误差还大。\n\n先临三维（Shining 3D）是国内三维视觉的老牌厂商，工业线覆盖手持激光、跟踪式与自动化检测，消费/教育线以 EinScan 系列为主。",
+        "ai_comment": "参数上这是对思看、知象的直接对位：同样的双光源、同样的 0.015mm 级别、同样主打无线。真正的差异要在「体积精度」上比——单帧精度 0.015mm 在大尺寸工件上会被累积误差吃掉，厂商标称往往只给单帧。采购时应该要求按 ISO 10360 或 VDI/VDE 2634 出第三方报告。",
+        "key_facts": [
+          {
+            "metric": "速度/精度",
+            "value": "Combo+ Wireless 910 万点/秒、0.015mm；Combo Wireless 730 万点/秒、0.02mm",
+            "baseline": "上代有线 Combo 系列",
+            "condition": "2026-10-28 发布"
+          },
+          {
+            "metric": "形态",
+            "value": "550g 无线手持，五种模式，双光源",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "与思看科技 SIMSCAN/TrackScan、知象光电 MetroY 在工业手持扫描赛道正面竞争。",
+        "signal_strength": "中",
+        "tags": [
+          "手持扫描仪",
+          "三维检测",
+          "点云",
+          "逆向工程"
+        ],
+        "terms": [
+          {
+            "term": "双光源",
+            "definition_mechanism": "同时具备激光与结构光两种投射方式，按工件材质与精度需求切换",
+            "definition_contrast": "单一光源难以兼顾高反光金属与深色/哑光表面，双光源扩宽了可扫描材质范围"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://app.myzaker.com/news/article.php?pk=6ae7f1638e9f0958d7706c4f",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-28",
+        "notes": "发布 2026-10-28。"
+      },
+      {
+        "item_id": "2026-10-28-B-009",
+        "category": "Application",
+        "title": "宇树科技上市后首份季报：前三季营收 18.17 亿元",
+        "one_line_judgment": "前三季度营收 18.17 亿元、同比增长 55.71%，净利润 3.87 亿元、同比增长 270.54%；但 Q3 净利润 1.13 亿元同比下降 17.37%，系算力与大模型研发投入增加。",
+        "ai_summary": "一句话：卖机器人很赚钱，但赚的钱又投回了算力和大模型——Q3 利润反而降了。这是硬件公司转向「软硬一体」的典型财务形态。",
+        "detailed_info": "前三季度：营收 18.17 亿元（+55.71%），净利润 3.87 亿元（+270.54%）。单看 Q3：营收 6.65 亿元（+69.93%），净利润 1.13 亿元（-17.37%）。\n\n收入与利润的背离有明确解释：算力及大模型方向研发投入增加。对一家以四足/人形硬件起家的公司，这是从「卖本体」向「卖能力」转型的必付成本——本体毛利再高，也撑不起估值，除非能证明具身智能的软件能力。\n\n这也是观察中国具身智能产业的一个窗口：整机出货已经能形成规模营收，但利润被研发重新吸收，行业整体仍处于投入期。",
+        "ai_comment": "营收 +56%、净利 +270% 的前三季度数字很漂亮，但 Q3 单季净利下滑才是趋势信号——研发投入是主动选择，不是意外。要观察的是这笔投入能不能转化成可售卖的能力（模型授权、数据服务），否则就是硬件公司替AI买单。",
+        "key_facts": [
+          {
+            "metric": "前三季度",
+            "value": "营收 18.17 亿元（+55.71%），净利 3.87 亿元（+270.54%）",
+            "baseline": "2025 年同期",
+            "condition": "上市后首份季报"
+          },
+          {
+            "metric": "Q3 单季",
+            "value": "营收 6.65 亿元（+69.93%），净利 1.13 亿元（-17.37%）",
+            "baseline": "2025 年 Q3",
+            "condition": "研发投入增加"
+          }
+        ],
+        "position_relation": "具身智能整机侧的需求信号，直接决定三维采集设备与训练数据的采购量。",
+        "signal_strength": "中",
+        "tags": [
+          "具身智能",
+          "端侧部署"
+        ],
+        "terms": [
+          {
+            "term": "研发费用化",
+            "definition_mechanism": "当期研发投入直接计入费用、冲减利润，而不是资本化为资产",
+            "definition_contrast": "与资本化相比更保守，会让当期利润难看，但避免未来减值风险"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://so.html5.qq.com/page/real/search_news?docid=70000021_1196ae85ee400252",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-28",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-28-B-010",
+        "category": "Hardware",
+        "title": "小鹏 IRON 固态电池小批量下线，2027 进门店",
+        "one_line_judgment": "小鹏集团副总裁顾捷表示 IRON 机器人固态电池已小批量量产下线，计划 2026 年底实现高阶人形机器人规模化量产、2027 年起进驻全球门店与商业场景。",
+        "ai_summary": "一句话：人形机器人开始解决「能连续站多久」的问题——换成固态电池，续航和安全都往上走，这才是能进门店干活的前提。",
+        "detailed_info": "10 月 28 日，小鹏集团副总裁顾捷披露：IRON 机器人的固态电池已小批量量产下线，计划 2026 年底实现高阶人形机器人规模化量产，2027 年起进驻全球小鹏门店及商业场景。\n\n固态电池对人形的意义在能量密度与安全性：同样重量下续航更长，且热失控风险低于液态锂电——机器人要在人群里工作，安全是硬门槛。\n\n场景选择也务实：先自家门店，环境相对结构化、有员工兜底，再外溢到商业场景。",
+        "ai_comment": "「小批量下线」与「规模化量产」之间隔着良率与成本两道坎，车企口径通常偏乐观。真正值得跟踪的是门店里的实际工时与故障率——机器人卖不卖得动，取决于它能不能替下一个班次的人，而不是发布会上的步态。",
+        "key_facts": [
+          {
+            "metric": "电池",
+            "value": "IRON 固态电池小批量量产下线",
+            "baseline": "液态锂电",
+            "condition": "2026-10-28 披露"
+          },
+          {
+            "metric": "节奏",
+            "value": "2026 年底高阶人形规模化量产，2027 年进全球门店",
+            "baseline": null,
+            "condition": "企业口径"
+          }
+        ],
+        "position_relation": "具身整机的续航与安全约束，间接决定空间数据采集的作业时长设计。",
+        "signal_strength": "弱",
+        "tags": [
+          "具身智能",
+          "端侧部署"
+        ],
+        "terms": [
+          {
+            "term": "固态电池",
+            "definition_mechanism": "用固态电解质替代液态电解液，提升能量密度与热稳定性",
+            "definition_contrast": "与液态锂电相比更安全、续航更长，但界面阻抗与量产良率仍是难点"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://so.html5.qq.com/page/real/search_news?docid=70000021_1196ae85ee400252",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-28",
+        "notes": "企业口径，无第三方验证。"
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-29",
+    "window_start": "2026-10-28T08:00:00+08:00",
+    "window_end": "2026-10-29T08:00:00+08:00",
+    "generated_at": "2026-10-29T22:40:00+08:00",
+    "summary": {
+      "window_takeaway": "采集硬件的价格带被进一步拉开：500 克级消费扫描仪与万台级工业采购同日出现。",
+      "direction": "ELEGOO 以 0.02mm 精度、511g 机身切入手持扫描；大晓机器人把空间锚定数据从 110 万条扩到 150 万条并与奥比中光签万台采购；景烁科技完成数千万美元 Pre-A 做物理 AI 数据基础设施。",
+      "academic_vs_industry": "产业侧：一端是「人人可扫」的消费硬件，一端是「万台级」的工业数据采集，中间层被迅速填满。",
+      "remember_one_thing": "110 万→150 万条空间锚定数据，是「数据规模」第一次被当成 API 版本号来发布。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-29-A-001",
+        "category": "Hardware",
+        "title": "ELEGOO M1 Ultra：511 克的消费级手持 3D 扫描仪",
+        "one_line_judgment": "3D 打印厂商爱乐酷发布首款手持扫描仪，整合蓝光激光与红外结构光、五种扫描模式、最高精度 0.02mm，支持全彩纹理，机身约 511g，支持 Wi-Fi 6 传输。",
+        "ai_summary": "一句话：做 3D 打印机的公司开始卖扫描仪了——扫完直接打印，闭环了。0.02mm 精度、半公斤重，价格大概率是工业机的零头。",
+        "detailed_info": "爱乐酷（ELEGOO）以消费级光固化/熔融 3D 打印机知名，M1 Ultra 是其首款手持式 3D 扫描仪，正式进军扫描市场。\n\n规格：蓝光激光 + 红外结构光双模，五种扫描模式，最高精度 0.02mm，支持全彩纹理捕捉；机身约 511g，支持 Wi-Fi 6 无线传输；导出 STL、OBJ 等格式。需要注意的边界是：扫描数据仍需电脑处理，设备本身不做重建。\n\n这类产品的真实意义不在精度，而在价格带——它把「扫一个手办、一个零件、一个人像」的成本压到消费级，从而把 3D 内容生产从专业工作室扩散到创客与打印用户。",
+        "ai_comment": "0.02mm 是厂商标称的单帧精度，实际体积精度会差一个量级，别拿它跟工业计量设备比。真正的看点是生态：扫描—修模—切片—打印这条链如果能在自家软件里闭环，对创客用户的价值远大于参数。风险是手机摄影测量与 3DGS 正在从另一侧挤压低端扫描硬件。",
+        "key_facts": [
+          {
+            "metric": "精度/模式",
+            "value": "最高 0.02mm，五种扫描模式，蓝光激光 + 红外结构光",
+            "baseline": "消费级结构光扫描仪",
+            "condition": "2026-10-29 发布"
+          },
+          {
+            "metric": "形态",
+            "value": "约 511g，Wi-Fi 6，全彩纹理，需电脑处理",
+            "baseline": null,
+            "condition": "导出 STL/OBJ"
+          }
+        ],
+        "position_relation": "与创想三维、知象光电的消费线正面竞争，同时被手机扫描 App 从下方挤压。",
+        "signal_strength": "中",
+        "tags": [
+          "手持扫描仪",
+          "点云",
+          "逆向工程",
+          "3D打印"
+        ],
+        "terms": [
+          {
+            "term": "红外结构光",
+            "definition_mechanism": "投射不可见的红外编码图案，通过图案变形计算表面深度",
+            "definition_contrast": "与蓝光激光相比对眼睛更安全、适合扫描人脸，但抗环境光与精度略低"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://app.myzaker.com/news/article.php?pk=6ae7f1638e9f0958d7706c4f",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-29",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-29-A-002",
+        "category": "Application",
+        "title": "大晓机器人 ACE-Brain-0.6：空间锚定数据从 110 万条扩到 150 万条",
+        "one_line_judgment": "升级 ACE-Brain-0.6 API，把高质量空间锚定训练数据由约 110 万条扩展到 150 万条，依托自动化、可验证的数据管线提升目标识别、空间定位与交互理解。",
+        "ai_summary": "一句话：它把「空间常识」做成了 API——你问它「这个东西在哪、能不能拿」，它回答得比通用模型准，因为训练数据是带三维锚点的。",
+        "detailed_info": "ACE-Brain-0.6 的升级点很具体：高质量空间锚定（spatially anchored）训练数据从约 110 万条扩到 150 万条，依托规模化、自动化、可验证的数据管线。能力面覆盖目标识别、空间定位与交互理解。\n\n「空间锚定」是关键词：通用视觉模型知道「这是一把椅子」，但不知道「它离我 1.2 米、在桌子左侧、可以拉出来」。把语言/指令与三维坐标绑定，才能支撑机器人的抓取与导航。\n\n同日，大晓机器人与奥比中光签署万台战略采购协议并达成全面战略合作：奥比中光提供深度相机等硬件及软件适配，支持具身智能数据采集与模型迭代。设备已进入交付阶段。",
+        "ai_comment": "用「数据条数」当版本号是个聪明的产品语言——它把不可见的模型能力变成可比较的规格。但要小心：150 万条的质量分布比数量更重要，如果大部分是同类室内场景，泛化仍然有限。与奥比中光的万台采购说明它要自建采集规模，这是重资产路线。",
+        "key_facts": [
+          {
+            "metric": "数据规模",
+            "value": "空间锚定训练数据 110 万 → 150 万条",
+            "baseline": "ACE-Brain 上一版本",
+            "condition": "2026-10-29 发布"
+          },
+          {
+            "metric": "能力",
+            "value": "目标识别、空间定位、交互理解",
+            "baseline": null,
+            "condition": "API 形式开放"
+          },
+          {
+            "metric": "硬件合作",
+            "value": "与奥比中光签万台战略采购，深度相机 + 软件适配",
+            "baseline": null,
+            "condition": "已进入交付阶段"
+          }
+        ],
+        "position_relation": "与 UNITAS（三维世界动作模型）同向，但更偏「空间语义 API」而非策略模型。",
+        "signal_strength": "中",
+        "tags": [
+          "空间智能",
+          "具身智能",
+          "数据采集",
+          "三维重建"
+        ],
+        "terms": [
+          {
+            "term": "空间锚定",
+            "definition_mechanism": "把语义标签或指令绑定到具体三维坐标/物体实例上，使模型输出可落到空间中的位置",
+            "definition_contrast": "与纯二维检测框不同，它要求深度、位姿与实例一致性"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://smarthome.qianjia.com/html/2026-11/02_428321.html",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-29",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-29-A-003",
+        "category": "Application",
+        "title": "景烁科技完成数千万美元 Pre-A：做物理 AI 的数据与模型基础设施",
+        "one_line_judgment": "文远知行子公司景烁科技获嘉御资本、香港科技园、天狼星资本数千万美元 Pre-A，依托 WorldEngine 数据平台与 GENESIS-Robotics 世界模型，形成 EGOK 采集设备 + 规模化数采 + 数据集 + 定制服务的产品体系。",
+        "ai_summary": "一句话：自动驾驶公司把「采数据、洗数据、训模型」这套本事单独拆出来卖，客户是想做具身智能但没有数据管线的公司。",
+        "detailed_info": "景烁科技 2024 年成立，定位物理 AI 时代的数据与模型基础设施。本轮由嘉御资本、HKSTP 香港科技园、天狼星资本共同投资，资金用于扩充研发、深化数据平台/世界模型/技能资产引擎的协同，并丰富数据集的任务与场景覆盖。\n\n产品体系四层：自研第一视角高精度采集设备 EGOK；规模化数采服务；高质量数据集；定制数据服务。平台侧是数据—模型一体化的 WorldEngine 与自研世界模型 GENESIS-Robotics。\n\n它的差异化来自母体：文远知行的自动驾驶数据闭环（采集、标注、仿真、训练）已经跑了多年，把这套能力对外输出，比从零搭建的数据创业公司少走很多弯路。",
+        "ai_comment": "「数据与模型一体化」是这类公司的核心叙事，但客户会问一个尖锐问题：你把数据卖给我，同时自己也训模型，那我的模型会不会永远落后你一代？这是所有「既做基础设施又做模型」的公司的结构性矛盾。",
+        "key_facts": [
+          {
+            "metric": "融资",
+            "value": "数千万美元 Pre-A，嘉御资本/香港科技园/天狼星资本",
+            "baseline": null,
+            "condition": "2026-10-29 披露"
+          },
+          {
+            "metric": "产品",
+            "value": "EGOK 采集设备 + 规模化数采 + 数据集 + 定制服务",
+            "baseline": null,
+            "condition": "WorldEngine + GENESIS-Robotics"
+          },
+          {
+            "metric": "背景",
+            "value": "文远知行子公司，2024 年成立",
+            "baseline": null,
+            "condition": null
+          }
+        ],
+        "position_relation": "与景立构、乙太具身、行元智能同处具身数据基础设施层，但背靠自动驾驶数据闭环。",
+        "signal_strength": "中",
+        "tags": [
+          "具身智能",
+          "数据采集",
+          "世界模型",
+          "空间智能"
+        ],
+        "terms": [
+          {
+            "term": "数据闭环",
+            "definition_mechanism": "采集→标注→训练→部署→回流失败案例的循环，使数据随部署规模自动增长",
+            "definition_contrast": "与一次性数据集不同，闭环的关键在「回流」，即部署端的失败样本能回到训练集"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://news.qq.com/rain/a/20261101A04ZT100",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-29",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-30",
+    "window_start": "2026-10-29T08:00:00+08:00",
+    "window_end": "2026-10-30T08:00:00+08:00",
+    "generated_at": "2026-10-30T22:20:00+08:00",
+    "summary": {
+      "window_takeaway": "大模型开始「调用」三维生成模型，3D 原生能力成了 Agent 的工具而非替代品。",
+      "direction": "Kimi 在 3D 创作教程中明确：人物/动物等精细网格化建模「暂时还做不太好」，遇到此类任务会自行整理提示词与参考图并调用 Tripo；同日工信部与财政部公布政府采购本国产品标准征求意见稿。",
+      "academic_vs_industry": "产业侧：分工被公开承认——LLM 负责规划与调度，原生 3D 模型负责几何。",
+      "remember_one_thing": "「LLM 承认自己不会建模、转手调 Tripo」比任何 benchmark 都更能说明 3D 生成的真实水平。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-30-A-001",
+        "category": "Application",
+        "title": "Kimi 官方教程承认：精细建模还得调 Tripo",
+        "one_line_judgment": "Kimi 在 10 月 30 日的 3D 创作教程中说明，K3.1 Pro 等大模型对人物/动物/雕像等精细网格化建模「暂时还做不太好」，会自行整理提示词与参考图并调用 Tripo 等模型完成。",
+        "ai_summary": "一句话：大模型自己承认「捏模型」这活它干不好，于是转手把活儿外包给专业 3D 模型。这不是短板，而是分工——它负责理解你要什么，Tripo 负责把形状做出来。",
+        "detailed_info": "教程里那句话很关键：对于适用于人物、动物角色、雕像、怪兽和复杂道具等精细建模的网格化建模，K3.1 Pro 等大语言模型「暂时还做不太好」；为确保体验，当用户发起此类任务时，Kimi 会自己整理好提示词与参考图，并调用 Tripo 等模型来完成。\n\n背景是 9 月以来顶级大模型集体秀 3D：从 GPT-6 Astra、Claude Opus 5.5 到 DeepSeek V4.1-Flash、Kimi K3.1 Pro，三维创作成为展示能力的新场景。但演示与生产之间隔着拓扑、面数、部件拆分与引擎兼容。\n\nTripo 侧的对应能力是 P 系列：P2.0 可在数秒内生成以四边面为主、面数可控、部件拆分更合理的对象；底层 Nexus 框架把顶点与拓扑生成解耦，相关论文被 SIGGRAPH 收录，P1.0 的实时演示获 SIGGRAPH 2026 Real-Time Live! Best in Show。",
+        "ai_comment": "这是 3D 生成领域少见的「诚实时刻」：模型厂商公开承认能力边界，并把工具调用写进产品逻辑。对 Tripo 这类原生 3D 模型公司是利好——它从「被大模型替代」变成「被大模型调用」。但也要看清：被调用意味着议价权在调用方手里，长期看 API 价格会被压。",
+        "key_facts": [
+          {
+            "metric": "能力边界",
+            "value": "LLM 对人物/动物/雕像等精细网格化建模「暂时还做不太好」",
+            "baseline": null,
+            "condition": "Kimi 官方教程 2026-10-30"
+          },
+          {
+            "metric": "分工",
+            "value": "Kimi 自动整理提示词与参考图，调用 Tripo 等模型",
+            "baseline": "LLM 直接生成网格",
+            "condition": null
+          },
+          {
+            "metric": "Tripo 能力",
+            "value": "P2.0 数秒生成四边面为主、面数可控、部件可拆的对象",
+            "baseline": "P1.0",
+            "condition": "Nexus 框架，SIGGRAPH 收录"
+          }
+        ],
+        "position_relation": "给「LLM vs 原生 3D 模型」的关系定了调：协作者而非替代者。",
+        "signal_strength": "中",
+        "tags": [
+          "生成式3D",
+          "三维重建",
+          "网格",
+          "智能体"
+        ],
+        "terms": [
+          {
+            "term": "四边面拓扑",
+            "definition_mechanism": "用四边形面片构成模型表面，便于细分、形变与动画，是影视游戏管线的标准",
+            "definition_contrast": "三角面更适合实时渲染与扫描输出，但编辑与动画时容易产生扭曲"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.163.com/dy/article/LAOH25NS0511AQHO.html",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-30",
+        "notes": ""
+      },
+      {
+        "item_id": "2026-10-30-A-002",
+        "category": "Application",
+        "title": "政府采购本国产品标准征求意见：工业机器人组件成本门槛 70%",
+        "one_line_judgment": "工信部与财政部公布第一批政府采购本国产品标准征求意见稿，涉及固定式多关节工业机器人等五款产品，境内生产组件成本占比门槛设为 70%，标准出台 3 年后施行。",
+        "ai_summary": "一句话：以后政府采购机器人，要看「这台机器里有多少钱是花在国内造的」——门槛 70%。对国产 3D 视觉与激光雷达供应商是结构性利好。",
+        "detailed_info": "10 月 30 日，工业和信息化部、财政部公布第一批政府采购本国产品标准征求意见稿，涉及固定式多关节工业机器人等五款产品。其中固定式多关节工业机器人的境内生产组件成本占比门槛设定为 70%，标准出台 3 年后施行，核心组件及工序需在中国境内完成。\n\n这条规则的影响传导很直接：整机厂为了符合采购资格，会把传感器、控制器、减速器等核心件的供应链往境内迁移；国产 3D 相机、激光雷达、力控传感器的份额会因此抬升。\n\n3 年过渡期给了整机厂调整供应链的时间，也给了国产零部件厂验证与扩产的时间窗口。",
+        "ai_comment": "这类「成本占比」规则比单纯的国产化率更严——它算的是钱，不是数量，高价值的核心件（如高端激光雷达、精密减速器）权重更大。对国内三维感知厂商是明确的窗口期，但也要小心「为合规而合规」的低端替代：门槛达标的部件未必达到性能要求。",
+        "key_facts": [
+          {
+            "metric": "门槛",
+            "value": "境内生产组件成本占比 70%",
+            "baseline": null,
+            "condition": "固定式多关节工业机器人"
+          },
+          {
+            "metric": "节奏",
+            "value": "标准出台 3 年后施行，核心组件及工序需境内完成",
+            "baseline": null,
+            "condition": "2026-10-30 征求意见"
+          }
+        ],
+        "position_relation": "从采购规则侧改变三维感知硬件的竞争格局，与 10-19 的国家标准互为配套。",
+        "signal_strength": "中",
+        "tags": [
+          "工业检测",
+          "具身智能",
+          "标准"
+        ],
+        "terms": [
+          {
+            "term": "组件成本占比",
+            "definition_mechanism": "按金额计算产品中境内生产组件的成本比例，作为认定「本国产品」的门槛",
+            "definition_contrast": "与按数量或按税则号计算的原产地规则不同，它直接影响高价值核心件的采购决策"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://so.html5.qq.com/page/real/search_news?docid=70000021_1196ae85ee400252",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-30",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "report_id": "daily-2026-10-31",
+    "window_start": "2026-10-30T08:00:00+08:00",
+    "window_end": "2026-10-31T08:00:00+08:00",
+    "generated_at": "2026-10-31T22:15:00+08:00",
+    "summary": {
+      "window_takeaway": "城市级数字孪生交出「152 万栋白模 / 760 平方公里」的量化答卷，同时物理 AI 出现高层人才外溢。",
+      "direction": "世界城市日福州主场，联通展示漳州 CIM 平台（全国首个全栈国产化城市级 CIM）；字节 Seed 核心负责人周畅被曝离职创业，方向 Physical AI。",
+      "academic_vs_industry": "产业侧：一个证明规模化交付可行，一个说明人才与资本正从大模型流向物理 AI。",
+      "remember_one_thing": "152 万栋建筑白模覆盖 760 平方公里——城市级三维底图已经进入「按市交付」的阶段。"
+    },
+    "items": [
+      {
+        "item_id": "2026-10-31-A-001",
+        "category": "Engineering",
+        "title": "漳州 CIM：152 万栋建筑白模，760 平方公里地上地下一体化",
+        "one_line_judgment": "中国联通福建省分公司承建的漳州多维空间信息平台在 2026 世界城市日展出，152 万栋建筑物白模精准落位、覆盖 760 平方公里，为全国首个全栈国产化的城市级 CIM 基础平台。",
+        "ai_summary": "一句话：整个漳州 760 平方公里、152 万栋楼，在屏幕上是 1:1 的三维城市，连地下管网都在。这是「城市级数字孪生」少见的量化交付。",
+        "detailed_info": "2026 年世界城市日全球主场活动 10 月 31 日在福州开幕，中国联通以「数智融城 联通筑基」为主题参展。展台上最具体的一组数字来自漳州：152 万栋建筑物白模精准落位，覆盖 760 平方公里，地上地下一体化的 1:1 数字孪生城市。\n\n平台属性：福建省首个全市统一的城市信息模型（CIM）基础平台，也是全国首个全栈国产化的城市级 CIM 基础平台。它打通 16 个市直部门数据接口，汇聚 75 大类数据目录，服务市政安全、工程监管、民生服务、城市更新。\n\n同场还展出了全谱系网联无人机 YH-630（复合翼、6 小时续航、600 公里作业半径、30 公斤载荷），用于「断电断路断网」场景的应急通信与快速三维底图重建。",
+        "ai_comment": "「152 万栋白模」是城市级三维的里程碑式口径，但要分清「白模」与「精模」：白模是带高度与轮廓的体块，成本低、覆盖广，适合规划与宏观分析；不等于可量测的实景三维。真正的难点在更新机制——城市每天都在变，一次建成的孪生体，两年后就会失真。",
+        "key_facts": [
+          {
+            "metric": "规模",
+            "value": "152 万栋建筑白模，覆盖 760 平方公里",
+            "baseline": null,
+            "condition": "漳州多维空间信息平台"
+          },
+          {
+            "metric": "属性",
+            "value": "全国首个全栈国产化城市级 CIM 基础平台",
+            "baseline": null,
+            "condition": "福建省首个全市统一 CIM 平台"
+          },
+          {
+            "metric": "数据整合",
+            "value": "打通 16 个市直部门接口，汇聚 75 大类数据目录",
+            "baseline": null,
+            "condition": "地上地下一体化"
+          }
+        ],
+        "position_relation": "与其域创新的城镇级 3DGS（闽宁镇）互补：一个走体块白模的广覆盖，一个走高斯实景的高保真。",
+        "signal_strength": "中",
+        "tags": [
+          "数字孪生",
+          "三维重建",
+          "空间智能",
+          "点云"
+        ],
+        "terms": [
+          {
+            "term": "白模",
+            "definition_mechanism": "只含建筑轮廓与高度、无真实纹理的简化三维体块模型",
+            "definition_contrast": "与实景三维/精模相比成本低、覆盖广，适合规划分析但不适合量测与立面细节"
+          }
+        ],
+        "sources": [
+          {
+            "url": "http://fj.xinhuanet.com/20261101/cf7a8dca3eb642b6a03a2c05b3ed1772/c.html",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-31",
+        "notes": "活动 2026-10-31 开幕。"
+      },
+      {
+        "item_id": "2026-10-31-A-002",
+        "category": "Application",
+        "title": "字节 Seed 核心负责人周畅被曝离职，方向 Physical AI",
+        "one_line_judgment": "Z Finance 报道字节跳动 Seed 核心技术负责人周畅离职创业，方向为 Physical AI，并获头部美元基金支持；其此前管理范围覆盖多模态交互、世界模型、视觉生成与机器人。",
+        "ai_summary": "一句话：做大模型的核心人物之一，转身去做「能在物理世界里动」的 AI。这类人事变动往往比发布会更早预示资源流向。",
+        "detailed_info": "据 Z Finance 2026 年 10 月 31 日报道，字节跳动 Seed 核心技术负责人周畅已离职创业，方向为 Physical AI，并获得头部美元基金支持。报道称其此前管理范围覆盖多模态交互、世界模型、视觉生成和机器人。\n\n同一时期资本关注点正从本体与模型向数据基础设施扩展：2026 年 10 月，星忆智能完成合计数千万元的种子轮及种子+轮，种子轮由顺禧基金领投、种子+轮由凌云光领投；创始人宋知珩此前任智元机器人全尺寸双足人形整机产品负责人，并负责数采与遥操体系建设。\n\n两条人事线都指向同一件事：具身产业的竞争重点正从「造本体」转向「高质量物理交互数据」与「世界模型」。",
+        "ai_comment": "人事是弱信号，但方向是强信号：世界模型 + 多模态 + 机器人这条履历，正好是 Physical AI 的标准配置。值得跟踪的是他做什么形态——如果做数据基础设施，说明这个环节还没被占满；如果做通用世界模型，就要正面撞上大厂与已经融到巨资的玩家。",
+        "key_facts": [
+          {
+            "metric": "人事",
+            "value": "字节 Seed 核心技术负责人周畅离职创业，方向 Physical AI",
+            "baseline": null,
+            "condition": "Z Finance 2026-10-31 报道"
+          },
+          {
+            "metric": "资本",
+            "value": "获头部美元基金支持",
+            "baseline": null,
+            "condition": "报道口径"
+          },
+          {
+            "metric": "同期",
+            "value": "星忆智能完成数千万种子轮 + 种子+轮，做真实世界多模态数据基础设施",
+            "baseline": null,
+            "condition": "2026-10"
+          }
+        ],
+        "position_relation": "与景烁、行元、星忆等数据/世界模型创业同向，反映人才从大模型向物理 AI 迁移。",
+        "signal_strength": "弱",
+        "tags": [
+          "世界模型",
+          "空间智能",
+          "具身智能",
+          "数据采集"
+        ],
+        "terms": [
+          {
+            "term": "Physical AI",
+            "definition_mechanism": "让 AI 在物理世界中感知、决策并执行动作的技术总称，涵盖机器人、自动驾驶与具身智能",
+            "definition_contrast": "与纯数字世界的生成式 AI 不同，它必须满足实时性、安全性与物理可行性约束"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://dy.163.com/article/LANJ08BG0519QIKK.html",
+            "type": "media"
+          }
+        ],
+        "date": "2026-10-31",
+        "notes": "离职消息为媒体报道，未经本人或公司确认，归为弱信号。"
+      }
+    ]
   }
 ];
 
@@ -90,5 +3437,33 @@ window.WATCHLIST_DEFAULTS = [
   {"id":"w-com-slamtec","type":"company","name":"思岚科技","keywords":["思岚科技","Slamtec","思岚"],"region":"国内","products":"RPLIDAR 激光雷达、Aurora 空间感知系统","intro":"机器人自主定位导航方案商，扫地机器人激光雷达的主要供应商之一。","founded":"2013-10","scale":"数百人","website":"https://www.slamtec.com","ai_summary":"一句话：这家公司让机器人「知道自己在哪、该怎么走」。它做的是扫地机器人、服务机器人用的激光雷达（RPLIDAR）和定位导航方案（SLAMWARE），相当于机器人的「眼睛 + 小脑」。全球大量扫地机器人和商用服务机器人的核心传感器都来自它，是机器人自主定位导航领域的老牌玩家。","categories":["激光雷达","SLAM"],"enabled":true},
   {"id":"w-com-stereolabs","type":"company","name":"Stereolabs","keywords":["Stereolabs","ZED 相机","ZED Box"],"region":"海外","products":"ZED 系列深度相机、ZED Box 边缘视觉计算机","intro":"法国立体视觉公司，深度相机与边缘视觉计算的代表厂商，机器人多相机感知基础设施提供商。","founded":"2010","scale":"约 60 人","website":"https://www.stereolabs.com","ai_summary":"一句话：这家公司给机器装上「人一样的双眼」。它做的是 ZED 立体深度相机——用两颗摄像头像人眼一样看出物体的远近，再配合边缘计算盒子（ZED Box）在本地跑视觉模型。机器人、无人机的多相机感知很多都靠它的方案，2026 年被激光雷达厂商 Ouster 收购。","categories":["深度相机","立体视觉"],"enabled":true},
   {"id":"w-com-luma","type":"company","name":"Luma AI","keywords":["Luma AI","Luma","Genie 3D"],"region":"海外","products":"Luma App（NeRF 扫描）、Genie（文生 3D）","intro":"美国三维生成公司，NeRF 消费化与文生 3D 的代表玩家。","founded":"2021-09","scale":"约 130 人","website":"https://lumalabs.ai","ai_summary":"一句话：这家公司让人「用手机或一句话就能造出三维世界」。早期靠手机拍视频生成 NeRF 三维场景出名，后来转向生成式 AI，做出文生 3D 的 Genie 和爆火的视频生成模型 Dream Machine / Ray 系列。它是生成式三维和 AI 视频赛道的头部公司，估值超 40 亿美元。","categories":["重建方案","生成式3D"],"enabled":true},
-  {"id":"w-com-polycam","type":"company","name":"Polycam","keywords":["Polycam"],"region":"海外","products":"Polycam 3D 扫描 App、云端摄影测量","intro":"海外消费级 3D 扫描 App 代表，手机摄影测量普及化的推手。","founded":"2021-01","scale":"小型团队","website":"https://poly.cam","ai_summary":"一句话：这家公司让「手机扫一扫就出三维模型」。它做的是消费级 3D 扫描 App，用户用手机摄像头（或 iPhone 的 LiDAR）拍照就能生成物体的三维模型、房间的平面图，还能测尺寸、分享协作。它把原本专业的摄影测量技术门槛降到了「人人可用」，全球用户超千万。","categories":["扫描仪","摄影测量"],"enabled":true}
+  {"id":"w-com-polycam","type":"company","name":"Polycam","keywords":["Polycam"],"region":"海外","products":"Polycam 3D 扫描 App、云端摄影测量","intro":"海外消费级 3D 扫描 App 代表，手机摄影测量普及化的推手。","founded":"2021-01","scale":"小型团队","website":"https://poly.cam","ai_summary":"一句话：这家公司让「手机扫一扫就出三维模型」。它做的是消费级 3D 扫描 App，用户用手机摄像头（或 iPhone 的 LiDAR）拍照就能生成物体的三维模型、房间的平面图，还能测尺寸、分享协作。它把原本专业的摄影测量技术门槛降到了「人人可用」，全球用户超千万。","categories":["扫描仪","摄影测量"],"enabled":true},
+  {"id": "w-com-shining3d", "type": "company", "name": "先临三维", "keywords": ["先临三维", "Shining 3D", "FreeScan", "EinScan", "OptimScan"], "region": "国内", "products": "FreeScan 系列手持激光扫描仪、OptimScan 计量级蓝光扫描仪、EinScan 消费级扫描仪、齿科/医疗数字化方案", "intro": "杭州的三维视觉企业，2004 年成立，工业计量与消费级扫描双线布局，国家级制造业单项冠军，产品覆盖工业检测、逆向工程、齿科医疗与教育。英文品牌为 Shining 3D（注意与思看科技的英文名 SCANTECH 区分）。", "founded": "2004-12", "scale": "约 1000 人", "website": "https://www.shining3d.com", "ai_summary": "一句话：这家公司做「把实物变成精确三维模型」的扫描仪，从几万块的工业计量机到几千块的创客设备都有。工厂用它检测零件合不合格，牙科诊所拿它扫牙齿做假牙，学校用它教逆向设计。它是国内三维扫描出货量最大的厂商之一，产品卖到 100 多个国家。", "categories": ["扫描仪", "三维检测", "齿科数字化"], "enabled": true},
+  {"id": "w-com-kiri", "type": "company", "name": "麒砺创新（Remy / KIRI Engine）", "keywords": ["麒砺创新", "KIRI Innovations", "Remy", "KIRI Engine", "3D空间记录"], "region": "国内", "products": "Remy（鸿蒙生态 3D 空间记录 App）、KIRI Engine（面向专业创作者的三维重建 App）", "intro": "北京亦庄的纯视觉三维重建公司，2021 年成立，两条产品线：面向大众的 Remy 与面向专业创作者的 KIRI Engine；2026 年完成数亿元 A 轮系列融资，投资方含华为哈勃、东证资本、同创伟业等。", "founded": "2021-03", "scale": "约 30-50 人", "website": "https://www.kiriengine.app", "ai_summary": "一句话：这家公司让人「拿手机拍一段视频，就得到一个能转着看的三维空间」。面向普通人的 App 叫 Remy，2025 年 10 月在鸿蒙首发，9 天用户破百万、累计约 280 万；面向专业玩家和商业客户的叫 KIRI Engine，海外专业用户超 200 万。它还和影石 Insta360 合作，把全景视频直接转成可交互的三维空间。", "categories": ["扫描仪", "重建方案", "空间智能", "消费级应用"], "enabled": true},
+  {"id": "w-com-orbbec", "type": "company", "name": "奥比中光", "keywords": ["奥比中光", "Orbbec", "Gemini 330", "深度相机", "3D视觉感知"], "region": "国内", "products": "Gemini 系列深度相机、Astra 系列、工业三维测量模组、具身智能数据采集设备", "intro": "深圳的 3D 视觉感知上市公司（科创板 688322），2013 年成立，覆盖结构光、iToF、dToF、双目、LiDAR 与工业三维测量六条技术路线，是机器人「眼睛」的重要国产供应商。", "founded": "2013-01", "scale": "约 1000 人", "website": "https://www.orbbec.com.cn", "ai_summary": "一句话：这家公司给机器人、扫地机、刷脸支付设备造「三维眼睛」。它做的深度相机能算出每个像素离镜头多远，让机器知道东西在哪、有多大。2026 年它的机器人客户超过一千家，还和多家具身智能公司签了万台级采购协议，是国产 3D 视觉出货量最大的厂商之一。", "categories": ["深度相机", "三维视觉", "具身智能"], "enabled": true},
+  {"id": "w-com-robosense", "type": "company", "name": "速腾聚创", "keywords": ["速腾聚创", "RoboSense", "Active Camera", "AC2", "激光雷达"], "region": "国内", "products": "车载与机器人激光雷达、Active Camera 空间相机（AC1/AC2）、灵巧手与力控模组", "intro": "深圳的激光雷达上市公司，2014 年成立，车载 ADAS 激光雷达全球主要供应商之一；2025 年起以 Active Camera 切入空间相机，产品矩阵扩展至机器人「眼睛、皮肤、肌肉」三类核心零部件。", "founded": "2014-08", "scale": "约 2000 人", "website": "https://www.robosense.ai", "ai_summary": "一句话：这家公司给汽车和机器人装「激光眼睛」，测距准、不怕黑。它最早做车载激光雷达，2025 年推出 Active Camera 空间相机，把激光雷达和相机合成一个模组，直接输出带颜色的三维数据——机器人用它看路、避障、抓东西。", "categories": ["激光雷达", "空间智能", "具身智能"], "enabled": true},
+  {"id": "w-com-revopoint", "type": "company", "name": "知象光电", "keywords": ["知象光电", "Revopoint", "MetroY", "POP 4", "Trackit"], "region": "国内", "products": "MetroY 系列工业手持扫描仪、POP 系列消费级扫描仪、Trackit 跟踪式扫描系统、Metrohub 自动化检测", "intro": "西安的三维扫描企业，2014 年成立，以自研微结构光芯片与算法为核心，产品线从消费级（POP）延伸到工业计量（MetroY）与自动化检测（Metrohub），海外众筹与电商渠道表现突出。", "founded": "2014-05", "scale": "约 300 人", "website": "https://www.revopoint3d.com", "ai_summary": "一句话：这家公司把三维扫描仪做成了「消费电子产品」——几千块就能买一台扫手办、扫人像。同时它也做工业级的 MetroY 系列，精度到 0.015mm，用来检测零件。它的 POP 4 还把 AI 物体分割和 3DGS 真实感建模直接塞进了扫描仪。", "categories": ["扫描仪", "三维检测", "消费级应用"], "enabled": true},
+  {"id": "w-com-creality", "type": "company", "name": "创想三维", "keywords": ["创想三维", "Creality", "CR-Scan", "Otter", "3D打印"], "region": "国内", "products": "CR-Scan 系列扫描仪、Otter 便携扫描仪、Ender/K 系列 3D 打印机", "intro": "深圳的消费级 3D 打印与扫描企业，2014 年成立，以「扫描—建模—打印」闭环覆盖创客、教育与小型工作室市场，全球消费级 3D 打印机出货量领先。", "founded": "2014-03", "scale": "约 2000 人", "website": "https://www.creality.com", "ai_summary": "一句话：这家公司让人「几千块就能在家扫一个东西、再打印出来」。它主业是消费级 3D 打印机，顺带做扫描仪（CR-Scan、Otter），两头一接就是完整的个人制造流程。对创客和学校来说，这是最省事的入门组合。", "categories": ["扫描仪", "3D打印", "消费级应用"], "enabled": true},
+  {"id": "w-com-chcnav", "type": "company", "name": "华测导航", "keywords": ["华测导航", "CHCNAV", "Huace", "RS10", "三维激光扫描"], "region": "国内", "products": "GNSS 接收机、RS 系列手持三维激光扫描仪、无人机航测系统、变形监测方案", "intro": "上海的测绘地理信息上市公司（300627），2003 年成立，以高精度 GNSS 起家，产品线延伸至手持 SLAM 扫描、无人机航测与位移监测，是国内测绘装备的主力厂商之一。", "founded": "2003-09", "scale": "约 2000 人", "website": "https://www.huace.cn", "ai_summary": "一句话：这家公司卖「在户外精准知道自己在哪」的设备——从测地界的 GNSS 接收机，到拿着走一圈就能扫出三维点云的手持设备。修路、建桥、矿山、地质灾害监测都用它的东西，是把测绘级精度做到工程队买得起的代表厂商。", "categories": ["扫描仪", "测绘装备", "无人机航测"], "enabled": true},
+  {"id": "w-com-hitarget", "type": "company", "name": "中海达", "keywords": ["中海达", "Hi-Target", "三维激光", "RTK", "测绘"], "region": "国内", "products": "RTK/GNSS 接收机、三维激光扫描仪、无人机航测、海洋测绘与监测方案", "intro": "广州的测绘与地理信息上市公司（300177），1999 年成立，业务覆盖高精度定位装备、三维激光扫描、无人机航测与行业解决方案，是国内测绘仪器老牌厂商。", "founded": "1999-03", "scale": "约 2000 人", "website": "https://www.hi-target.com.cn", "ai_summary": "一句话：这是一家做了二十多年测绘仪器的公司，从 RTK 测量杆到三维激光扫描仪都做。工程队拿它的设备去测地形、测土方、做竣工测量，是传统测绘走向三维采集的典型代表。", "categories": ["扫描仪", "测绘装备", "无人机航测"], "enabled": true},
+  {"id": "w-com-dji", "type": "company", "name": "大疆创新", "keywords": ["大疆", "DJI", "Matrice 4E", "司空 2", "智图", "倾斜摄影"], "region": "国内", "products": "Matrice 4 系列行业无人机、禅思激光雷达、司空 2 云平台、智图（航测重建）", "intro": "深圳的无人机与影像系统公司，2006 年成立，行业无人机 + 航测软件构成空地一体化三维采集的主力方案，Matrice 4E 支持五向倾斜摄影与贴近摄影测量。", "founded": "2006-11", "scale": "约 1.4 万人", "website": "https://www.dji.com", "ai_summary": "一句话：这家公司让「拍一圈照片就生成一片三维地形」变成了工程队的日常。它的行业无人机一次飞行能完成五向倾斜摄影，配合智图软件自动重建实景三维模型；配司空 2 平台还能远程调度、断点续飞，是航测领域事实上的标准工具。", "categories": ["无人机航测", "摄影测量", "数字孪生"], "enabled": true},
+  {"id": "w-com-jimuyida", "type": "company", "name": "积木易搭", "keywords": ["积木易搭", "Jimuyida", "Magic Swift", "3D扫描仪", "文物数字化"], "region": "国内", "products": "Magic Swift 系列手持扫描仪、箱式扫描仪、3D 数字化服务平台", "intro": "深圳的三维数字化企业，2015 年成立，产品覆盖手持与箱式扫描设备，在文物数字化、电商建模、教育实训等场景有较多落地案例。", "founded": "2015-06", "scale": "约 300 人", "website": "https://www.jimuyida.com", "ai_summary": "一句话：这家公司专做「把东西扫进电脑」的设备，从能放进背包的手持扫描仪到一键出模的箱式扫描舱都有。博物馆拿它给文物建档，电商拿它给商品做三维展示，学校拿它做实训教具。", "categories": ["扫描仪", "文物数字化", "电商建模"], "enabled": true},
+  {"id": "w-com-vast", "type": "company", "name": "VAST（Tripo）", "keywords": ["VAST", "Tripo", "三启万物", "P2.0", "文生3D"], "region": "国内", "products": "Tripo P 系列原生 3D 生成模型、Eden 世界模型、3D 资产创作平台", "intro": "北京的三维生成公司（三启万物），以 Tripo 系列原生 3D 生成模型为核心，P2.0 可数秒生成四边面为主、面数可控、部件可拆的对象；底层 Nexus 框架被 SIGGRAPH 收录，另有 Eden 世界模型线。", "founded": "2023-03", "scale": "约 100-200 人", "website": "https://www.tripo3d.ai", "ai_summary": "一句话：这家公司让「打一句话就出一个三维模型」变成可用的事，而且出的模型拓扑规整、能直接进游戏引擎。2026 年连 Kimi 这类大模型遇到精细建模任务时，都会转手调用 Tripo 来完成——这大概是 3D 生成水平最实在的背书。", "categories": ["生成式3D", "重建方案", "空间智能"], "enabled": true},
+  {"id": "w-com-dexmal", "type": "company", "name": "跨维智能", "keywords": ["跨维智能", "Dexmal", "UNITAS", "三维世界模型", "具身智能"], "region": "国内", "products": "UNITAS 三维世界动作模型、Sim2Real 具身智能平台、合成数据服务", "intro": "深圳的具身智能公司，以 Sim2Real 与三维世界模型为核心，2026 年 10 月发布 1.7B 参数的 UNITAS，把观察、动作与场景变化统一在三维物理空间中建模。", "founded": "2021-06", "scale": "约 200 人", "website": "https://www.dexmal.com", "ai_summary": "一句话：这家公司认为机器人该「先在三维世界里想清楚再动」，而不是对着图片猜动作。它做的 UNITAS 模型在虚拟基准上成功率 99.8%，在真实机器人上做整理书籍、装球这类活儿成功率约 85%，而且把代码开源了。", "categories": ["空间智能", "具身智能", "世界模型"], "enabled": true},
+  {"id": "w-com-insta360", "type": "company", "name": "影石创新（Insta360）", "keywords": ["影石", "Insta360", "全景相机", "X5", "空间记录"], "region": "国内", "products": "全景相机（X 系列）、运动相机（GO/Ace）、手机云台、全景视频转 3D 空间方案", "intro": "深圳的全景与运动影像公司，2015 年成立，科创板上市；2026 年与麒砺创新（Remy）合作，在 App 内把全景视频直接转成可交互的三维空间。", "founded": "2015-07", "scale": "约 2000 人", "website": "https://www.insta360.com", "ai_summary": "一句话：这家公司做「先拍下来、再选角度」的全景相机——拍的时候不用管构图，后期随便转。它和 Remy 合作后，全景视频可以直接变成能走进去的三维空间，等于把大场景三维采集的门槛降到了「举着相机转一圈」。", "categories": ["全景相机", "空间智能", "消费级应用"], "enabled": true},
+  {"id": "w-com-supermap", "type": "company", "name": "超图软件", "keywords": ["超图", "SuperMap", "GIS", "三维GIS", "CIM"], "intro": "北京的地理信息系统软件企业，1997 年成立，SuperMap GIS 平台覆盖二三维一体化、CIM 与时空大数据，是城市级数字孪生底座的国产主力。", "region": "国内", "products": "SuperMap GIS 基础平台、三维 GIS、CIM 平台、时空大数据平台", "founded": "1997-06", "scale": "约 4000 人", "website": "https://www.supermap.com", "ai_summary": "一句话：这家公司做的是「装地图的底座」——城市里的建筑白模、地下管网、实时传感器数据，都要塞进它的 GIS 平台里才能一起看、一起算。国内很多城市的 CIM 平台和实景三维系统，底层用的就是它。", "categories": ["GIS平台", "数字孪生", "空间智能"], "enabled": true},
+  {"id": "w-com-greenvalley", "type": "company", "name": "数字绿土", "keywords": ["数字绿土", "GreenValley", "LiDAR", "背包雷达", "林业调查"], "region": "国内", "products": "背包式/无人机载激光雷达系统、LiBackpack、点云处理软件 LiDAR360", "intro": "北京的激光雷达测绘企业，2012 年成立，主打背包式与无人机载激光扫描系统及点云处理软件，在林业调查、电力巡检、地形测绘等场景应用广泛。", "founded": "2012-09", "scale": "约 400 人", "website": "https://www.greenvalley-international.com", "ai_summary": "一句话：这家公司让人「背着雷达走一圈」就能把一片林子或一条线路扫成三维点云。它的背包式设备不用 GPS 也能靠 SLAM 建图，配套的 LiDAR360 软件能自动算出树高、胸径、电力线离树多远——林业和电力巡检的刚需。", "categories": ["激光雷达", "点云", "测绘装备"], "enabled": true},
+  {"id": "w-com-ouster", "type": "company", "name": "Ouster", "keywords": ["Ouster", "Rev8", "数字激光雷达", "SPAD", "L4 芯片"], "region": "海外", "products": "Rev8 OS 系列原生彩色数字激光雷达、OS 系列数字激光雷达、BlueCity 智慧城市方案", "intro": "美国旧金山的数字激光雷达公司（纳斯达克：OUST），2012 年成立，以 SPAD 数字架构与 L4 自研芯片为核心，2026 年与富士胶片联合开发的原生彩色激光雷达用于野火应急、测绘与机器人。2026 年收购 Stereolabs。", "founded": "2012-06", "scale": "约 400 人", "website": "https://ouster.com", "ai_summary": "一句话：这家公司把激光雷达做成「数字的」——用芯片直接输出三维点，不靠复杂的模拟电路。它最新的本事是让每个点自带真实颜色，浓烟、黑夜也能分清哪是火线、哪是树。它还收购了做立体视觉相机的 Stereolabs，把「眼睛」和「深度」合成一套。", "categories": ["激光雷达", "点云", "深度相机"], "enabled": true},
+  {"id": "w-com-faro", "type": "company", "name": "FARO Technologies", "keywords": ["FARO", "Focus", "Quantum", "三维激光扫描仪", "法如"], "region": "海外", "products": "Focus 系列地面激光扫描仪、Quantum 便携扫描仪、FARO Arm 测量臂、BuildIT 软件", "intro": "美国佛罗里达的三维测量与成像公司，1981 年成立，产品覆盖地面激光扫描、便携式扫描与关节臂测量，服务建筑、制造、公共安全与取证等场景；曾收购 GeoSLAM 的移动扫描业务。", "founded": "1981-01", "scale": "约 3000 人", "website": "https://www.faro.com", "ai_summary": "一句话：这家公司是「大空间高精度三维测量」的老牌选手——扫一栋楼、一个厂房、一个事故现场，精度到毫米级。它的设备贵、但法院和工厂都认它的数据，属于「测量级」而非「展示级」的工具。", "categories": ["扫描仪", "三维检测", "激光雷达"], "enabled": true},
+  {"id": "w-com-trimble", "type": "company", "name": "Trimble", "keywords": ["Trimble", "天宝", "X9", "GNSS", "测绘"], "region": "海外", "products": "GNSS 接收机、X9 扫描仪、无人机航测、建筑与工程软件（Tekla、SketchUp）", "intro": "美国测绘与工程科技公司，1978 年成立，业务覆盖高精度定位、三维扫描、农机自动驾驶与建筑全流程软件，是全球测绘与工程数字化的基础设施级厂商。", "founded": "1978-11", "scale": "约 1.2 万人", "website": "https://www.trimble.com", "ai_summary": "一句话：这家公司做「工程现场的一切定位与测量」——从测量员的 GPS 杆，到能背着走的三维扫描仪，再到把扫描数据变成施工模型的软件。修一条高铁、建一栋楼，从放线到验收都可能用到它的东西。", "categories": ["测绘装备", "扫描仪", "数字孪生"], "enabled": true},
+  {"id": "w-com-hexagon", "type": "company", "name": "Hexagon（Leica Geosystems）", "keywords": ["Hexagon", "Leica", "BLK2GO", "BLK ARC", "徕卡", "测量"], "region": "海外", "products": "Leica BLK 系列便携扫描仪、BLK2GO 手持扫描、全站仪、CMM 与工业计量方案", "intro": "瑞典的测量与工业软件集团（旗下 Leica Geosystems 为测绘主体），业务覆盖大地测量、三维激光扫描、工业计量与智能制造软件，BLK 系列把手持扫描推向建筑与公共安全市场。", "founded": "1992-01", "scale": "约 2 万人", "website": "https://hexagon.com", "ai_summary": "一句话：这是测绘界的「老大哥」之一，徕卡的全站仪、三维扫描仪在全球工地随处可见。它的 BLK2GO 拿着走一圈就能扫出一栋楼的三维模型，配合软件直接出图——精度和数据可信度是它最硬的招牌。", "categories": ["扫描仪", "测绘装备", "三维检测"], "enabled": true},
+  {"id": "w-com-artec3d", "type": "company", "name": "Artec 3D", "keywords": ["Artec 3D", "Artec Leo", "Eva", "Spider", "手持扫描仪"], "region": "海外", "products": "Artec Leo 无线手持扫描仪、Eva、Spider、Micro 高精度扫描仪、Artec Studio 软件", "intro": "卢森堡的手持三维扫描公司，2007 年成立，以无标记点、彩色纹理的手持扫描见长，广泛应用于文物数字化、医疗矫形、影视特效与工业设计。", "founded": "2007-04", "scale": "约 200 人", "website": "https://www.artec3d.com", "ai_summary": "一句话：这家公司的手持扫描仪是「扫人脸、扫文物」的经典选择——不用贴标记点，自带屏幕，扫完直接得到带颜色的模型。博物馆、医院（做矫形支具）、电影特效团队都在用它。", "categories": ["扫描仪", "文物数字化", "医疗数字化"], "enabled": true},
+  {"id": "w-com-navvis", "type": "company", "name": "NavVis", "keywords": ["NavVis", "VLX", "M6", "移动扫描", "室内数字孪生"], "region": "海外", "products": "NavVis VLX 可穿戴移动扫描系统、M6 推车式扫描仪、NavVis IVION 平台", "intro": "德国慕尼黑的移动测绘公司，2013 年成立（源自 TUM），以「边走边扫」的 SLAM 移动扫描系统与 IVION 三维可视化平台切入建筑、厂房与室内数字孪生市场。", "founded": "2013-02", "scale": "约 300 人", "website": "https://www.navvis.com", "ai_summary": "一句话：这家公司让「扫一栋大楼」从几天变成几小时——背上它的设备正常走路就行，不用一站一站架设扫描仪。扫完的数据上传到平台，客户在浏览器里就能量尺寸、做标注、和 BIM 模型比对。", "categories": ["扫描仪", "SLAM", "数字孪生"], "enabled": true},
+  {"id": "w-com-matterport", "type": "company", "name": "Matterport", "keywords": ["Matterport", "Pro3", "数字孪生", "房产三维", "空间数字化"], "region": "海外", "products": "Pro3 相机、Matterport 空间数字化平台、Property Intelligence 数据分析", "intro": "美国的空间数字化平台公司，2011 年成立，以「扫描即生成可浏览的三维空间」著称，在房产、建筑、保险与设施管理领域建立了规模最大的空间数据平台之一。", "founded": "2011-05", "scale": "约 500 人", "website": "https://matterport.com", "ai_summary": "一句话：这家公司是「网上看房」的幕后功臣——经纪人拿它的相机扫一遍房子，客户就能在网页里像玩游戏一样走进去看。它积累了海量的室内空间数据，现在正把这些数据卖给做空间 AI 和机器人训练的公司。", "categories": ["重建方案", "数字孪生", "房地产科技"], "enabled": true},
+  {"id": "w-com-niantic-spatial", "type": "company", "name": "Niantic Spatial", "keywords": ["Niantic Spatial", "Scaniverse", "空间智能", "VPS", "地理空间"], "region": "海外", "products": "Scaniverse（手机 3D 扫描 App）、大规模地理空间模型（LGM）、视觉定位系统（VPS）", "intro": "美国空间智能公司，2025 年从 Niantic 分拆独立，整合 Scaniverse 与 Pokémon GO 时代积累的地理空间数据，构建大规模地理空间模型与视觉定位服务。", "founded": "2025-01", "scale": "约 200 人", "website": "https://www.nianticspatial.com", "ai_summary": "一句话：这家公司手里有几亿人用手机「顺手扫」出来的真实世界数据——因为 Pokémon GO 玩家走了十年。现在它把这些数据训成「地理空间大模型」，让机器知道自己在世界上的哪个位置、周围长什么样。Scaniverse 就是它给普通人的免费扫描 App。", "categories": ["空间智能", "重建方案", "消费级应用"], "enabled": true},
+  {"id": "w-com-playcanvas", "type": "company", "name": "PlayCanvas（SuperSplat）", "keywords": ["PlayCanvas", "SuperSplat", "WebGL", "WebGPU", "3DGS 编辑器"], "region": "海外", "products": "PlayCanvas Web 3D 引擎、SuperSplat 3DGS 编辑器、Web 端高斯渲染方案", "intro": "英国伦敦的 Web 3D 引擎公司（被 Snap 收购），其开源项目 SuperSplat 是 3DGS 领域最主流的网页端编辑器，2026 年完成 WebGPU 重写并加入 WebMCP 智能体接口。", "founded": "2011-06", "scale": "约 20 人", "website": "https://playcanvas.com", "ai_summary": "一句话：它做了一个「网页版的高斯场景编辑器」——不用装软件，把 3DGS 文件拖进浏览器就能裁剪、去噪、调色、发布。2026 年它还让 AI 智能体可以直接操作它，等于把「清理扫描垃圾」这种重复劳动交出去了。", "categories": ["开源工具", "重建方案", "Web3D"], "enabled": true},
+  {"id": "w-com-worldlabs", "type": "company", "name": "World Labs", "keywords": ["World Labs", "Marble", "Atlas", "李飞飞", "世界模型"], "region": "海外", "products": "Marble（文生三维世界）、Atlas（多模态世界模型，支持机位控制）、空间智能 API", "intro": "美国旧金山的空间智能公司，2024 年 4 月由李飞飞创立，团队约 70 人，核心产品 Marble 与 Atlas；2026 年 9 月 AMD 宣布以约 82 亿美元全股票收购，预计年底交割。", "founded": "2024-04", "scale": "约 70 人", "website": "https://www.worldlabs.ai", "ai_summary": "一句话：李飞飞办的公司，目标是让 AI「理解并生成三维世界」。你写一句话或给几张照片，它就能生成一个能走进去的三维场景（Marble），新版 Atlas 还能让你直接指定相机怎么运动。2026 年 AMD 花 82 亿美元把它买下，买的是下一代 AI 要用的「世界模型」。", "categories": ["空间智能", "世界模型", "生成式3D"], "enabled": true},
+  {"id": "w-com-spaitial", "type": "company", "name": "SpAItial", "keywords": ["SpAItial", "Echo-3", "iPhone 3D 扫描", "度量级重建"], "region": "海外", "products": "SpAItial App（iPhone 视频转度量级三维）、Echo-3、企业级 API", "intro": "英国伦敦的三维重建公司，2025 年 5 月获 1300 万美元种子轮，CEO Matthias Niessner 为慕尼黑工业大学视觉计算教授；2026 年 10 月发布 Echo-3 与 iPhone App，几分钟拍摄即可得到度量级三维世界。", "founded": "2025-01", "scale": "约 30 人", "website": "https://spaitial.ai", "ai_summary": "一句话：用 iPhone 拍几分钟视频，就能拿到「能量尺寸」的三维模型——以前这是专业激光扫描仪的活。没拍到的角落，它用生成模型补齐。走的是订阅制，一个月的钱大概等于请人上门测量的一小部分。", "categories": ["重建方案", "3DGS", "消费级应用"], "enabled": true},
+  {"id": "w-com-pix4d", "type": "company", "name": "Pix4D", "keywords": ["Pix4D", "摄影测量", "无人机建模", "Pix4Dmatic", "Pix4Dsurvey"], "region": "海外", "products": "Pix4Dmatic、Pix4Dmapper、Pix4Dsurvey、Pix4Dcatch（手机扫描）", "intro": "瑞士洛桑的摄影测量软件公司，2011 年从 EPFL 分拆成立，是无人机航测与实景三维建模的主流软件之一，产品线覆盖航空三角测量、点云编辑与 CAD 交付。", "founded": "2011-06", "scale": "约 200 人", "website": "https://www.pix4d.com", "ai_summary": "一句话：这家公司做的是「把无人机拍的一堆照片拼成精确三维模型」的软件。测绘队飞完一圈，把照片丢进 Pix4D，几小时后就得到带坐标的三维模型和正射影像——工程验收要的就是这个。", "categories": ["摄影测量", "重建方案", "无人机航测"], "enabled": true},
+  {"id": "w-com-agisoft", "type": "company", "name": "Agisoft（Metashape）", "keywords": ["Agisoft", "Metashape", "PhotoScan", "摄影测量", "SfM"], "region": "海外", "products": "Agisoft Metashape（原 PhotoScan）、点云与网格重建、无人机与近景摄影测量", "intro": "俄罗斯的摄影测量软件公司，2010 年前后成立，Metashape 是全球使用最广的 SfM/MVS 重建软件之一，以一次性授权、离线运行、支持大规模影像集著称。", "founded": "2010-01", "scale": "约 50 人", "website": "https://www.agisoft.com", "ai_summary": "一句话：这是「照片变三维」最经典的软件，很多测绘、考古、文物团队的第一套重建工具就是它。一次买断、能离线跑、不依赖云，所以数据敏感的政府项目特别爱用。", "categories": ["摄影测量", "重建方案", "开源工具"], "enabled": true}
 ];
