@@ -217,6 +217,7 @@
     height: 20px; border-radius: 6px; font-size: 10.5px;
   }
   .cal-nav-sm { width: 24px; height: 24px; border-radius: 8px; }
+  .cal-nav-xs { width: 20px; height: 20px; border-radius: 7px; }
   .cal-day-has {
     color: #e4e4e7; background: rgba(56,189,248,.10);
     border: 1px solid rgba(56,189,248,.20);
@@ -244,20 +245,56 @@
   html:not(.dark) .cal-day-count { color: #0284c7; }
 
   /* ===== 历史归档 · 大日历 ===== */
+  /* 网格铺满面板，格子比例自然接近方形；不再限宽，右侧不留空白 */
+  .bigcal-grid { width: 100%; max-width: 900px; }
   .bigcal-day {
-    position: relative; min-height: 72px; border-radius: 12px; padding: 6px 7px 7px;
+    position: relative; min-height: 92px; border-radius: 10px; padding: 7px 8px 8px;
     border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02);
-    display: flex; flex-direction: column; gap: 4px;
-    transition: all .2s; user-select: none;
+    display: flex; flex-direction: column; gap: 3px;
+    transition: all .2s; user-select: none; overflow: hidden;
   }
-  .bigcal-day-empty { opacity: .40; min-height: 72px; }
+  .bigcal-day-empty { opacity: .22; min-height: 92px; }
+  .bigcal-day.has { min-height: 92px; }
+  /* 年 / 月 独立切换器：两个明显分开的胶囊，箭头清晰可见 */
+  .ym-stepper {
+    display: inline-flex; align-items: center; height: 30px;
+    border-radius: 9px; overflow: hidden;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+  .ym-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 100%; color: #d4d4d8;
+    transition: background .18s, color .18s;
+  }
+  .ym-btn:hover { background: rgba(255,255,255,.14); color: #fff; }
+  .ym-btn:active { transform: scale(.92); }
+  .ym-text {
+    display: inline-flex; align-items: baseline; gap: 2px;
+    padding: 0 8px; min-width: 58px; justify-content: center;
+    border-left: 1px solid rgba(255,255,255,.10);
+    border-right: 1px solid rgba(255,255,255,.10);
+  }
+  .ym-text b { font-size: 15px; font-weight: 700; color: #fafafa; line-height: 1; }
+  .ym-text em { font-style: normal; font-size: 11px; color: #a1a1aa; }
+  .ym-stepper-sm { height: 24px; border-radius: 7px; }
+  .ym-btn-sm { width: 20px; }
+  .ym-text-sm { min-width: 46px; padding: 0 5px; }
+  .ym-text-sm b { font-size: 12px; }
+  .ym-text-sm em { font-size: 9.5px; }
+  html:not(.dark) .ym-stepper { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.12); }
+  html:not(.dark) .ym-btn { color: #71717a; }
+  html:not(.dark) .ym-btn:hover { background: rgba(0,0,0,.10); color: #18181b; }
+  html:not(.dark) .ym-text { border-color: rgba(0,0,0,.10); }
+  html:not(.dark) .ym-text b { color: #18181b; }
+  html:not(.dark) .ym-text em { color: #71717a; }
   .bigcal-day.has {
     cursor: pointer; border-color: rgba(255,255,255,.12);
   }
   .bigcal-day.has:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.22); transform: translateY(-2px); }
   .bigcal-day.has:focus-visible { outline: 2px solid rgba(56,189,248,.7); outline-offset: 2px; }
-  .bigcal-num { font-size: 11.5px; font-weight: 700; color: #e4e4e7; line-height: 1; }
-  .bigcal-total { font-size: 9.5px; color: #a1a1aa; margin-left: auto; }
+  .bigcal-num { font-size: 11px; font-weight: 700; color: #e4e4e7; line-height: 1; }
+  .bigcal-total { font-size: 9px; color: #a1a1aa; margin-left: auto; }
   /* 信号强度：黑 / 灰 / 白 色阶 */
   .bigcal-bar { display: flex; height: 5px; border-radius: 3px; overflow: hidden; background: rgba(255,255,255,.06); margin-top: auto; }
   .bigcal-bar i { display: block; height: 100%; }
@@ -271,7 +308,7 @@
   .bigcal-cats { display: flex; flex-wrap: wrap; gap: 2px 6px; }
   .bigcal-cats span { display: inline-flex; align-items: center; gap: 3px; }
   .bigcal-cats i { width: 6px; height: 6px; border-radius: 2px; display: inline-block; }
-  .bigcal-cats b { font-size: 9.5px; font-weight: 700; color: #d4d4d8; }
+  .bigcal-cats b { font-size: 9px; font-weight: 700; color: #d4d4d8; }
   .bigcal-legend { display: flex; flex-wrap: wrap; gap: 3px 10px; }
   .bigcal-legend span { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #a1a1aa; }
   .bigcal-legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; border: 1px solid rgba(255,255,255,.15); }
@@ -293,7 +330,7 @@
   /* 本日速览行 */
   .brief-row {
     display: flex; align-items: flex-start; gap: 8px;
-    padding: 5px 7px; border-radius: 8px; cursor: pointer;
+    padding: 7px 8px; border-radius: 8px; cursor: pointer;
     transition: background .18s;
   }
   .brief-row:hover { background: rgba(255,255,255,.06); }
@@ -473,6 +510,16 @@
     'network':'<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
     'pin':'<path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1z"/>',
     'plus':'<path d="M5 12h14"/><path d="M12 5v14"/>',
+    'chevron-left':'<path d="m15 18-6-6 6-6"/>',
+    'chevron-right':'<path d="m9 18 6-6-6-6"/>',
+    'chevron-down':'<path d="m6 9 6 6 6-6"/>',
+    'chevron-up':'<path d="m18 15-6-6-6 6"/>',
+    'arrow-left':'<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+    'arrow-right':'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    'clock':'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    'search':'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    'maximize-2':'<polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" x2="14" y1="3" y2="10"/><line x1="3" x2="10" y1="21" y2="14"/>',
+    'tag':'<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>',
     'check':'<path d="M20 6 9 17l-5-5"/>',
     'pencil':'<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>',
     'trash-2':'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>',
@@ -501,7 +548,15 @@
       var el = els[i];
       var name = el.getAttribute('data-lucide');
       var inner = ICONS[name];
-      if (!inner) continue;
+      if (!inner) {
+        // 图标缺失兜底：留占位并告警，避免出现「按钮里一片空白」这种隐性 bug
+        if (window.console && console.warn) console.warn('[icon] 未定义的图标：' + name);
+        el.setAttribute('data-icon-missing', name);
+        el.style.display = 'inline-block';
+        el.style.width = '0.875rem';
+        el.style.height = '0.875rem';
+        continue;
+      }
       var cls = el.getAttribute('class') || '';
       var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
@@ -894,6 +949,14 @@ function buildIndex() {
   // 重建按日期聚合的索引
   itemsByDate = {};
   ALL_ITEMS.forEach(it => { const d = it.date || '2026-10-27'; (itemsByDate[d] = itemsByDate[d] || []).push(it); });
+  // 按「报告日」聚合（日历用）：报告日才是这份简报的发布日期
+  itemsByReport = {};
+  (window.allDailyData || []).forEach(report => {
+    const day = (report.report_id || '').replace('daily-', '');
+    if (!day) return;
+    const arr = (report.items || []);
+    if (arr.length) itemsByReport[day] = arr;
+  });
 }
 
 function findItemById(id) {
@@ -1009,7 +1072,7 @@ function renderDashboard() {
     n: items.filter(i => i.category === c).length
   })).filter(c => c.n > 0);
 
-  let html = '<div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 sm:gap-5 mb-6">';
+  let html = '<div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 sm:gap-5 mb-6 items-stretch">';
 
   // 左：本日概览（只讲今天）+ 本日速览列表
   html += '<div class="stat-card flex flex-col p-5 sm:p-6">' +
@@ -1032,16 +1095,19 @@ function renderDashboard() {
       : '') +
     // 本日速览：紧凑列表，点击直达详情
     (items.length
-      ? '<div class="mt-4 pt-4 border-t border-white/5">' +
-        '<div class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider mb-2.5">本日速览</div>' +
-        '<div id="today-brief" class="space-y-1.5">' + items.slice(0, 5).map(it =>
+      ? '<div class="mt-4 pt-4 border-t border-white/5 flex-1 flex flex-col">' +
+        '<div class="flex items-center justify-between mb-2.5">' +
+          '<span class="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">本日速览</span>' +
+          '<span class="text-[10px] text-zinc-600">按信号强度排序 · 点击看详情</span>' +
+        '</div>' +
+        '<div id="today-brief" class="space-y-1">' + items.slice(0, 6).map(it =>
           '<div class="brief-row" data-id="' + esc(it.item_id) + '" role="button" tabindex="0">' +
             '<span class="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style="background:' + (CATEGORY_META[it.category] || {}).color + '"></span>' +
             '<span class="text-[12.5px] text-zinc-300 leading-snug line-clamp-1">' + esc(it.title) + '</span>' +
             signalDot(it.signal_strength) +
           '</div>').join('') +
         '</div>' +
-        (items.length > 5 ? '<div class="text-[11px] text-zinc-600 mt-2">还有 ' + (items.length - 5) + ' 条，见下方详情 ↓</div>' : '') +
+        (items.length > 6 ? '<div class="text-[11px] text-zinc-600 mt-auto pt-2.5">还有 ' + (items.length - 6) + ' 条，见下方分类详情 ↓</div>' : '') +
         '</div>'
       : '<div class="text-[12px] text-zinc-500 mt-4 pt-4 border-t border-white/5">本日暂无收录条目。</div>') +
     '</div>';
@@ -1098,16 +1164,23 @@ function renderCalendarHtml() {
   const latest = latestReport();
   const latestDate = ALL_ITEMS.reduce((mx, it) => (it.date > mx ? it.date : mx), '1970-01-01');
 
-  let html = '<div class="stat-card cal-sm p-4" id="cal-card">' +
-    '<div class="flex items-center justify-between mb-3 gap-2">' +
-      '<div class="dash-label !text-[12px]"><i data-lucide="calendar-days" class="w-3.5 h-3.5 text-emerald-400"></i>' + calMonth + ' 月</div>' +
-      '<div class="flex items-center gap-1">' +
-        '<button class="cal-nav cal-nav-sm" data-cal="prev-year" title="上一年" aria-label="上一年"><i data-lucide="chevrons-left" class="w-3.5 h-3.5"></i></button>' +
-        '<button class="cal-nav cal-nav-sm" data-cal="prev-month" title="上一月" aria-label="上一月"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>' +
-        '<span class="text-[12px] font-semibold text-white tnum px-1.5 min-w-[52px] text-center">' + calYear + '</span>' +
-        '<button class="cal-nav cal-nav-sm" data-cal="next-month" title="下一月" aria-label="下一月"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>' +
-        '<button class="cal-nav cal-nav-sm" data-cal="next-year" title="下一年" aria-label="下一年"><i data-lucide="chevrons-right" class="w-3.5 h-3.5"></i></button>' +
-      '</div></div>' +
+  let html = '<div class="stat-card cal-sm p-4 flex flex-col" id="cal-card">' +
+    '<div class="flex items-center gap-2 flex-wrap mb-3">' +
+      '<span class="dash-label !text-[12px]"><i data-lucide="calendar-days" class="w-3.5 h-3.5 text-emerald-400"></i>日历</span>' +
+      '<div class="flex items-center gap-1.5 flex-wrap">' +
+        '<div class="ym-stepper ym-stepper-sm">' +
+          '<button class="ym-btn ym-btn-sm" data-cal="prev-year" title="上一年" aria-label="上一年"><i data-lucide="chevron-left" class="w-3 h-3"></i></button>' +
+          '<span class="ym-text ym-text-sm"><b class="tnum">' + calYear + '</b><em>年</em></span>' +
+          '<button class="ym-btn ym-btn-sm" data-cal="next-year" title="下一年" aria-label="下一年"><i data-lucide="chevron-right" class="w-3 h-3"></i></button>' +
+        '</div>' +
+        '<div class="ym-stepper ym-stepper-sm">' +
+          '<button class="ym-btn ym-btn-sm" data-cal="prev-month" title="上一月" aria-label="上一月"><i data-lucide="chevron-left" class="w-3 h-3"></i></button>' +
+          '<span class="ym-text ym-text-sm"><b class="tnum">' + calMonth + '</b><em>月</em></span>' +
+          '<button class="ym-btn ym-btn-sm" data-cal="next-month" title="下一月" aria-label="下一月"><i data-lucide="chevron-right" class="w-3 h-3"></i></button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="h-px flex-1 bg-white/10"></div>' +
+    '</div>' +
     '<div class="grid grid-cols-7 gap-1 mb-1.5">' +
       ['一','二','三','四','五','六','日'].map(w => '<div class="text-center text-[9px] text-zinc-600 font-medium">' + w + '</div>').join('') +
     '</div><div class="grid grid-cols-7 gap-1">';
@@ -1115,7 +1188,7 @@ function renderCalendarHtml() {
   for (let i = 0; i < startOffset; i++) html += '<div></div>';
   for (let d = 1; d <= daysInMonth; d++) {
     const dateStr = monthKey + '-' + String(d).padStart(2, '0');
-    const n = (itemsByDate[dateStr] || []).length;
+    const n = (itemsByReport[dateStr] || []).length;
     const isLatest = dateStr === latestDate;
     const cls = 'cal-day cal-day-sm ' + (n ? 'cal-day-has ' : '') + (isLatest ? 'cal-day-latest' : '');
     html += '<div class="' + cls + '" ' + (n ? 'data-cal-day="' + dateStr + '" role="button" tabindex="0" title="' + dateStr + ' · ' + n + ' 条"' : 'title="' + dateStr + '"') + '>' +
@@ -1124,8 +1197,52 @@ function renderCalendarHtml() {
   }
   html += '</div>' +
     '<div class="text-[10px] text-zinc-600 mt-2.5">浅蓝 = 当日有情报，点击可跳转</div>' +
+    '<div class="mt-auto pt-3.5 border-t border-white/5" id="cal-mini-trend">' + miniTrendHtml() + '</div>' +
     '</div>';
   return html;
+}
+
+// 小日历下方的「近 5 日情报量」迷你柱状图 —— 填补右侧留白，让今日页不空
+function miniTrendHtml() {
+  const days = [];
+  const maxRep = latestReport();
+  const endKey = maxRep ? (maxRep.report_id || '').replace('daily-', '') : '';
+  if (!endKey) return '';
+  const base = new Date(endKey + 'T00:00:00');
+  for (let k = 4; k >= 0; k--) {
+    const dt = new Date(base.getTime() - k * 86400000);
+    const key = dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0');
+    const arr = itemsByReport[key] || [];
+    days.push({ key: key, md: key.slice(5).replace('-', '/'), n: arr.length, strong: arr.filter(i => i.signal_strength === '强').length });
+  }
+  const maxN = Math.max(1, ...days.map(d => d.n));
+  const BAR_AREA = 44; // 柱子可用高度（px）
+  const bars = days.map(d => {
+    const h = Math.max(d.n ? 4 : 2, Math.round((d.n / maxN) * BAR_AREA));
+    const isLast = d.key === endKey;
+    const bg = isLast
+      ? 'linear-gradient(180deg,#38bdf8,#6366f1)'
+      : 'linear-gradient(180deg,rgba(56,189,248,.55),rgba(99,102,241,.42))';
+    return '<div class="flex-1 flex flex-col items-center" title="' + d.key + ' · ' + d.n + ' 条">' +
+      '<span class="text-[10px] leading-none tnum mb-1 ' + (isLast ? 'text-sky-300 font-semibold' : 'text-zinc-500') + '">' + d.n + '</span>' +
+      '<div class="w-full flex items-end" style="height:' + BAR_AREA + 'px">' +
+        '<div class="w-full rounded-t-[3px] ' + (d.n ? '' : 'opacity-30') + '" style="height:' + h + 'px;background:' + bg + '"></div>' +
+      '</div>' +
+      '<span class="text-[9px] leading-none tnum mt-1.5 ' + (isLast ? 'text-sky-300' : 'text-zinc-600') + '">' + d.md + '</span>' +
+      '</div>';
+  }).join('');
+  const latestN = days[days.length - 1] ? days[days.length - 1].n : 0;
+  const prevN = days[days.length - 2] ? days[days.length - 2].n : 0;
+  const delta = latestN - prevN;
+  const deltaTxt = prevN === 0
+    ? (latestN ? '较前日新增' : '—')
+    : (delta > 0 ? '较前日 +' + delta : delta < 0 ? '较前日 ' + delta : '与前日持平');
+  const deltaCls = delta > 0 ? 'text-rose-300' : delta < 0 ? 'text-emerald-300' : 'text-zinc-500';
+  return '<div class="flex items-center justify-between mb-2.5">' +
+      '<span class="text-[11px] font-semibold text-zinc-400">近 5 日情报量</span>' +
+      '<span class="text-[10px] ' + deltaCls + '">' + deltaTxt + '</span>' +
+    '</div>' +
+    '<div class="flex items-end gap-1.5">' + bars + '</div>';
 }
 
 function signalDot(s) {
@@ -1182,7 +1299,7 @@ function initBigCalendar() {
 const SIG_COLOR = { '强': '#fb7185', '中': '#fbbf24', '弱': '#71717a' };
 
 function dayStats(dateStr) {
-  const arr = itemsByDate[dateStr] || [];
+  const arr = itemsByReport[dateStr] || [];
   const sig = { '强': 0, '中': 0, '弱': 0 };
   const cats = {};
   arr.forEach(i => {
@@ -1201,22 +1318,31 @@ function renderBigCalendarHtml() {
   const daysInMonth = new Date(bigCalYear, bigCalMonth, 0).getDate();
   const monthKey = bigCalYear + '-' + mm;
   const latestDate = ALL_ITEMS.reduce((mx, it) => (it.date > mx ? it.date : mx), '1970-01-01');
+  const monthTotal = Object.keys(itemsByReport).filter(d => d.startsWith(monthKey))
+    .reduce((s, d) => s + itemsByReport[d].length, 0);
 
-  let html = '<div class="glass-panel p-5 sm:p-7 mb-10" id="bigcal-card">' +
-    '<div class="flex items-center justify-between mb-6 flex-wrap gap-3">' +
-      '<div class="flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-gray-400 dark:text-zinc-500"></i>' +
+  let html = '<div class="glass-panel p-4 sm:p-6 mb-10" id="bigcal-card">' +
+    '<div class="flex items-center gap-3 flex-wrap mb-5">' +
+      '<div class="flex items-center gap-2 mr-2"><i data-lucide="calendar" class="w-4 h-4 text-gray-400 dark:text-zinc-500"></i>' +
       '<span class="text-[13px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">情报日历</span></div>' +
-      '<div class="flex items-center gap-1.5">' +
-        '<button class="cal-nav" data-bigcal="prev-year" title="上一年" aria-label="上一年"><i data-lucide="chevrons-left" class="w-4 h-4"></i></button>' +
-        '<button class="cal-nav" data-bigcal="prev-month" title="上一月" aria-label="上一月"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>' +
-        '<span class="text-[15px] font-bold text-gray-900 dark:text-white tnum px-3 min-w-[124px] text-center">' + label + '</span>' +
-        '<button class="cal-nav" data-bigcal="next-month" title="下一月" aria-label="下一月"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>' +
-        '<button class="cal-nav" data-bigcal="next-year" title="下一年" aria-label="下一年"><i data-lucide="chevrons-right" class="w-4 h-4"></i></button>' +
-      '</div></div>';
+      // 年 / 月 各自独立、彼此分开的两组切换器
+      '<div class="ym-stepper">' +
+        '<button class="ym-btn" data-bigcal="prev-year" title="上一年" aria-label="上一年"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>' +
+        '<span class="ym-text"><b class="tnum">' + bigCalYear + '</b><em>年</em></span>' +
+        '<button class="ym-btn" data-bigcal="next-year" title="下一年" aria-label="下一年"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>' +
+      '</div>' +
+      '<div class="ym-stepper">' +
+        '<button class="ym-btn" data-bigcal="prev-month" title="上一月" aria-label="上一月"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>' +
+        '<span class="ym-text"><b class="tnum">' + bigCalMonth + '</b><em>月</em></span>' +
+        '<button class="ym-btn" data-bigcal="next-month" title="下一月" aria-label="下一月"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>' +
+      '</div>' +
+      '<div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60 mx-1"></div>' +
+      '<span class="text-[12px] text-gray-400 dark:text-zinc-500 tnum">本月 ' + monthTotal + ' 条</span>' +
+    '</div>';
 
-  html += '<div class="grid grid-cols-7 gap-1.5 mb-2">' +
+  html += '<div class="bigcal-grid"><div class="grid grid-cols-7 gap-1.5 mb-1.5">' +
     ['一','二','三','四','五','六','日'].map(w => '<div class="text-center text-[11px] font-semibold text-gray-400 dark:text-zinc-500">' + w + '</div>').join('') +
-    '</div><div class="grid grid-cols-7 gap-1.5">';
+    '</div><div class="grid grid-cols-7 gap-1.5 content-start">';
 
   for (let i = 0; i < startOffset; i++) html += '<div></div>';
   for (let d = 1; d <= daysInMonth; d++) {
@@ -1248,7 +1374,7 @@ function renderBigCalendarHtml() {
       '<div class="bigcal-cats">' + catHtml + '</div>' +
       '</div>';
   }
-  html += '</div>';
+  html += '</div></div>';
 
   // 图例
   html += '<div class="mt-5 pt-4 border-t border-slate-200/60 dark:border-zinc-700/60 flex flex-col lg:flex-row gap-4 lg:gap-10">' +
@@ -1331,7 +1457,7 @@ function renderArchiveStatsHtml() {
   for (let k = 6; k >= 0; k--) {
     const d = new Date(endD.getFullYear(), endD.getMonth(), endD.getDate() - k);
     const s = dashLocalDate(d);
-    week.push({ date: s, n: (itemsByDate[s] || []).length });
+    week.push({ date: s, n: (itemsByReport[s] || []).length });
   }
   const wMax = Math.max.apply(null, week.map(w => w.n).concat([1]));
 
@@ -1383,46 +1509,24 @@ function renderArchiveStatsHtml() {
   return html;
 }
 
-// 条目较少时（每类 1-2 条）分组会显得松散：自动切换为紧凑模式
-function shouldCompact(items) {
-  if (items.length <= 6) return true;
-  const groups = CATEGORY_ORDER.map(c => items.filter(i => i.category === c).length).filter(n => n > 0);
-  // 分类数 >=3 且平均每组 <=2 条 → 也判定为松散
-  return groups.length >= 3 && (items.length / groups.length) <= 2.2;
-}
-
 function renderGrid(items) {
   if (!items.length) {
     return '<div class="rounded-3xl bg-white dark:bg-zinc-800/60 border border-slate-200/60 dark:border-zinc-700 p-8 text-[14px] text-gray-400 dark:text-zinc-500">本窗口无新增。</div>';
   }
-
-  // ========== 紧凑模式：不按分类分组，统一网格 + 分类色标，避免零散 ==========
-  if (shouldCompact(items)) {
-    const title = '<div class="flex items-center gap-2.5 mb-4">' +
-      '<span class="text-[15px] font-bold text-gray-800 dark:text-white">全部情报</span>' +
-      '<span class="text-[12px] text-gray-400 dark:text-zinc-500">' + items.length + ' 条</span>' +
-      '<div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60"></div></div>';
-    return '<div>' + title +
-      '<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">' +
-      items.map(i => gridCardHtml(i, false, 'compact')).join('') +
-      '</div></div>';
-  }
-
-  // ========== 分组模式：跳过 0 条分类，小组用紧凑卡片 ==========
+  // 按分类分组，卡片统一为正方形（恢复原样式）；跳过 0 条的分类，避免空分组占位
   let html = '';
   CATEGORY_ORDER.forEach(cat => {
     const group = items.filter(i => i.category === cat);
-    if (group.length === 0) return; // 不再渲染空占位块
+    if (group.length === 0) return;
     const meta = CATEGORY_META[cat];
-    const compact = group.length <= 3;
-    html += '<div class="mb-8 last:mb-0">';
-    html += '<div class="flex items-center gap-2.5 mb-4">' +
+    html += '<div class="mb-10 last:mb-0">';
+    html += '<div class="flex items-center gap-2.5 mb-5">' +
       '<span class="w-2 h-2 rounded-full ' + meta.dot + '"></span>' +
       '<span class="text-[15px] font-bold text-gray-800 dark:text-white inline-flex items-center gap-1.5"><i data-lucide="' + meta.icon + '" class="w-4 h-4"></i>' + meta.label + '</span>' +
       '<span class="text-[12px] text-gray-400 dark:text-zinc-500">' + group.length + ' 条</span>' +
       '<div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60"></div></div>';
-    html += '<div class="grid ' + (compact ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4') + ' gap-3 sm:gap-4">' +
-      group.map(i => gridCardHtml(i, false, compact ? 'compact' : 'full')).join('') + '</div>';
+    html += '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">' +
+      group.map(i => gridCardHtml(i, false)).join('') + '</div>';
     html += '</div>';
   });
   return html;
@@ -1694,6 +1798,7 @@ document.addEventListener('keydown', e => {
 // 基于全局 ALL_ITEMS 动态聚合多天数据，年份/月份/日期都能真实下钻
 // itemsByDate 在 buildIndex() 中填充（多天数据按日期聚合）
 let itemsByDate = {};
+let itemsByReport = {};   // 按报告日聚合（日历与日报视图使用）
 
 // 提取数据覆盖到的所有年份（升序）
 function allYears() {
@@ -1866,7 +1971,8 @@ function renderMonthView() {
   const daysInMonth = new Date(parseInt(activeYear, 10), m.month, 0).getDate();
   html += '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">';
   for (let d = 1; d <= daysInMonth; d++) {
-    const arr = m.days[d] || [];
+    const dk = activeYear + '-' + String(m.month).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+    const arr = itemsByReport[dk] || m.days[d] || [];
     const hasData = arr.length > 0;
     html += '<div class="grid-card sm:aspect-square p-5 sm:p-6 flex flex-col ' + (hasData ? '' : 'opacity-40 pointer-events-none') + '" data-day="' + d + '">' +
       '<div class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">' + (hasData ? 'Day' : '—') + '</div>' +
@@ -1882,12 +1988,12 @@ function renderMonthView() {
 
 function renderDayView() {
   archiveView = 'day';
-  const monthsData = monthsForYear(activeYear);
-  const m = monthsData[activeMonth - 1];
-  const arr = m.days[activeDay] || [];
   const dateStr = activeYear + '-' + String(activeMonth).padStart(2, '0') + '-' + String(activeDay).padStart(2, '0');
-  // 尝试找到该日对应的报告 summary（若存在）；否则用最近报告
+  // 以「报告日」为准：当日简报收录的全部条目 + 该报告的窗口速览
   const dayReport = ALL_DAYS[dateStr] && ALL_DAYS[dateStr].report;
+  const arr = (dayReport && dayReport.items && dayReport.items.length)
+    ? dayReport.items
+    : (monthsForYear(activeYear)[activeMonth - 1].days[activeDay] || []);
   const sum = dayReport && dayReport.summary ? dayReport.summary : (latestReport() ? latestReport().summary : null);
   let html = '<div class="flex items-center justify-between mb-6">' + backButton('返回月份', renderMonthView) +
     '<div class="text-right"><h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">' + dateStr + '</h1><p class="text-[14px] text-gray-400 dark:text-zinc-500 mt-1">当日情报 · ' + arr.length + ' 条</p></div></div>';
