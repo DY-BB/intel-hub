@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>页面不存在 · 三维重建情报库</title>
+<script>
+  // 大小写自动纠正：/Index.html → /index.html
+  // GitHub Pages 跑在大小写敏感的 Linux 上，手输或旧书签常写成 Index.html，会直接 404
+  (function () {
+    var path = location.pathname;
+    var lower = path.replace(/[A-Z]/g, function (c) { return c.toLowerCase(); });
+    // 目录形式（以 / 结尾）补 index.html
+    if (lower.slice(-1) === '/' && lower.indexOf('/intel-hub') === 0) lower += 'index.html';
+    if (lower !== path) {
+      location.replace(lower + location.search + location.hash);
+      return;
+    }
+    // 常见拼写兜底
+    var alias = { '/app': '/app.html', '/index': '/index.html', '/editor': '/editor.html' };
+    if (alias[lower]) { location.replace(alias[lower] + location.search); }
+  })();
+</script>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: radial-gradient(1200px 800px at 20% 10%, #1a2440 0%, transparent 60%),
+                radial-gradient(900px 700px at 85% 85%, #2a1b3d 0%, transparent 55%), #05060d;
+    color: #e4e4e7; padding: 24px;
+  }
+  .card {
+    max-width: 520px; width: 100%; text-align: center;
+    border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04);
+    border-radius: 24px; padding: 44px 32px; backdrop-filter: blur(12px);
+  }
+  .code { font-size: 64px; font-weight: 700; letter-spacing: -.03em; margin: 0 0 4px;
+          background: linear-gradient(135deg,#38bdf8,#818cf8); -webkit-background-clip: text;
+          background-clip: text; color: transparent; }
+  h1 { font-size: 20px; margin: 0 0 10px; font-weight: 600; }
+  p { font-size: 14px; line-height: 1.7; color: #a1a1aa; margin: 0 0 8px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px;
+         background: rgba(255,255,255,.07); padding: 2px 6px; border-radius: 5px; color: #7dd3fc; }
+  .links { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+  a.btn { display: inline-flex; align-items: center; gap: 6px; padding: 11px 20px; border-radius: 12px;
+          font-size: 14px; font-weight: 600; text-decoration: none; transition: .18s; }
+  a.primary { color: #fff; background: linear-gradient(135deg,#0ea5e9,#6366f1); }
+  a.primary:hover { transform: translateY(-1px); filter: brightness(1.1); }
+  a.ghost { color: #d4d4d8; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); }
+  a.ghost:hover { background: rgba(255,255,255,.12); }
+  .path { margin-top: 18px; font-size: 12px; color: #71717a; word-break: break-all; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="code">404</div>
+    <h1>这个地址上没有页面</h1>
+    <p>如果是手输或旧书签，注意文件名是全小写的 <code>index.html</code>。<br>
+       通常几秒内会自动帮你跳转过去。</p>
+    <div class="links">
+      <a class="btn primary" href="index.html">回到首页</a>
+      <a class="btn ghost" href="app.html">进入情报库</a>
+    </div>
+    <div class="path">当前请求：<span id="p"></span></div>
+  </div>
+  <script>
+    document.getElementById('p').textContent = location.pathname;
+  </script>
+</body>
+</html>

@@ -306,6 +306,19 @@
   html:not(.dark) .ym-btn { color: #71717a; }
   html:not(.dark) .ym-btn:hover { background: rgba(0,0,0,.10); color: #18181b; }
   html:not(.dark) .ym-text { border-color: rgba(0,0,0,.10); }
+  /* 日视图：前后有数据日导航按钮 */
+  .day-nav-btn {
+    display: inline-flex; align-items: center; gap: 4px; height: 34px; padding: 0 12px;
+    border-radius: 10px; font-size: 13px; font-weight: 600;
+    color: #a1a1aa; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
+    transition: all .18s;
+  }
+  .day-nav-btn:hover { color: #7dd3fc; background: rgba(56,189,248,.12); border-color: rgba(56,189,248,.35); }
+  .day-nav-btn:active { transform: scale(.95); }
+  html:not(.dark) .day-nav-btn { color: #52525b; background: #fff; border-color: #e2e8f0; }
+  html:not(.dark) .day-nav-btn:hover { color: #0284c7; background: #f0f9ff; border-color: #7dd3fc; }
+  /* 日视图中选中的日历格 */
+  .bigcal-day.bigcal-sel { background: rgba(56,189,248,.10); border-color: rgba(56,189,248,.45); }
   html:not(.dark) .ym-text b { color: #18181b; }
   html:not(.dark) .ym-text em { color: #71717a; }
   .bigcal-day.has {
@@ -360,6 +373,72 @@
   html:not(.dark) .cat-chip { border-color: rgba(0,0,0,.12); background: rgba(0,0,0,.03); color: #52525b; }
   html:not(.dark) .cat-chip:hover { background: rgba(0,0,0,.07); color: #18181b; }
   /* 本日速览行 */
+  /* 全文搜索输入框 */
+  .filter-search-input {
+    width: 100%; height: 46px; border-radius: 14px;
+    padding: 0 44px 0 42px; font-size: 14.5px; line-height: 1;
+    color: #18181b; background: #fff; border: 1px solid #e2e8f0;
+    outline: none; transition: border-color .18s, box-shadow .18s;
+  }
+  .dark .filter-search-input,
+  html.dark .filter-search-input { color: #e4e4e7; background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.12); }
+  .filter-search-input::placeholder { color: #94a3b8; }
+  .filter-search-input:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,.15); }
+  /* 搜索命中高亮 */
+  .search-hit { background: rgba(56,189,248,.22); border-radius: 3px; padding: 0 1px; color: #7dd3fc; }
+
+  /* ============ 简历式归档行（年度 / 月度归档的下钻列表） ============ */
+  .resume-list { display: flex; flex-direction: column; }
+  .resume-row {
+    display: flex; align-items: stretch;
+    position: relative; cursor: pointer;
+    border-radius: 18px; transition: background .18s;
+  }
+  .resume-row:hover { background: rgba(255,255,255,.035); }
+  html:not(.dark) .resume-row:hover { background: rgba(0,0,0,.03); }
+  .resume-time {
+    flex: none; width: 108px; display: flex; flex-direction: column;
+    align-items: flex-end; justify-content: flex-start;
+    padding: 24px 26px 24px 0; text-align: right;
+  }
+  .resume-time b { font-size: 38px; font-weight: 800; line-height: 1; letter-spacing: -.02em; color: #e4e4e7; font-variant-numeric: tabular-nums; }
+  html:not(.dark) .resume-time b { color: #18181b; }
+  .resume-time em { font-style: normal; font-size: 10.5px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #71717a; margin-top: 7px; }
+  .resume-rail { flex: none; width: 2px; position: relative; background: rgba(255,255,255,.10); }
+  html:not(.dark) .resume-rail { background: rgba(0,0,0,.10); }
+  .resume-rail::before {
+    content: ''; position: absolute; left: 50%; top: 34px; transform: translateX(-50%);
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #09090b; border: 2px solid #52525b; box-shadow: 0 0 0 4px rgba(9,9,11,.08);
+  }
+  html:not(.dark) .resume-rail::before { background: #fff; border-color: #18181b; box-shadow: 0 0 0 4px rgba(24,24,27,.06); }
+  .resume-main { flex: 1; min-width: 0; padding: 24px 8px 24px 26px; }
+  .resume-title { font-size: 16.5px; font-weight: 700; color: #f4f4f5; line-height: 1.45; }
+  html:not(.dark) .resume-title { color: #18181b; }
+  .resume-desc {
+    font-size: 13.5px; color: #a1a1aa; line-height: 1.65; margin-top: 6px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  html:not(.dark) .resume-desc { color: #52525b; }
+  .resume-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 16px; margin-top: 10px; font-size: 12px; color: #71717a; }
+  .resume-meta b { color: #d4d4d8; font-variant-numeric: tabular-nums; }
+  html:not(.dark) .resume-meta b { color: #3f3f46; }
+  .resume-row .resume-arrow {
+    flex: none; align-self: center; margin-right: 14px; color: #52525b;
+    opacity: 0; transform: translateX(-4px); transition: opacity .18s, transform .18s, color .18s;
+  }
+  .resume-row:hover .resume-arrow { opacity: 1; transform: translateX(0); color: #7dd3fc; }
+  html:not(.dark) .resume-row:hover .resume-arrow { color: #0284c7; }
+  .resume-empty { padding: 20px 26px; font-size: 13px; color: #71717a; }
+  @media (max-width: 640px) {
+    .resume-time { width: 62px; padding: 20px 14px 20px 0; }
+    .resume-time b { font-size: 24px; }
+    .resume-time em { font-size: 9.5px; letter-spacing: .1em; }
+    .resume-rail::before { top: 27px; width: 8px; height: 8px; }
+    .resume-main { padding: 20px 2px 20px 16px; }
+    .resume-row .resume-arrow { display: none; }
+  }
+
   .brief-row {
     display: flex; align-items: flex-start; gap: 8px;
     padding: 7px 8px; border-radius: 8px; cursor: pointer;
@@ -414,6 +493,41 @@
   html.dark .date-btn:hover { background: #3f3f46; border-color: #52525b; }
   input[type="date"] { color-scheme: light; }
   html.dark input[type="date"] { color-scheme: dark; }
+
+  /* ============ 自制日期选择弹层（原生 picker 在嵌入环境弹不出，统一换成自制） ============ */
+  .dp-pop {
+    position: fixed; z-index: 9999;   /* 挂在 body 上、固定定位，避免被后续卡片遮挡/父级裁剪 */
+    width: 266px; padding: 14px; border-radius: 16px;
+    background: #18181b; border: 1px solid #3f3f46;
+    box-shadow: 0 20px 50px rgba(0,0,0,.45);
+    color: #e4e4e7; user-select: none;
+    box-sizing: border-box;
+  }
+  html:not(.dark) .dp-pop { background: #fff; border-color: #e2e8f0; box-shadow: 0 20px 50px rgba(15,23,42,.18); color: #18181b; }
+  .dp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .dp-title { font-size: 13.5px; font-weight: 700; letter-spacing: .02em; }
+  .dp-nav { width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: #a1a1aa; background: rgba(255,255,255,.06); border: none; cursor: pointer; transition: background .15s, color .15s; }
+  .dp-nav:hover { background: rgba(255,255,255,.14); color: #fff; }
+  html:not(.dark) .dp-nav { background: #f1f5f9; color: #52525b; }
+  html:not(.dark) .dp-nav:hover { background: #e2e8f0; color: #18181b; }
+  .dp-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .dp-dow { font-size: 10.5px; font-weight: 600; color: #71717a; text-align: center; padding: 4px 0; letter-spacing: .06em; }
+  .dp-day {
+    height: 30px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 12.5px; font-weight: 500; color: #d4d4d8; cursor: pointer;
+    border: 1px solid transparent; transition: background .13s, color .13s; font-variant-numeric: tabular-nums;
+  }
+  .dp-day:hover { background: rgba(56,189,248,.14); color: #7dd3fc; }
+  .dp-day.dp-out { color: #52525b; }
+  .dp-day.dp-today { border-color: rgba(56,189,248,.5); color: #7dd3fc; }
+  .dp-day.dp-sel { background: #38bdf8; color: #0c4a6e; font-weight: 700; }
+  html:not(.dark) .dp-day { color: #3f3f46; }
+  html:not(.dark) .dp-day.dp-out { color: #a1a1aa; }
+  html:not(.dark) .dp-day.dp-sel { color: #082f49; }
+  .dp-foot { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.08); }
+  html:not(.dark) .dp-foot { border-top-color: #e2e8f0; }
+  .dp-act { font-size: 11.5px; padding: 4px 10px; border-radius: 8px; cursor: pointer; border: none; background: transparent; color: #a1a1aa; transition: color .15s, background .15s; }
+  .dp-act:hover { color: #7dd3fc; background: rgba(56,189,248,.1); }
 
   /* 信号强度 tooltip */
   .sig-wrap { position: relative; display: inline-flex; }
@@ -567,6 +681,7 @@
     'rocket':'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
     'scan':'<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/>',
     'scan-eye':'<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="1"/><path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0"/>',
+    'pie-chart':'<path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>',
     'settings':'<path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 22v-2"/><path d="m17 20.66-1-1.73"/><path d="M11 10.27 7 3.34"/><path d="m20.66 17-1.73-1"/><path d="m3.34 7 1.73 1"/><path d="M14 12h8"/><path d="M2 12h2"/><path d="m20.66 7-1.73 1"/><path d="m3.34 17 1.73-1"/><path d="m17 3.34-1 1.73"/><path d="m11 13.73-4 6.93"/>',
     'sparkles':'<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/>',
     'tags':'<path d="m15 5 6.3 6.3a2.4 2.4 0 0 1 0 3.4L17 19"/><path d="M9.586 5.586A2 2 0 0 0 8.172 5H3a1 1 0 0 0-1 1v5.172a2 2 0 0 0 .586 1.414L8.29 18.29a2.426 2.426 0 0 0 3.42 0l3.58-3.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="6.5" cy="9.5" r=".5" fill="currentColor"/>',
@@ -750,26 +865,53 @@
           <p class="text-[14px] text-gray-400 dark:text-zinc-500 mt-2" data-page-node-id="bzi5faYaNecHKSDgdrdIEL">按日期范围与标签动态筛选情报</p>
         </div>
 
-        <div class="glass-panel p-6 mb-6" data-page-node-id="L5szub1toKRA6Wh7zr4K4B">
-          <div class="flex items-center gap-2 mb-4" data-page-node-id="XhT8OobaeDU1xFRhIlIfEd">
-            <i data-lucide="calendar-range" class="w-4 h-4 text-gray-400 dark:text-zinc-500" data-page-node-id="EsbntOgMVh4Vvcj5cFr7Zi"></i>
-            <span class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase" data-page-node-id="HdHiffTwOFQMEEXDHuKcVv">日期范围</span>
-            <div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60" data-page-node-id="GdmABefJziQ9CbIR03QlZi"></div>
+        <!-- 标签云（置顶 · 默认收起，点击展开） -->
+        <div class="glass-panel p-5 sm:p-6 mb-6" id="tag-panel">
+          <div class="flex items-center gap-2 cursor-pointer select-none" id="tag-cloud-head" title="点击展开 / 收起标签云">
+            <i data-lucide="tags" class="w-4 h-4 text-gray-400 dark:text-zinc-500"></i>
+            <span class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase whitespace-nowrap">标签云</span>
+            <div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60"></div>
+            <span id="tag-cloud-count" class="text-[11.5px] text-gray-400 dark:text-zinc-500 whitespace-nowrap"></span>
+            <button type="button" id="tag-cloud-toggle" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-medium text-sky-600 dark:text-sky-300 bg-sky-500/10 border border-sky-400/30 hover:bg-sky-500/20 transition-colors whitespace-nowrap">
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200"></i>
+              <span id="tag-cloud-toggle-text">展开</span>
+            </button>
           </div>
-          <div class="flex items-center gap-3 flex-wrap" data-page-node-id="HDVftfCZ3Hs9752kPTgn91">
-            <label class="date-btn" data-page-node-id="opMGRfcN2vuazKgA4Tfeeo">
-              <i data-lucide="calendar" class="w-4 h-4" data-page-node-id="0efFhemGHzf8JMTMzjuUT2"></i>
-              <span id="date-start-label" data-page-node-id="IQuyLeCiR82kmJzDVQz02Q">起始日</span>
-              <input type="date" id="date-start" data-page-node-id="G3pCJ6XWEVF6ZK4hl6FPGI">
-            </label>
-            <span class="text-gray-400 dark:text-zinc-500 text-[13px]" data-page-node-id="PCu2OHnSCIMBZkYNm9iKHm">至</span>
-            <label class="date-btn" data-page-node-id="MRHa77wgqXp1osXKlBCFbB">
-              <i data-lucide="calendar" class="w-4 h-4" data-page-node-id="RxXHCLMYVa0yhIHTQv8gWL"></i>
-              <span id="date-end-label" data-page-node-id="Nxxo8fjfLJEsqojC3ai5OY">结束日</span>
-              <input type="date" id="date-end" data-page-node-id="fRkccDHbB8xHzT2HgsFBOi">
-            </label>
-            <div class="flex-1" data-page-node-id="DDZHvsWSppburcu0Dc0BkR"></div>
-            <span class="text-[12px] text-gray-400 dark:text-zinc-500" id="filter-count-label" data-page-node-id="BDD49xzEo9QYE8WaswBI9L"></span>
+          <div id="tag-cloud-body" class="hidden">
+            <div class="flex items-center gap-2 mt-4 mb-4 flex-wrap">
+              <button id="add-tag-btn" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-medium text-sky-600 dark:text-sky-300 bg-sky-500/10 border border-sky-400/30 hover:bg-sky-500/20 transition-colors">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>新增标签
+              </button>
+              <button id="manage-tags-btn" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-medium text-gray-500 dark:text-zinc-400 bg-white dark:bg-white/5 border border-slate-200 dark:border-zinc-700 hover:text-gray-900 dark:hover:text-white transition-colors">
+                <i data-lucide="settings" class="w-3.5 h-3.5"></i>管理标签
+              </button>
+              <span id="tag-manage-hint" class="hidden text-[11.5px] text-amber-600 dark:text-amber-400">管理模式：点击标签上的 × 删除，再次点击「管理标签」退出</span>
+            </div>
+            <div id="tag-cloud" class="flex flex-wrap gap-2.5" data-page-node-id="yQrEBiHoZ14LS7V2vJoQjT"></div>
+          </div>
+        </div>
+
+        <!-- 搜索 + 日期范围（合并为一栏） -->
+        <div class="glass-panel p-5 sm:p-6 mb-8" data-page-node-id="fsearch-panel">
+          <div class="flex items-center gap-3 flex-wrap">
+            <div class="relative flex-1 min-w-[240px]" data-page-node-id="fsearch-box">
+              <i data-lucide="search" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 pointer-events-none" data-page-node-id="fsearch-icon2"></i>
+              <input id="filter-search" type="text" autocomplete="off" placeholder="输入关键词，如：思看、Gaussian Splatting、LiDAR… · 多词空格分隔为且" class="filter-search-input" data-page-node-id="fsearch-input">
+              <button id="search-clear" class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-200/70 dark:bg-zinc-700 text-gray-500 dark:text-zinc-400 hover:bg-slate-300 dark:hover:bg-zinc-600 items-center justify-center" title="清空搜索" data-page-node-id="fsearch-clear"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+            </div>
+            <div class="flex items-center gap-3 flex-wrap" data-page-node-id="HDVftfCZ3Hs9752kPTgn91">
+              <label class="date-btn" data-page-node-id="opMGRfcN2vuazKgA4Tfeeo">
+                <i data-lucide="calendar" class="w-4 h-4" data-page-node-id="0efFhemGHzf8JMTMzjuUT2"></i>
+                <span id="date-start-label" data-page-node-id="IQuyLeCiR82kmJzDVQz02Q">起始日</span>
+                <input type="date" id="date-start" data-page-node-id="G3pCJ6XWEVF6ZK4hl6FPGI">
+              </label>
+              <span class="text-gray-400 dark:text-zinc-500 text-[13px]" data-page-node-id="PCu2OHnSCIMBZkYNm9iKHm">至</span>
+              <label class="date-btn" data-page-node-id="MRHa77wgqXp1osXKlBCFbB">
+                <i data-lucide="calendar" class="w-4 h-4" data-page-node-id="RxXHCLMYVa0yhIHTQv8gWL"></i>
+                <span id="date-end-label" data-page-node-id="Nxxo8fjfLJEsqojC3ai5OY">结束日</span>
+                <input type="date" id="date-end" data-page-node-id="fRkccDHbB8xHzT2HgsFBOi">
+              </label>
+            </div>
           </div>
           <div class="flex items-center gap-2 mt-4 flex-wrap" data-page-node-id="26XclYQ1DUPRfU3JZX2B4y">
             <span class="text-[12px] text-gray-400 dark:text-zinc-500 mr-1" data-page-node-id="YlR1rrEqs8zcOJhwla6ye3">快捷</span>
@@ -778,25 +920,9 @@
             <button data-range="half" class="chip px-3.5 py-1.5 rounded-full text-[12px] font-medium text-gray-500 dark:text-zinc-400 bg-white dark:bg-white/5 border border-slate-200 dark:border-zinc-700 hover:text-gray-900 dark:hover:text-white" data-page-node-id="nD61uHESfU1sQIJFdYEogz">近半年</button>
             <button data-range="month" class="chip px-3.5 py-1.5 rounded-full text-[12px] font-medium text-gray-500 dark:text-zinc-400 bg-white dark:bg-white/5 border border-slate-200 dark:border-zinc-700 hover:text-gray-900 dark:hover:text-white" data-page-node-id="9KzyNrEnWeYXwNp5EfEWvo">近一个月</button>
             <button data-range="week" class="chip px-3.5 py-1.5 rounded-full text-[12px] font-medium text-gray-500 dark:text-zinc-400 bg-white dark:bg-white/5 border border-slate-200 dark:border-zinc-700 hover:text-gray-900 dark:hover:text-white" data-page-node-id="dnYATaxjbdK8uA4LOXY3Dq">本周</button>
+            <div class="flex-1" data-page-node-id="DDZHvsWSppburcu0Dc0BkR"></div>
+            <span class="text-[12px] text-gray-400 dark:text-zinc-500" id="filter-count-label" data-page-node-id="BDD49xzEo9QYE8WaswBI9L"></span>
           </div>
-        </div>
-
-        <div class="glass-panel p-6 mb-8" data-page-node-id="KtRHpGphFen3ixMIi1FTsQ">
-          <div class="flex items-center gap-2 mb-5" data-page-node-id="KamSYQFkoIKrA0Wc2ZbAxE">
-            <i data-lucide="tags" class="w-4 h-4 text-gray-400 dark:text-zinc-500" data-page-node-id="iOV9CmpOOIW3FozcMtWLEC"></i>
-            <span class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase" data-page-node-id="h2w9KfLvwqOs1apEAljagD">标签云</span>
-            <div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60" data-page-node-id="h3zunq2ymBpuXjFdzmDY6a"></div>
-          </div>
-          <div class="flex items-center gap-2 mb-4 flex-wrap">
-            <button id="add-tag-btn" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-medium text-sky-600 dark:text-sky-300 bg-sky-500/10 border border-sky-400/30 hover:bg-sky-500/20 transition-colors">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i>新增标签
-            </button>
-            <button id="manage-tags-btn" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-medium text-gray-500 dark:text-zinc-400 bg-white dark:bg-white/5 border border-slate-200 dark:border-zinc-700 hover:text-gray-900 dark:hover:text-white transition-colors">
-              <i data-lucide="settings" class="w-3.5 h-3.5"></i>管理标签
-            </button>
-            <span id="tag-manage-hint" class="hidden text-[11.5px] text-amber-600 dark:text-amber-400">管理模式：点击标签上的 × 删除，再次点击「管理标签」退出</span>
-          </div>
-          <div id="tag-cloud" class="flex flex-wrap gap-2.5" data-page-node-id="yQrEBiHoZ14LS7V2vJoQjT"></div>
         </div>
 
         <div id="filter-result" data-page-node-id="ohxkQuvijz9KJTRRV38Sg6"></div>
@@ -845,8 +971,21 @@
               <button data-wt="topic" class="wtf-btn px-3.5 py-2 rounded-xl text-[12.5px] font-medium transition-colors">方向</button>
             </div>
           </div>
-          <div id="watch-cat-filter" class="flex items-center gap-2 mt-4 flex-wrap">
-            <span class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase mr-1">公司分类</span>
+          <!-- 公司分类（默认收起，点击展开） -->
+          <div class="mt-4">
+            <div class="flex items-center gap-2 cursor-pointer select-none" id="watch-cat-head" title="点击展开 / 收起公司分类">
+              <i data-lucide="tags" class="w-4 h-4 text-gray-400 dark:text-zinc-500"></i>
+              <span class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase whitespace-nowrap">公司分类</span>
+              <div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60"></div>
+              <span id="watch-cat-count" class="text-[11.5px] text-gray-400 dark:text-zinc-500 whitespace-nowrap"></span>
+              <button type="button" id="watch-cat-toggle" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-medium text-fuchsia-600 dark:text-fuchsia-300 bg-fuchsia-500/10 border border-fuchsia-400/30 hover:bg-fuchsia-500/20 transition-colors whitespace-nowrap">
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200"></i>
+                <span id="watch-cat-toggle-text">展开</span>
+              </button>
+            </div>
+            <div id="watch-cat-body" class="hidden">
+              <div id="watch-cat-filter" class="flex items-center gap-2 mt-3 flex-wrap"></div>
+            </div>
           </div>
         </div>
         <div id="watch-root"></div>
@@ -967,6 +1106,8 @@ const DAILY_JSON_URLS = [];   // 例：['data/daily/2026-10-28.json', 'data/dail
 // 扁平化：把每天报告里的 items 合并成一个全局数组，并附带所属日期/报告引用
 let ALL_ITEMS = [];
 const ALL_DAYS = {};   // { '2026-10-28': { report, items }, ... }
+// 数据中最晚的事件日期；buildIndex 里重算（必须晚于 ALL_ITEMS 填充，否则恒为兜底值）
+let DATA_MAX_DATE = '2026-10-28';
 
 function buildIndex() {
   ALL_ITEMS = [];
@@ -990,6 +1131,8 @@ function buildIndex() {
     const arr = (report.items || []);
     if (arr.length) itemsByReport[day] = arr;
   });
+  // 重算数据最晚日期（快捷范围「本周 / 近一月」依赖它）
+  DATA_MAX_DATE = ALL_ITEMS.reduce((mx, it) => (it.date > mx ? it.date : mx), '2026-10-28');
 }
 
 function findItemById(id) {
@@ -1342,7 +1485,7 @@ function dayStats(dateStr) {
   return { n: arr.length, sig: sig, cats: cats, items: arr };
 }
 
-function renderBigCalendarHtml() {
+function renderBigCalendarHtml(selDate) {
   if (bigCalYear === null) initBigCalendar();
   const mm = String(bigCalMonth).padStart(2, '0');
   const label = bigCalYear + ' 年 ' + bigCalMonth + ' 月';
@@ -1402,7 +1545,8 @@ function renderBigCalendarHtml() {
     const tip = dateStr + ' · ' + st.n + ' 条' + (catTip ? ' ｜ ' + catTip : '') +
       ' ｜ 强' + (st.sig['强'] || 0) + ' 中' + (st.sig['中'] || 0) + ' 弱' + (st.sig['弱'] || 0);
     const isLatest = dateStr === latestDate;
-    html += '<div class="bigcal-day has' + (isLatest ? ' ring-2 ring-violet-400/60' : '') + '" data-bigcal-day="' + dateStr + '" role="button" tabindex="0" title="' + esc(tip) + '">' +
+    const isSel = !!selDate && dateStr === selDate;
+    html += '<div class="bigcal-day has' + (isSel ? ' ring-2 ring-sky-400/80 bigcal-sel' : isLatest ? ' ring-2 ring-violet-400/60' : '') + '" data-bigcal-day="' + dateStr + '" role="button" tabindex="0" title="' + esc(tip) + '">' +
       '<div class="flex items-center w-full"><span class="bigcal-num tnum">' + d + '</span>' +
       '<span class="bigcal-total tnum">' + st.n + '</span></div>' +
       '<div class="bigcal-dots">' + dotHtml + '</div>' +
@@ -1424,7 +1568,9 @@ function bindBigCalendar() {
       else if (act === 'next-year') bigCalYear++;
       else if (act === 'prev-month') { bigCalMonth--; if (bigCalMonth < 1) { bigCalMonth = 12; bigCalYear--; } }
       else { bigCalMonth++; if (bigCalMonth > 12) { bigCalMonth = 1; bigCalYear++; } }
-      renderYearsView();
+      // 日视图内切月：保持日视图，仅刷新日历；否则回到归档总览
+      if (archiveView === 'day') fadeTransition(() => renderDayView(false));
+      else renderYearsView();
     });
   });
   root.querySelectorAll('[data-bigcal-day]').forEach(cell => {
@@ -1966,6 +2112,44 @@ function backButton(label, fn) {
   return b.outerHTML;
 }
 
+// ============ 简历式归档行（年度 / 月度归档的下钻列表） ============
+const MONTH_EN = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+const WEEK_CN = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+// 左侧大号时间 + 竖线节点 + 右侧摘要，整行可点击下钻
+function resumeRowHtml(attr, timeBig, timeSub, title, desc, metaHtml) {
+  return '<div class="resume-row" ' + attr + '>' +
+    '<div class="resume-time"><b>' + timeBig + '</b><em>' + timeSub + '</em></div>' +
+    '<div class="resume-rail"></div>' +
+    '<div class="resume-main">' +
+      '<div class="resume-title">' + title + '</div>' +
+      (desc ? '<p class="resume-desc">' + desc + '</p>' : '') +
+      (metaHtml ? '<div class="resume-meta">' + metaHtml + '</div>' : '') +
+    '</div>' +
+    '<i data-lucide="arrow-right" class="w-5 h-5 resume-arrow"></i>' +
+  '</div>';
+}
+
+// 分类色点 meta 片段
+function resumeCatDots(items) {
+  const counts = {};
+  items.forEach(it => { const c = it.category || '其他'; counts[c] = (counts[c] || 0) + 1; });
+  return CATEGORY_ORDER.filter(c => counts[c]).map(c =>
+    '<span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm" style="background:' + CATEGORY_META[c].color + '"></span>' +
+    CATEGORY_META[c].label + ' <b>' + counts[c] + '</b></span>'
+  ).join('');
+}
+
+// 月份行的摘要：优先取「强」信号条目的一句话判断，最多 3 条
+function monthHighlightDesc(m) {
+  const all = [];
+  Object.keys(m.days).sort((a, b) => a - b).forEach(d => all.push(...m.days[d]));
+  if (!all.length) return '';
+  const pick = all.filter(i => i.signal_strength === '强').slice(0, 3);
+  const src = pick.length >= 2 ? pick : all.slice(0, 3);
+  return esc(src.map(i => i.one_line_judgment || i.title).filter(Boolean).join('；'));
+}
+
 // 快捷视图：本周/本月
 function itemsInQuickRange(type) {
   const max = ALL_ITEMS.reduce((mx, it) => (it.date > mx ? it.date : mx), '2026-10-28');
@@ -2022,26 +2206,33 @@ function renderYearsView() {
   // 级联下钻区域标题
   html += '<div class="flex items-center gap-2.5 mb-5"><span class="text-[13px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">按年份下钻</span><div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60"></div></div>';
 
+  // 简历式年份列表（替代方形卡片，稀疏年份不再留白）
   const years = allYears();
-  html += '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">';
+  html += '<div class="glass-panel p-2 sm:p-4"><div class="resume-list">';
   years.forEach(year => {
     const total = totalForYear(year);
-    html += '<div class="grid-card sm:aspect-square p-5 sm:p-6 flex flex-col" data-year="' + year + '">' +
-      '<div class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">Year</div>' +
-      '<div class="text-4xl font-bold text-gray-900 dark:text-white mt-3 tracking-tight">' + year + '</div>' +
-      '<p class="text-sm text-slate-500 dark:text-zinc-400 mt-3 leading-relaxed line-clamp-3">三维重建情报库年度归档，聚焦前馈式重建、采集硬件与真实世界度量级数字化。</p>' +
-      '<div class="mt-auto pt-4 text-[13px] font-medium text-gray-600 dark:text-zinc-300">' + total + ' 条情报</div></div>';
+    const ys = yearSummaryFor(year);
+    const yItems = [];
+    Object.keys(itemsByDate).filter(d => d.startsWith(year + '-')).forEach(d => yItems.push(...itemsByDate[d]));
+    const monthsWithData = monthsForYear(year).filter(m => m.total > 0).length;
+    const reportDays = Object.keys(itemsByReport).filter(d => d.startsWith(year + '-')).length;
+    html += resumeRowHtml(
+      'data-year="' + year + '"',
+      year, 'Year',
+      year + ' 年度归档 · 三维重建情报',
+      esc(ys.detail),
+      '<span><b>' + total + '</b> 条情报</span><span>' + monthsWithData + ' 个有数据月份 · ' + reportDays + ' 个报告日</span>' + resumeCatDots(yItems)
+    );
   });
-  html += '</div>';
+  html += '</div></div>';
   archiveRoot.innerHTML = html;
 
   archiveRoot.querySelectorAll('[data-quick]').forEach(c => {
     bindTilt(c);
     c.addEventListener('click', () => fadeTransition(() => renderQuickView(c.dataset.quick)));
   });
-  archiveRoot.querySelectorAll('[data-year]').forEach(c => {
-    bindTilt(c);
-    c.addEventListener('click', function() { activeYear = this.dataset.year; fadeTransition(renderYearView); });
+  archiveRoot.querySelectorAll('[data-year]').forEach(r => {
+    r.addEventListener('click', function() { activeYear = this.dataset.year; fadeTransition(renderYearView); });
   });
   window.__renderIcons();
   bindBigCalendar();
@@ -2060,19 +2251,26 @@ function renderYearView() {
     '<div><div class="text-[11px] font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-2">产业与产品</div><p class="text-[14px] leading-relaxed text-gray-600 dark:text-zinc-400">' + esc(ys.industry) + '</p></div>' +
     '<div><div class="text-[11px] font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-2">应用与场景</div><p class="text-[14px] leading-relaxed text-gray-600 dark:text-zinc-400">' + esc(ys.application) + '</p></div>' +
     '<div><div class="text-[11px] font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-2">全年总量</div><p class="text-[28px] font-bold text-gray-900 dark:text-white">' + ys.total + '<span class="text-[14px] font-normal text-gray-400 dark:text-zinc-500 ml-1">条</span></p></div></div></div>';
-  html += '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">';
-  monthsData.forEach(m => {
-    const hasData = m.total > 0;
-    html += '<div class="grid-card sm:aspect-square p-5 sm:p-6 flex flex-col ' + (hasData ? '' : 'opacity-40 pointer-events-none') + '" data-month="' + m.month + '">' +
-      '<div class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">' + (hasData ? 'Month' : '—') + '</div>' +
-      '<div class="text-3xl font-bold text-gray-900 dark:text-white mt-3 tracking-tight">' + m.month + ' 月</div>' +
-      '<p class="text-sm text-slate-500 dark:text-zinc-400 mt-3 leading-relaxed line-clamp-3">' + esc(m.summary) + '</p>' +
-      '<div class="mt-auto pt-4 text-[13px] font-medium text-gray-600 dark:text-zinc-300">' + m.total + ' 条</div></div>';
+  // 简历式月份列表（只列有数据的月份，替代 12 个方形卡片）
+  const monthsWithData = monthsData.filter(m => m.total > 0);
+  html += '<div class="glass-panel p-2 sm:p-4"><div class="resume-list">';
+  monthsWithData.forEach(m => {
+    const mItems = [];
+    Object.keys(m.days).sort((a, b) => a - b).forEach(d => mItems.push(...m.days[d]));
+    html += resumeRowHtml(
+      'data-month="' + m.month + '"',
+      m.month, MONTH_EN[m.month - 1],
+      activeYear + ' 年 ' + m.month + ' 月 · ' + m.total + ' 条情报',
+      monthHighlightDesc(m),
+      '<span>' + Object.keys(m.days).length + ' 个报告日</span>' + resumeCatDots(mItems)
+    );
   });
-  html += '</div>';
+  if (!monthsWithData.length) html += '<div class="resume-empty">本年度暂无收录条目。</div>';
+  else if (monthsWithData.length < 12) html += '<div class="resume-empty">其余 ' + (12 - monthsWithData.length) + ' 个月暂无收录。</div>';
+  html += '</div></div>';
   archiveRoot.innerHTML = html;
   archiveRoot.querySelectorAll('.back-btn').forEach(b => b.addEventListener('click', () => fadeTransition(renderYearsView)));
-  archiveRoot.querySelectorAll('[data-month]').forEach(c => { bindTilt(c); c.addEventListener('click', function() { activeMonth = parseInt(this.dataset.month, 10); fadeTransition(renderMonthView); }); });
+  archiveRoot.querySelectorAll('[data-month]').forEach(r => { r.addEventListener('click', function() { activeMonth = parseInt(this.dataset.month, 10); fadeTransition(renderMonthView); }); });
 }
 
 function renderMonthView() {
@@ -2084,50 +2282,115 @@ function renderMonthView() {
   html += '<div class="glass-panel p-5 sm:p-8 mb-8"><div class="flex items-center gap-2 mb-6"><i data-lucide="calendar" class="w-4 h-4 text-gray-400 dark:text-zinc-500"></i>' +
     '<span class="text-[13px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">本月总结</span><div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60"></div></div>' +
     '<p class="text-[15px] leading-relaxed text-gray-700 dark:text-zinc-300">' + esc(m.summary) + '</p></div>';
-  const daysInMonth = new Date(parseInt(activeYear, 10), m.month, 0).getDate();
-  html += '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">';
-  for (let d = 1; d <= daysInMonth; d++) {
-    const dk = activeYear + '-' + String(m.month).padStart(2, '0') + '-' + String(d).padStart(2, '0');
-    const arr = itemsByReport[dk] || m.days[d] || [];
-    const hasData = arr.length > 0;
-    html += '<div class="grid-card sm:aspect-square p-5 sm:p-6 flex flex-col ' + (hasData ? '' : 'opacity-40 pointer-events-none') + '" data-day="' + d + '">' +
-      '<div class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">' + (hasData ? 'Day' : '—') + '</div>' +
-      '<div class="text-3xl font-bold text-gray-900 dark:text-white mt-3 tracking-tight">' + d + '<span class="text-[14px] font-normal text-gray-400 dark:text-zinc-500 ml-1">日</span></div>' +
-      '<p class="text-sm text-slate-500 dark:text-zinc-400 mt-3 leading-relaxed line-clamp-3">' + esc(hasData ? arr[0].one_line_judgment : '当日暂无收录条目。') + '</p>' +
-      '<div class="mt-auto pt-4 text-[13px] font-medium text-gray-600 dark:text-zinc-300">' + arr.length + ' 条</div></div>';
-  }
-  html += '</div>';
+  // 简历式日列表（只列有数据的日期，替代整月 31 个方形卡片）
+  const ym = activeYear + '-' + String(m.month).padStart(2, '0');
+  const daySet = new Set();
+  Object.keys(itemsByDate).forEach(d => { if (d.startsWith(ym)) daySet.add(parseInt(d.slice(-2), 10)); });
+  Object.keys(itemsByReport).forEach(d => { if (d.startsWith(ym)) daySet.add(parseInt(d.slice(-2), 10)); });
+  const daysWithData = Array.from(daySet).sort((a, b) => a - b);
+  html += '<div class="glass-panel p-2 sm:p-4"><div class="resume-list">';
+  if (!daysWithData.length) html += '<div class="resume-empty">本月暂无收录条目。</div>';
+  daysWithData.forEach(d => {
+    const dk = ym + '-' + String(d).padStart(2, '0');
+    const dayReport = ALL_DAYS[dk] && ALL_DAYS[dk].report;
+    const arr = (dayReport && dayReport.items && dayReport.items.length) ? dayReport.items : (m.days[d] || []);
+    const takeaway = dayReport && dayReport.summary ? dayReport.summary.window_takeaway : '';
+    const desc = takeaway || (arr[0] ? (arr[0].one_line_judgment || arr[0].title) : '');
+    const wd = WEEK_CN[new Date(dk.replace(/-/g, '/')).getDay()];
+    const sigN = k => arr.filter(i => i.signal_strength === k).length;
+    html += resumeRowHtml(
+      'data-day="' + d + '"',
+      d, wd,
+      m.month + ' 月 ' + d + ' 日 · ' + arr.length + ' 条情报',
+      esc(desc),
+      '<span>信号 强 <b>' + sigN('强') + '</b> · 中 <b>' + sigN('中') + '</b> · 弱 <b>' + sigN('弱') + '</b></span>' + resumeCatDots(arr)
+    );
+  });
+  html += '</div></div>';
   archiveRoot.innerHTML = html;
   archiveRoot.querySelectorAll('.back-btn').forEach(b => b.addEventListener('click', () => fadeTransition(renderYearView)));
-  archiveRoot.querySelectorAll('[data-day]').forEach(c => { bindTilt(c); c.addEventListener('click', function() { activeDay = parseInt(this.dataset.day, 10); fadeTransition(renderDayView); }); });
+  archiveRoot.querySelectorAll('[data-day]').forEach(r => { r.addEventListener('click', function() { activeDay = parseInt(this.dataset.day, 10); fadeTransition(renderDayView); }); });
 }
 
-function renderDayView() {
+function renderDayView(syncCal) {
   archiveView = 'day';
   const dateStr = activeYear + '-' + String(activeMonth).padStart(2, '0') + '-' + String(activeDay).padStart(2, '0');
+  // 同步日历月份到当前查看的日期（由日历内部切月进入时不重置）
+  if (syncCal !== false) { bigCalYear = parseInt(activeYear, 10); bigCalMonth = activeMonth; }
   // 以「报告日」为准：当日简报收录的全部条目 + 该报告的窗口速览
   const dayReport = ALL_DAYS[dateStr] && ALL_DAYS[dateStr].report;
   const arr = (dayReport && dayReport.items && dayReport.items.length)
     ? dayReport.items
     : (monthsForYear(activeYear)[activeMonth - 1].days[activeDay] || []);
   const sum = dayReport && dayReport.summary ? dayReport.summary : (latestReport() ? latestReport().summary : null);
-  let html = '<div class="flex items-center justify-between mb-6">' + backButton('返回月份', renderMonthView) +
-    '<div class="text-right"><h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">' + dateStr + '</h1><p class="text-[14px] text-gray-400 dark:text-zinc-500 mt-1">当日情报 · ' + arr.length + ' 条</p></div></div>';
-  html += '<div class="glass-panel p-5 sm:p-8 mb-10"><div class="flex items-center gap-2 mb-6"><i data-lucide="scan-eye" class="w-4 h-4 text-gray-400 dark:text-zinc-500"></i>' +
-    '<span class="text-[13px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">窗口速览</span><div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60"></div></div>' +
-    '<p class="text-[15px] leading-relaxed text-gray-700 dark:text-zinc-300">' + esc(sum ? sum.window_takeaway : '') + '</p>' +
-    '<p class="text-[14px] leading-relaxed text-gray-500 dark:text-zinc-400 mt-3">' + esc(sum ? sum.direction : '') + '</p></div>';
+  // 前后相邻「有数据」的报告日，便于连续浏览
+  const reportDays = Object.keys(itemsByReport).sort();
+  let prevDay = null, nextDay = null;
+  reportDays.forEach(ds => {
+    if (ds < dateStr) prevDay = ds;
+    if (!nextDay && ds > dateStr) nextDay = ds;
+  });
+  // 当日分类 / 信号构成
+  const catLine = CATEGORY_ORDER.filter(c => arr.some(i => i.category === c))
+    .map(c => '<span class="inline-flex items-center gap-1.5 text-[12.5px] text-zinc-400">' +
+      '<span class="w-2 h-2 rounded-sm" style="background:' + CATEGORY_META[c].color + '"></span>' + CATEGORY_META[c].label +
+      '<b class="tnum text-zinc-200">' + arr.filter(i => i.category === c).length + '</b></span>').join('');
+  const sigN = k => arr.filter(i => i.signal_strength === k).length;
+
+  let html = '<div class="flex items-center justify-between mb-6 flex-wrap gap-3">' + backButton('返回月份', renderMonthView) +
+    '<div class="flex items-center gap-2.5">' +
+    (prevDay ? '<button data-day-jump="' + prevDay + '" class="day-nav-btn" title="' + prevDay + ' · ' + (itemsByReport[prevDay] || []).length + ' 条"><i data-lucide="chevron-left" class="w-4 h-4"></i><span class="tnum">' + prevDay.slice(5) + '</span></button>' : '') +
+    '<div class="text-center px-1"><h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight tnum">' + dateStr + '</h1><p class="text-[13px] text-gray-400 dark:text-zinc-500 mt-0.5">当日情报 · ' + arr.length + ' 条</p></div>' +
+    (nextDay ? '<button data-day-jump="' + nextDay + '" class="day-nav-btn" title="' + nextDay + ' · ' + (itemsByReport[nextDay] || []).length + ' 条"><span class="tnum">' + nextDay.slice(5) + '</span><i data-lucide="chevron-right" class="w-4 h-4"></i></button>' : '') +
+    '</div></div>';
+
+  // 顶部常驻面板：左侧日历（点击任一日期直接切换，无需退出）+ 右侧窗口速览
+  html += '<div class="glass-panel p-4 sm:p-6 mb-10">' +
+    '<div class="flex items-center gap-2.5 mb-4"><span class="text-[13px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">日历 · 速览</span>' +
+    '<div class="h-px flex-1 bg-slate-200/60 dark:bg-zinc-700/60"></div>' +
+    '<span class="text-[11px] text-gray-400 dark:text-zinc-500">点击日期连续浏览</span></div>' +
+    '<div class="arch-overview">' +
+      '<div>' + renderBigCalendarHtml(dateStr) + '</div>' +
+      '<div class="flex flex-col gap-4">' +
+        '<div class="rounded-2xl border border-slate-200/60 dark:border-zinc-700/60 bg-white/60 dark:bg-white/[.03] p-5">' +
+          '<div class="flex items-center gap-2 mb-3"><i data-lucide="scan-eye" class="w-4 h-4 text-gray-400 dark:text-zinc-500"></i>' +
+          '<span class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">窗口速览</span></div>' +
+          '<p class="text-[15px] leading-relaxed text-gray-700 dark:text-zinc-300">' + esc(sum ? sum.window_takeaway : '暂无速览。') + '</p>' +
+          '<p class="text-[14px] leading-relaxed text-gray-500 dark:text-zinc-400 mt-3">' + esc(sum ? sum.direction : '') + '</p></div>' +
+        '<div class="rounded-2xl border border-slate-200/60 dark:border-zinc-700/60 bg-white/60 dark:bg-white/[.03] p-5">' +
+          '<div class="flex items-center gap-2 mb-3"><i data-lucide="pie-chart" class="w-4 h-4 text-gray-400 dark:text-zinc-500"></i>' +
+          '<span class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase">当日构成</span></div>' +
+          (arr.length
+            ? '<div class="flex flex-wrap gap-x-5 gap-y-2 mb-3">' + catLine + '</div>' +
+              '<div class="flex items-center gap-4 text-[12.5px] text-zinc-400">' +
+              '<span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm" style="background:#09090b;border:1px solid #52525b"></span>强 <b class="tnum text-zinc-200">' + sigN('强') + '</b></span>' +
+              '<span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm" style="background:#71717a"></span>中 <b class="tnum text-zinc-200">' + sigN('中') + '</b></span>' +
+              '<span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm" style="background:#e4e4e7"></span>弱 <b class="tnum text-zinc-200">' + sigN('弱') + '</b></span></div>'
+            : '<p class="text-[13.5px] text-gray-400 dark:text-zinc-500">当日暂无收录条目，可点击左侧日历切换到有数据的日期。</p>') +
+        '</div>' +
+      '</div>' +
+    '</div></div>';
+
   html += '<div class="space-y-12">' + renderGrid(arr) + '</div>';
   archiveRoot.innerHTML = html;
   archiveRoot.querySelectorAll('.back-btn').forEach(b => b.addEventListener('click', () => fadeTransition(renderMonthView)));
+  archiveRoot.querySelectorAll('[data-day-jump]').forEach(b => b.addEventListener('click', () => {
+    const ds = b.dataset.dayJump;
+    activeYear = ds.slice(0, 4); activeMonth = parseInt(ds.slice(5, 7), 10); activeDay = parseInt(ds.slice(8, 10), 10);
+    fadeTransition(renderDayView);
+  }));
+  bindBigCalendar();
   bindGridCards();
+  window.__renderIcons();
+  // 连续浏览：切换日期后回到顶部，保证日历始终可见
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ===================== 日期范围筛选器 =====================
 let activeTag = null;
 let dateStart = '';
 let dateEnd = '';
-const DATA_MAX_DATE = ALL_ITEMS.reduce((mx, it) => (it.date > mx ? it.date : mx), '2026-10-28');
+const DATA_MAX_DATE_DEFAULT = '2026-10-28';
 
 function itemsInRange() {
   return ALL_ITEMS.filter(it => {
@@ -2141,8 +2404,25 @@ function itemsInRange() {
 let customTags = loadStore('3d-recon-custom-tags', []);
 let hiddenTags = loadStore('3d-recon-hidden-tags', []);
 let tagManageMode = false;
-function saveCustomTags() { saveStore('3d-recon-custom-tags', customTags); }
-function saveHiddenTags() { saveStore('3d-recon-hidden-tags', hiddenTags); }
+// 全文搜索状态（不持久化，刷新即清）
+let searchQuery = '';
+let searchTimer = null;
+// 标签云整块面板：默认收起，点击展开（状态持久化）
+let tagCloudOpen = loadStore('3d-recon-tagcloud-open', false);
+function applyTagCloudState() {
+  const body = document.getElementById('tag-cloud-body');
+  const txt = document.getElementById('tag-cloud-toggle-text');
+  const chev = document.querySelector('#tag-cloud-toggle i, #tag-cloud-toggle svg');   // 图标渲染后 <i> 会变成 <svg>
+  if (!body || !txt || !chev) return;
+  body.classList.toggle('hidden', !tagCloudOpen);
+  txt.textContent = tagCloudOpen ? '收起' : '展开';
+  chev.style.transform = tagCloudOpen ? 'rotate(180deg)' : '';
+}
+function setTagCloudOpen(open) {
+  tagCloudOpen = open;
+  saveStore('3d-recon-tagcloud-open', tagCloudOpen);
+  applyTagCloudState();
+}
 
 function renderTags() {
   const scoped = itemsInRange();
@@ -2153,10 +2433,14 @@ function renderTags() {
   const merged = dataTags.concat(customTags.filter(t => !counts[t]));
   merged.sort((a, b) => (counts[b] || 0) - (counts[a] || 0));
 
+  // 头部计数：始终可见（收起时也知道有多少标签）
+  const countEl = document.getElementById('tag-cloud-count');
+  if (countEl) countEl.textContent = merged.length ? '共 ' + merged.length + ' 个' : '暂无标签';
+
   document.getElementById('tag-cloud').innerHTML = merged.length
     ? merged.map(t => {
         const c = counts[t] || 0;
-        const size = c <= 1 ? 'text-[12px] px-3 py-1.5' : c === 2 ? 'text-[13px] px-3.5 py-1.5' : 'text-[14px] px-4 py-2';
+        const size = c <= 1 ? 'text-[12px] px-3 py-1.5' : c === 2 ? 'text-[13px] px-3.5 py-1.5' : c >= 5 ? 'text-[14px] px-4 py-2' : 'text-[13.5px] px-3.5 py-1.5';
         const active = activeTag === t ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : 'bg-white dark:bg-zinc-800/60 text-gray-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-700 border border-slate-200/70 dark:border-zinc-700';
         const delBtn = tagManageMode
           ? '<span class="tag-del inline-flex items-center justify-center w-4 h-4 ml-1 rounded-full bg-rose-500/20 text-rose-500 dark:text-rose-300 hover:bg-rose-500/40" data-del="' + esc(t) + '" title="删除标签"><i data-lucide="x" class="w-3 h-3"></i></span>'
@@ -2177,6 +2461,7 @@ function renderTags() {
     renderTags();
     renderFilterResult();
   }));
+  applyTagCloudState();
   window.__renderIcons();
 }
 
@@ -2214,6 +2499,7 @@ function openAddTagModal() {
     hiddenTags = hiddenTags.filter(t => t !== name);   // 若之前被隐藏则恢复
     saveHiddenTags();
     closeAddModal();
+    if (!tagCloudOpen) setTagCloudOpen(true);   // 新增后自动展开，让用户看到新标签
     renderTags();
     renderFilterResult();
   });
@@ -2222,30 +2508,84 @@ function openAddTagModal() {
 }
 
 document.getElementById('add-tag-btn').addEventListener('click', openAddTagModal);
+// 标签云整块收起/展开：头部整行可点击（按钮点击会冒泡到头部，只需绑一处）
+document.getElementById('tag-cloud-head').addEventListener('click', () => setTagCloudOpen(!tagCloudOpen));
 document.getElementById('manage-tags-btn').addEventListener('click', function () {
   tagManageMode = !tagManageMode;
   document.getElementById('tag-manage-hint').classList.toggle('hidden', !tagManageMode);
   this.classList.toggle('text-amber-600', tagManageMode);
   this.classList.toggle('dark:text-amber-400', tagManageMode);
+  if (tagManageMode && !tagCloudOpen) setTagCloudOpen(true);   // 进管理模式自动展开
   renderTags();
 });
+
+// 全文搜索：命中 标题/一句话判断/AI摘要/详情/AI点评/备注/标签/术语/关键数据/信源
+function itemMatchesSearch(it, terms) {
+  if (!terms.length) return true;
+  const text = [
+    it.title, it.one_line_judgment, it.ai_summary, it.detailed_info, it.ai_comment, it.notes,
+    it.position_relation,
+    (it.tags || []).join(' '),
+    JSON.stringify(it.terms || ''),
+    JSON.stringify(it.key_facts || ''),
+    JSON.stringify(it.sources || '')
+  ].join(' ').toLowerCase();
+  return terms.every(t => text.includes(t));
+}
+function searchTerms() {
+  return searchQuery.trim().toLowerCase().split(/\s+/).filter(Boolean);
+}
 
 function renderFilterResult() {
   const el = document.getElementById('filter-result');
   const scoped = itemsInRange();
-  const items = activeTag ? scoped.filter(i => (i.tags || []).includes(activeTag)) : scoped;
-  document.getElementById('filter-count-label').textContent = scoped.length + ' 条情报';
+  const terms = searchTerms();
+  const items = scoped.filter(it =>
+    (!activeTag || (it.tags || []).includes(activeTag)) && itemMatchesSearch(it, terms)
+  );
+  document.getElementById('filter-count-label').textContent =
+    (terms.length || activeTag ? items.length + ' / ' : '') + scoped.length + ' 条情报';
+  const conds = [];
+  if (terms.length) conds.push('搜索 <span class="font-semibold text-sky-600 dark:text-sky-300">' + esc(searchQuery.trim()) + '</span>');
+  if (activeTag) conds.push('标签 <span class="font-semibold text-gray-800 dark:text-white">#' + esc(activeTag) + '</span>');
+  if (conds.length && (dateStart || dateEnd)) {
+    conds.push('范围 <span class="font-semibold text-gray-800 dark:text-white">' + (dateStart || '起始') + ' ~ ' + (dateEnd || '至今') + '</span>');
+  }
   if (items.length === 0) {
-    el.innerHTML = '<div class="rounded-3xl bg-white dark:bg-zinc-800/60 border border-slate-200/60 dark:border-zinc-700 p-10 text-center text-[14px] text-gray-400 dark:text-zinc-500">该日期范围与标签组合下暂无匹配条目。</div>';
+    el.innerHTML = '<div class="rounded-3xl bg-white dark:bg-zinc-800/60 border border-slate-200/60 dark:border-zinc-700 p-10 text-center text-[14px] text-gray-400 dark:text-zinc-500">' +
+      (conds.length ? '当前条件下（' + conds.join(' · ') + '）暂无匹配条目。' : '该日期范围内暂无条目。') + '</div>';
     return;
   }
-  el.innerHTML = '<div class="flex items-center gap-2 mb-5 text-[14px] text-gray-500 dark:text-zinc-400">' +
-    (activeTag ? '标签 <span class="font-semibold text-gray-800 dark:text-white">#' + esc(activeTag) + '</span> · ' : '') +
-    '匹配 <span class="font-semibold text-gray-800 dark:text-white">' + items.length + '</span> 条</div>' +
+  el.innerHTML = (conds.length
+    ? '<div class="flex items-center gap-2 mb-5 text-[14px] text-gray-500 dark:text-zinc-400 flex-wrap">' + conds.join('<span class="mx-1 opacity-40">·</span>') +
+      '<span>→ 匹配 <span class="font-semibold text-gray-800 dark:text-white">' + items.length + '</span> 条</span></div>'
+    : '') +
     '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">' + items.map(i => gridCardHtml(i, true)).join('') + '</div>';
   bindGridCards();
   window.__renderIcons();
 }
+
+// 搜索输入：防抖 250ms，清空按钮联动
+(function bindFilterSearch() {
+  const input = document.getElementById('filter-search');
+  const clearBtn = document.getElementById('search-clear');
+  if (!input) return;
+  input.addEventListener('input', function() {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      searchQuery = input.value;
+      clearBtn.classList.toggle('hidden', !input.value);
+      clearBtn.classList.toggle('flex', !!input.value);
+      renderFilterResult();
+    }, 250);
+  });
+  clearBtn.addEventListener('click', () => {
+    input.value = ''; searchQuery = '';
+    clearBtn.classList.add('hidden'); clearBtn.classList.remove('flex');
+    input.focus();
+    renderFilterResult();
+  });
+})();
 
 function setRangeChip(range) {
   document.querySelectorAll('.chip').forEach(c => {
@@ -2268,6 +2608,123 @@ function syncDateLabels() {
   document.getElementById('date-start-label').textContent = dateStart || '起始日';
   document.getElementById('date-end-label').textContent = dateEnd || '结束日';
 }
+
+// ===================== 自制日期选择弹层 =====================
+// 原生 <input type="date"> 的日历弹层在嵌入环境（预览面板 / webview）里经常弹不出，
+// 统一替换为自制弹层：点击「起始日 / 结束日」按钮弹出，选择后写回并触发 change。
+let dpFor = null;          // 当前弹层服务的 input id
+let dpYear = 0, dpMonth = 0;
+
+function dpIso(y, m, d) { return y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0'); }
+
+function dpRender() {
+  const pop = document.getElementById('dp-pop');
+  const inp = document.getElementById(dpFor);
+  if (!pop || !inp) return;
+  const startDow = new Date(dpYear, dpMonth, 1).getDay();
+  const daysIn = new Date(dpYear, dpMonth + 1, 0).getDate();
+  const daysPrev = new Date(dpYear, dpMonth, 0).getDate();
+  const now = new Date();
+  const todayIso = dpIso(now.getFullYear(), now.getMonth(), now.getDate());
+  const sel = inp.value;
+  let cells = '';
+  for (let i = 0; i < 42; i++) {
+    let d, m = dpMonth, y = dpYear, out = false;
+    if (i < startDow) { d = daysPrev - startDow + 1 + i; m--; out = true; }
+    else if (i >= startDow + daysIn) { d = i - startDow - daysIn + 1; m++; out = true; }
+    else { d = i - startDow + 1; }
+    if (m < 0) { m = 11; y--; } else if (m > 11) { m = 0; y++; }
+    const iso = dpIso(y, m, d);
+    cells += '<button type="button" class="dp-day' + (out ? ' dp-out' : '') +
+      (iso === todayIso ? ' dp-today' : '') + (iso === sel ? ' dp-sel' : '') +
+      '" data-iso="' + iso + '">' + d + '</button>';
+  }
+  pop.innerHTML =
+    '<div class="dp-head">' +
+      '<button type="button" class="dp-nav" data-dp="-1" title="上个月"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>' +
+      '<span class="dp-title">' + dpYear + ' 年 ' + (dpMonth + 1) + ' 月</span>' +
+      '<button type="button" class="dp-nav" data-dp="1" title="下个月"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>' +
+    '</div>' +
+    '<div class="dp-grid">' + ['日','一','二','三','四','五','六'].map(w => '<span class="dp-dow">' + w + '</span>').join('') + cells + '</div>' +
+    '<div class="dp-foot">' +
+      '<button type="button" class="dp-act" data-dp-today>跳到今天</button>' +
+      '<button type="button" class="dp-act" data-dp-clear>清除日期</button>' +
+    '</div>';
+  window.__renderIcons();
+}
+
+function dpOpenFor(id) {
+  const inp = document.getElementById(id);
+  if (!inp) return;
+  let pop = document.getElementById('dp-pop');
+  if (!pop) {
+    pop = document.createElement('div');
+    pop.id = 'dp-pop'; pop.className = 'dp-pop';
+    // 弹层内交互（委托一次，innerHTML 重建不影响）
+    pop.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();   // 防止冒泡到 label 再次触发
+      const t = e.target;
+      const nav = t.closest('[data-dp]');
+      if (nav) {
+        dpMonth += parseInt(nav.dataset.dp, 10);
+        if (dpMonth < 0) { dpMonth = 11; dpYear--; } else if (dpMonth > 11) { dpMonth = 0; dpYear++; }
+        dpRender(); return;
+      }
+      if (t.closest('[data-dp-today]')) { const n = new Date(); dpYear = n.getFullYear(); dpMonth = n.getMonth(); dpRender(); return; }
+      if (t.closest('[data-dp-clear]')) {
+        inp.value = '';
+        inp.dispatchEvent(new Event('change', { bubbles: true }));
+        dpClose(); return;
+      }
+      const day = t.closest('[data-iso]');
+      if (day) {
+        inp.value = day.dataset.iso;
+        inp.dispatchEvent(new Event('change', { bubbles: true }));
+        dpClose();
+      }
+    });
+  }
+  // 挂到 body + fixed 定位：按按钮位置计算，避免被后续卡片遮挡或父容器裁剪
+  document.body.appendChild(pop);
+  const lab = inp.closest('label.date-btn');
+  const rect = lab.getBoundingClientRect();
+  const W = 266, H = 330;   // 弹层预估尺寸
+  let left = Math.min(rect.left, window.innerWidth - W - 12);
+  left = Math.max(12, left);
+  let top = rect.bottom + 8;
+  if (top + H > window.innerHeight - 12) top = Math.max(12, rect.top - H - 8);   // 底部放不下则向上弹
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+  const base = inp.value ? new Date(inp.value + 'T00:00:00') : new Date();
+  dpYear = base.getFullYear(); dpMonth = base.getMonth();
+  dpFor = id;
+  dpRender();
+}
+
+function dpClose() {
+  const pop = document.getElementById('dp-pop');
+  if (pop) pop.remove();   // 直接移除，下次点击重新挂载，避免残留定位
+  dpFor = null;
+}
+
+// 点击 input 时拦截原生 picker，弹自制日历
+document.querySelectorAll('.date-btn input[type="date"]').forEach(inp => {
+  inp.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (dpFor === this.id) { dpClose(); return; }   // 再点一次收起
+    dpClose();
+    dpOpenFor(this.id);
+  });
+});
+// 点击弹层 / 日期按钮以外的地方关闭（捕获阶段，不受 stopPropagation 影响）
+document.addEventListener('click', function (e) {
+  if (!dpFor) return;
+  if (e.target.closest && (e.target.closest('.dp-pop') || e.target.closest('.date-btn'))) return;
+  dpClose();
+}, true);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') dpClose(); });
+// 页面滚动时关闭弹层（fixed 定位不会跟随按钮，避免错位）
+window.addEventListener('scroll', () => { if (dpFor) dpClose(); }, true);
 
 document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
   chipHandlers[c.dataset.range]();
@@ -2609,6 +3066,17 @@ function watchCardHtml(w) {
 let watchSearch = '';
 let watchTypeFilter = 'all';
 let watchCatFilter = null;   // 当前选中的公司分类标签（null = 全部）
+// 公司分类整块：默认收起，点击展开（状态持久化；选中某分类时自动展开）
+let watchCatOpen = loadStore('3d-recon-watchcat-open', false);
+function applyWatchCatState() {
+  const body = document.getElementById('watch-cat-body');
+  const txt = document.getElementById('watch-cat-toggle-text');
+  const chev = document.querySelector('#watch-cat-toggle i, #watch-cat-toggle svg');
+  if (!body) return;
+  body.classList.toggle('hidden', !watchCatOpen);
+  if (txt) txt.textContent = watchCatOpen ? '收起' : '展开';
+  if (chev) chev.style.transform = watchCatOpen ? 'rotate(180deg)' : '';
+}
 
 function renderWatchlist() {
   document.getElementById('watch-count').textContent = watchlist.length;
@@ -2621,15 +3089,18 @@ function renderWatchlist() {
     (w.categories || []).forEach(c => { if (c && !catSet.includes(c)) catSet.push(c); });
   });
   const catBox = document.getElementById('watch-cat-filter');
+  const catCount = document.getElementById('watch-cat-count');
+  if (catCount) catCount.textContent = catSet.length ? '共 ' + catSet.length + ' 类' : '暂无分类';
   catBox.innerHTML = catSet.length
-    ? '<span class="text-[12px] font-semibold text-gray-400 dark:text-zinc-500 tracking-widest uppercase mr-1">公司分类</span>' +
-      '<button data-cat="__all__" class="wcat-chip px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors ' + (watchCatFilter === null ? 'bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-400/40' : 'bg-white/5 text-zinc-300 border border-white/15 hover:bg-white/10') + '">全部</button>' +
+    ? '<button data-cat="__all__" class="wcat-chip px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors ' + (watchCatFilter === null ? 'bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-400/40' : 'bg-white/5 text-zinc-300 border border-white/15 hover:bg-white/10') + '">全部</button>' +
       catSet.map(c => '<button data-cat="' + esc(c) + '" class="wcat-chip px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors ' + (watchCatFilter === c ? 'bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-400/40' : 'bg-white/5 text-zinc-300 border border-white/15 hover:bg-white/10') + '">' + esc(c) + '</button>').join('')
     : '<span class="text-[12px] text-gray-500 dark:text-zinc-500">暂无公司分类标签</span>';
   catBox.querySelectorAll('.wcat-chip').forEach(b => b.addEventListener('click', function () {
     watchCatFilter = (this.dataset.cat === '__all__') ? null : this.dataset.cat;
+    if (watchCatFilter && !watchCatOpen) { watchCatOpen = true; saveStore('3d-recon-watchcat-open', true); }   // 选中分类时自动展开
     renderWatchlist();
   }));
+  applyWatchCatState();
 
   // ---- 同步类型筛选按钮样式 ----
   document.querySelectorAll('#watch-type-filter .wtf-btn').forEach(b => {
@@ -2650,7 +3121,8 @@ function renderWatchlist() {
     return true;
   });
 
-  const order = ['tech', 'company', 'topic'];
+  // 公司排最前，其次技术，最后方向
+  const order = ['company', 'tech', 'topic'];
   const html = order.map(type => {
     const items = filtered.filter(w => (w.type || 'topic') === type);
     if (!items.length) return '';
@@ -2938,6 +3410,13 @@ document.querySelectorAll('#watch-type-filter .wtf-btn').forEach(b => b.addEvent
   watchTypeFilter = this.dataset.wt;
   renderWatchlist();
 }));
+// 公司分类头部：整行点击展开 / 收起（按钮点击冒泡到头部，只绑一处）
+const watchCatHead = document.getElementById('watch-cat-head');
+if (watchCatHead) watchCatHead.addEventListener('click', () => {
+  watchCatOpen = !watchCatOpen;
+  saveStore('3d-recon-watchcat-open', watchCatOpen);
+  applyWatchCatState();
+});
 
 // ===================== 导航 =====================
 const VIEWS = { today: 'view-today', archive: 'view-archive', filter: 'view-filter', glossary: 'view-glossary', watch: 'view-watch', guide: 'view-guide' };
