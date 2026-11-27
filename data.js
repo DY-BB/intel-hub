@@ -18094,7 +18094,7 @@ window.WATCHLIST_DEFAULTS = [
   {"id":"w-com-remsense","type":"company","name":"RemSense","keywords":["RemSense","RemSense Technologies","ASX:REM"],"region":"海外","products":"Airborne Insight 无人机采集、3D 资产可视化服务","intro":"澳大利亚（珀斯）上市无人机与三维资产可视化公司（ASX:REM，2006 年起步于国防无人机），服务 Chevron、Newmont、Woodside 等资源巨头的数字孪生需求。注：本词条为用户定向点名的「Remy」经全网检索后的最佳匹配公司。","founded":"2006","scale":"小型团队（FY2026 营收 A$2.49M）","website":"https://remsense.com.au","ai_summary":"一句话：这家澳大利亚上市公司用无人机给矿山、油田做「三维体检」——飞一圈，就把设施变成可测量的数字孪生，让 Chevron、壳牌这类资源巨头在办公室里就能巡查千里之外的现场。","categories":["无人机","数字孪生","测绘"],"enabled":true},
   {"id":"w-com-vast","type":"company","name":"VAST 三启万物","keywords":["VAST","三启万物","Tripo","tripo3d","P2.0","文生3D"],"region":"国内","products":"Tripo（文生 3D / 图生 3D）","intro":"北京生成式 3D 公司（2023 年成立），产品 Tripo 为全球头部文生 3D 工具，半年内累计融资约 50 亿元，是中国生成式 3D 赛道资金最集中的头部标的。","founded":"2023","scale":"数百人","website":"https://tripo3d.com","ai_summary":"一句话：这家公司做的产品叫 Tripo——输入一句话或一张图，AI 直接生成可以用的三维模型。游戏、电商、XR 行业都需要海量 3D 素材，人工建模又慢又贵，这家公司就是来「批量生产」三维模型的，半年融了约 50 亿元，是这条赛道最吸金的玩家。","categories":["生成式3D","重建方案"],"enabled":true},
   {"id":"w-com-daxiao","type":"company","name":"大晓机器人","keywords":["大晓机器人","ACE Robotics","Mundo","开悟 Kairos"],"region":"国内","products":"「开悟」Kairos 世界模型体系、Mundo 可交互世界模型","intro":"上海徐汇具身智能公司（2025 年 7 月成立），由原商汤科技副总裁王晓刚、陶大程等发起，与南洋理工大学 S-Lab 联合发布可物理交互世界模型 Mundo。 2026-11-14 发布 ACE-CaP-0，让通用策略自主决定「何时要人示范、何时跑仿真」，8 项精细操作任务 240 次真机评测成功率 92.1%，在模型侧补齐了「数据—世界模型—技能」闭环的最后一环。","founded":"2025-07","scale":"初创团队","website":"https://www.acerobotics.com","ai_summary":"一句话：这家公司由商汤出身的两位 AI 大牛创办，目标是给机器人造「大脑和练功房」——它的世界模型 Mundo 能用几张照片生成一个机器人可以走进去、推得动东西的虚拟训练场，机器人先在虚拟世界里把活练熟，再进真实场景。","categories":["世界模型","具身智能"],"enabled":true},
-  {"id":"w-com-robbyant","type":"company","name":"蚂蚁灵波 Robbyant","keywords":["蚂蚁灵波","Robbyant","LingBot","蚂蚁具身智能"],"region":"国内","products":"LingBot 系列具身智能软件、LingBot-Map 流式重建模型","intro":"蚂蚁集团全资具身智能公司（2024 年 12 月成立，注册资本 1 亿元），已开源面向机器人的流式因果三维重建模型 LingBot-Map，并与中东 AFDE 签署部署 MOU。","founded":"2024-12","scale":"数百人","website":"https://www.robbyant.com","ai_summary":"一句话：这是蚂蚁集团亲儿子里的「机器人公司」——2024 年底才成立，专门做让机器人在真实世界里干活的技术。它把「机器人边走边建三维地图」的模型（LingBot-Map）开源了出来，还在中东签了机器人落地的大单。","categories":["具身智能","世界模型","机器人"],"enabled":true},
+  {"id":"w-com-robbyant","type":"company","name":"蚂蚁灵波 Robbyant","keywords":["蚂蚁灵波","Robbyant","LingBot","LingBot-Map","LingBot-Navi","GCR","几何上下文重塑","空间记忆","蚂蚁具身智能"],"region":"国内","products":"LingBot 系列具身智能软件：Map（流式三维重建）、Navi（跨任务空间记忆导航）与 Vision/Depth/Touch/World/Video/VLA/VA；Map 2.0 以 GCR 在行进中重写空间记忆，Navi 按自然语言指令检索目标并生成路线","intro":"蚂蚁集团全资具身智能公司（2024 年 12 月成立，注册资本 1 亿元），已开源面向机器人的流式因果三维重建模型 LingBot-Map，并与中东 AFDE 签署部署 MOU。2026-11-27 发布 LingBot-Map 2.0 并开源 LingBot-Navi：前者以几何上下文重塑（GCR）把长轨迹纠偏搬进模型内部（VBR 城市轨迹 ATE 31.12 m→4.72 m），后者以显式点云 + 视觉语言特征的空间记忆做自然语言导航（GOAT-Bench 目标预测 68.60%），同步开放 511 个真实场景数据集；Map 2.0 核心权重 CC BY-NC 4.0，含完整 GCR 的权重仍待发布。","founded":"2024-12","scale":"数百人","website":"https://www.robbyant.com","ai_summary":"一句话：这是蚂蚁集团亲儿子里的「机器人公司」——2024 年底才成立，专门做让机器人在真实世界里干活的技术。它把「机器人边走边建三维地图」的模型（LingBot-Map）开源了出来，还在中东签了机器人落地的大单。","categories":["具身智能","世界模型","机器人"],"enabled":true},
   {"id":"w-com-bingbai","type":"company","name":"冰柏科技","keywords":["冰柏科技","Mirauge3D","Mirauge"],"region":"国内","products":"Mirauge3D 摄影测量与三维重建软件","intro":"合肥摄影测量软件公司（2021 年成立），Mirague3D 支持分布式平差与百万级影像重建，是实景三维测绘软件国产替代的代表之一。","founded":"2021-05","scale":"中小型团队","website":"https://www.bingbai.cn","ai_summary":"一句话：这家公司做「把无人机照片变成三维城市模型」的国产软件。以前这个市场被瑞士、美国的软件垄断，它的 Mirauge3D 用分布式计算把处理规模推到百万张照片级别，正在测绘行业里替代老牌进口工具。","categories":["摄影测量","测绘","重建方案"],"enabled":true},
   {"id":"w-com-spatial-intuition","type":"company","name":"空间直觉","keywords":["空间直觉","Spatial Intuition"],"region":"国内","products":"空间智能相关感知/重建技术（产品形态待披露）","intro":"南京空间智能初创公司（2023 年 8 月成立），2026 年 11 月完成数千万元种子轮，方向为具身智能的空间感知，投资方与技术细节暂未披露。","founded":"2023-08","scale":"早期初创","website":"未公开官网","ai_summary":"一句话：这是一家很新的南京公司，做「让机器理解空间」的技术，刚拿到几千万元的种子投资。具体产品还没公开，属于值得持续观察的早期标的。","categories":["空间智能","具身智能"],"enabled":true},
   {"id":"w-com-spaitial","type":"company","name":"SpAItial","keywords":["SpAItial","Echo-3","Matthias Niessner","iPhone 3D 扫描","度量级重建"],"region":"海外","products":"Echo-3（iPhone 视频到度量级 3D，订阅制 App）","intro":"慕尼黑工业大学 Matthias Niessner 教授创办的欧洲三维重建公司（2025 年成立，伦敦+慕尼黑），Echo-3 把 iPhone 视频转度量级 3D splats/点云/网格，本库 10-28 已收录其发布。","founded":"2025-05","scale":"小型团队（$13M 种子轮）","website":"https://spaitial.ai","ai_summary":"一句话：这家欧洲公司的创始人是 3D 视觉学术界的大牛教授，产品 Echo-3 让普通人用 iPhone 拍段视频就能拿到「可以量尺寸」的三维模型——不用买任何专业设备，订阅就能用。","categories":["重建方案","扫描仪","生成式3D"],"enabled":true},
@@ -19409,36 +19409,6 @@ window.WATCHLIST_DEFAULTS = [
     }
 
 ,
-    {
-      "id": "w-com-lingbo",
-      "type": "company",
-      "name": "蚂蚁灵波（Robbyant）",
-      "keywords": [
-        "蚂蚁灵波",
-        "Robbyant",
-        "LingBot",
-        "LingBot-Map",
-        "LingBot-Navi",
-        "GCR",
-        "几何上下文重塑",
-        "空间记忆"
-      ],
-      "region": "国内",
-      "products": "LingBot 具身原生机器人通用大脑系列：Vision、Depth、Touch、World、Video、VLA、VA 与 Map（流式三维重建）、Navi（空间记忆导航）；LingBot-Map 2.0 支持单目 RGB 流式重建并在行进中重写空间记忆",
-      "intro": "蚂蚁集团旗下具身智能公司，以「具身原生通用大脑」为产品框架，覆盖空间感知、触觉表征、动态环境交互与灵巧操作。2026-04 开源 LingBot-Map 1.0（单目 RGB 边走边建图，GitHub Star 近 1.9 万），2026-11-27 发布 LingBot-Map 2.0 并开源 LingBot-Navi：前者以几何上下文重塑（GCR）把长轨迹纠偏搬进模型内部，后者以跨任务空间记忆做自然语言导航，同步开放 511 个真实场景数据集。Map 2.0 核心权重为 CC BY-NC 4.0，含完整 GCR 的权重仍待发布。",
-      "founded": "未披露",
-      "scale": "未披露",
-      "website": "https://technology.robbyant.com/lingbot-map-v2",
-      "ai_summary": "一句话：它是给机器人装「脑子里的那张地图」的团队——不只让机器人边走边把三维场景建出来，还让它在走偏之后回头改掉自己记错的部分，再拿这份记忆去找东西、走路线。",
-      "categories": [
-        "流式三维重建",
-        "空间记忆",
-        "具身导航",
-        "SLAM",
-        "VLA"
-      ],
-      "enabled": true
-    },
     {
       "id": "w-com-xiaomi-auto",
       "type": "company",
